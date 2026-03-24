@@ -163,8 +163,8 @@ dosPuntos = :
   {this}                  { return ops.unidadThis();   }
   {flecha}                { return ops.unidadFlecha(); }
   
-  {operadorChar} { errores.errorLexico(fila(),columna(),lexema()); }
-  {operadorString}  {errores.errorLexico(fila(),columna(),lexema()); }
+  {operadorCaracter} { errores.errorLexico(fila(),columna(),lexema()); }
+  {operadorCadena}  {errores.errorLexico(fila(),columna(),lexema()); }
   {operadorImprimir}           { return ops.unidadImprimir(); }
   {operadorLeer}            { return ops.unidadLeer(); }
   {operadorBooleano}           { return ops.unidadBooleano(); }
