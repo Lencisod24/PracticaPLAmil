@@ -18,20 +18,186 @@ init with {:
    alex.fijaGestionErrores(errores);
 :};
 
-
-terminal     DONDE, EVALUA, IDEN, ENT, REAL, MAS,
-             MENOS, POR, DIV, IGUAL, COMA, PAP, PCIERRE;
-
-non terminal  S, Ds, LDs, D, E0, E1, E2, OP0, OP1;
-
-S   ::= EVALUA E0 Ds ;
-Ds  ::= DONDE LDs | ;
-LDs ::= LDs COMA D | D ;
-D   ::= IDEN IGUAL E0 ;
-E0  ::= E0 OP0 E1  | E1 ;
-E1  ::= E1 OP1 E2  | E2 ;
-E2  ::= ENT  | REAL  | IDEN  | PAP E0 PCIERRE ;  
-OP0 ::= MAS  | MENOS ;
-OP1 ::= POR | DIV ;
+      //HECHO POR GEMINI !!!!!!!
 
 
+terminal   
+
+    // Operadores matemáticos y lógicos
+    MAS, MENOS, POR, DIV, MOD,
+    IGUAL, DIST, MENOR, MAYOR, MENORIGUAL, MAYORIGUAL,
+    AND, OR, NOT,
+
+    // Operadores de asignación y punteros
+    ASIGNACION, CONTPUNT, DIRECCION, ACCESO, FLECHA,
+
+    // Signos de puntuación y agrupación
+    DOSPUNTOS, PAP, PCIERRE, CA, CC, LLAVEAPERTURA, LLAVECIERRE, COMA, PUNTOYCOMA,
+
+    // Palabras reservadas
+    PRINC,FUNC,DE,ENTONCES, HACER, ABREBLOQUE, CIERRABLOQUE, IMPRIMIR, LEER, SI, SINO, MIENTRAS, NUEVO,
+    TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, CLASE, SIZE, VAL, REF, CONST, THIS,
+
+    // Literales y especiales
+    IDEN,ENTERO,REAL,BOOLEANO,CARACTER,CADENA,CIERTO, FALSO, NULL, EOF
+
+/* === NO TERMINALES === */
+//* =========================================
+   NO TERMINALES
+   ========================================= */
+// Estructura principal
+non terminal Programa, Lista_Globales, Funciones_Clases, Funcion, Clase, Cuerpo_Clase;
+
+// Bloques e instrucciones
+non terminal Bloque, Instrucciones, Instruccion;
+
+// Declaraciones y tipos
+non terminal Tipo, Dec_Variable, Dims_Array;
+
+// Funciones
+non terminal Parametros, Lista_Parametros, Param;
+non terminal Llamada_Funcion, Argumentos, Lista_Argumentos;
+
+// Expresiones jerarquizadas por precedencia (Tabla del documento)
+non terminal Expresion, E1, E2, E3, E4, E5, E6, E7, E8, E9, Op_Unario;
+/* ========================================================
+   REGLAS SINTÁCTICAS BASADAS EN LA ESPECIFICACIÓN "AMIL"
+   ======================================================== */
+
+// 1. Estructura del programa: Declaraciones -> (Clases/Funciones) -> princ
+Programa ::= Lista_Globales Funciones_Clases PRINC Bloque ;
+
+// Declaraciones Globales (Variables y Arrays fuera de funciones)
+Lista_Globales ::= Lista_Globales Dec_Variable 
+                 | /* epsilon (vacio) */ ;
+
+// Clases y Funciones
+Funciones_Clases ::= Funciones_Clases Clase 
+                   | Funciones_Clases Funcion 
+                   | /* epsilon */ ;
+
+// 2. Tipos de datos soportados
+Tipo ::= TIPO_ENTERO 
+       | TIPO_BOOLEANO 
+       | TIPO_REAL 
+       | TIPO_CARACTER
+       | TIPO_CADENA
+       | VACIO
+       | IDEN ;        // Clases definidas por el usuario actúan como tipos
+
+// 3. Declaraciones de variables simples y arrays
+// Ej: entero : x;  o  [N][N] entero : arr;
+Dec_Variable ::= Tipo DOSPUNTOS IDEN PUNTOYCOMA 
+               | CONST Tipo DOSPUNTOS IDEN PUNTOYCOMA // Constantes
+               | Dims_Array Tipo DOSPUNTOS IDEN PUNTOYCOMA ;
+
+Dims_Array ::= Dims_Array CA Expresion CC 
+             | CA Expresion CC ;
+
+// 4. Bloques de código (ini ... fin)
+Bloque ::= ABREBLOQUE Instrucciones CIERRABLOQUE ;
+
+Instrucciones ::= Instrucciones Instruccion 
+                | /* epsilon */ ;
+
+// 5. Clases y Objetos
+Clase ::= CLASE IDEN ABREBLOQUE Cuerpo_Clase CIERRABLOQUE ;
+
+Cuerpo_Clase ::= Cuerpo_Clase Dec_Variable 
+               | Cuerpo_Clase Funcion 
+               | /* epsilon */ ;
+
+// 6. Funciones
+// Ej: func miFuncion (val x : entero) de booleano : ini ... fin
+Funcion ::= FUNC IDEN PAP Parametros PCIERRE DE Tipo DOSPUNTOS Bloque 
+          | FUNC IDEN PAP Parametros PCIERRE DOSPUNTOS Bloque ; // Sin tipo de retorno explícito
+
+Parametros ::= Lista_Parametros 
+             | /* epsilon */ ;
+
+Lista_Parametros ::= Lista_Parametros COMA Param 
+                   | Param ;
+
+Param ::= VAL IDEN DOSPUNTOS Tipo   // Paso por valor
+        | REF IDEN DOSPUNTOS Tipo ; // Paso por referencia
+
+// 7. Instrucciones Generales
+Instruccion ::= Dec_Variable
+              | Expresion ASIGNACION Expresion PUNTOYCOMA  // Asignación genérica
+              | IMPRIMIR PAP Expresion PCIERRE PUNTOYCOMA  // Salida
+              | LEER PAP IDEN PCIERRE PUNTOYCOMA           // Entrada
+              | Expresion PUNTOYCOMA                       // Evaluar sin asignar (ej: métodos)
+              // Condicionales
+              | SI Expresion ENTONCES Bloque 
+              | SI Expresion ENTONCES Bloque SINO Bloque
+              // Bucles
+              | MIENTRAS Expresion HACER Bloque ;
+
+
+/* ========================================================
+   EXPRESIONES Y PRECEDENCIA DE OPERADORES
+   ======================================================== */
+
+// Nivel 9: Lógico OR (||)
+Expresion ::= Expresion OR E1 | E1 ;
+
+// Nivel 8: Lógico AND (&&)
+E1 ::= E1 AND E2 | E2 ;
+
+// Nivel 7: Igualdad (==, !=)
+E2 ::= E2 IGUAL E3 | E2 DIST E3 | E3 ;
+
+// Nivel 6: Relacionales (<, <=, >, >=)
+E3 ::= E3 MENOR E4 | E3 MAYOR E4 
+     | E3 MENORIGUAL E4 | E3 MAYORIGUAL E4 | E4 ;
+
+// Nivel 5: Suma y Resta Binarias (+, -)
+E4 ::= E4 MAS E5 | E4 MENOS E5 | E5 ;
+
+// Nivel 4: Multiplicación, División, Módulo (*, /, %)
+E5 ::= E5 POR E6 | E5 DIV E6 | E5 MOD E6 | E6 ;
+
+// Nivel 3: Acceso a clases (.) y punteros a clases (->)
+E6 ::= E6 ACCESO IDEN 
+     | E6 ACCESO Llamada_Funcion 
+     | E6 FLECHA IDEN             // Uso del token FLECHA para punteros a objetos
+     | E6 FLECHA Llamada_Funcion 
+     | E7 ; 
+
+// Nivel 2: Acceso a arrays posfijo []
+E7 ::= E7 CA Expresion CC | E8 ;
+
+// Nivel 1: Prefijos unarios (*, &, !, +, -)
+E8 ::= Op_Unario E8 | E9 ;
+
+Op_Unario ::= POR       // * (Acceso a contenido de puntero)
+            | DIRECCION // & (Obtención de dirección)
+            | CONTPUNT  // @ (Alternativa de puntero)
+            | NOT       // !
+            | MAS       // + unario
+            | MENOS ;   // - unario
+
+// Elementos atómicos y literales
+E9 ::= IDEN 
+     | ENTERO 
+     | REAL 
+     | BOOLEANO
+     | CARACTER
+     | CADENA
+     | CIERTO 
+     | FALSO 
+     | NULL 
+     | THIS
+     | Llamada_Funcion
+     | NUEVO IDEN                          // Creación de objetos
+     | SIZE PAP Tipo PCIERRE               // Función size(tipo)
+     | PAP Expresion PCIERRE ;             // Paréntesis de agrupación
+
+// Soporte para llamadas a funciones y métodos
+Llamada_Funcion ::= IDEN PAP Argumentos PCIERRE ;
+
+Argumentos ::= Lista_Argumentos 
+             | /* epsilon */ ;
+
+Lista_Argumentos ::= Lista_Argumentos COMA Expresion 
+                   | Expresion ;

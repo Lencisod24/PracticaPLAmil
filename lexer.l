@@ -29,173 +29,148 @@ import errors.GestionErroresExp;
   ops = new ALexOperations(this);
 %init}
 
-// Identificadores y literales
+// ==========================================
+// 1. EXPRESIONES REGULARES BÁSICAS
+// ==========================================
 letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
 parteEntera = ({digitoPositivo}{digito}* | 0)
 parteDecimal = {digito}* {digitoPositivo}
-separador = [\t\r\b\n]
-other_id_char   = [_]
-identifier      = {letra}({letra}|{digito}|{other_id_char})*
+other_id_char = [_]
+
+// Identificadores y Literales dinámicos
+identifier = {letra}({letra}|{digito}|{other_id_char})*
 numeroEntero = {parteEntera}
 numeroReal = {parteEntera}\.{parteDecimal}
+literalCaracter = \'[^\']\'
+literalCadena = \"[^\"]*\"
 
-// Comentarios
-LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r\n]
-Comments = {LineComment} | {BlockComment}
-LineComment = "//" [^\n]* 
-BlockComment =  "/*" [^*] ~"*/" | "/*" "*"+ "/"
+// ==========================================
+// 2. PALABRAS RESERVADAS (Tipos y Estructuras)
+// ==========================================
+// Tipos de datos
+tipoEntero = entero
+tipoReal = real
+tipoBooleano = booleano
+tipoCaracter = caracter
+tipoCadena = cadena
+tipoVacio = vacio
 
-// Espacios en blanco y salto de línea
-BlankSpace = {LineTerminator} | [ \t\f]
+// Estructuras y Control
+kwPrinc = princ
+kwFunc = func
+kwDe = de
+kwSi = si
+kwEntonces = entonces
+kwSino = sino
+kwMientras = mientras
+kwHacer = hacer
+kwIni = ini
+kwFin = fin
+kwClase = clase
+kwNuevo = nuevo
+kwSize = size
+kwVal = val
+kwRef = ref
+kwConst = const
+kwImprimir = imprimir
+kwLeer = leer
 
-
-// Definición de expresiones regulares para los operadores y palabras clave
-operadorCaracter = caracter
-operadorCadena = cadena
-operadorImprimir = imprimir
-operadorLeer = leer
-operadorSi = si
-operadorSino = sino
-operadorEntonces = entonces
-
-operadorMientras = mientras
-
-
-operadorNuevo = nuevo
-operadorCierto = cierto
-operadorFalso = falso
-operadorBooleano = booleano
-operadorEntero = entero
-operadorVacio = void
-
-operadorClase = clase
-operadorPrinc = princ
-operadorSize = size
-operadorValor = val 
-operadorRef = ref
-
-operadorConstante = const
-
-// Operadores
-asignacion = \=
-operadorSuma = \+
-operadorResta = \-
-operadorMultiplicacion = \*
-operadorDivision = \/
-operadorModulo = \%
-
-igual = \==
-distinto = \!=
-operadorMenor = <
-operadorMayor = >
-operadorMenorIgual = <=
-operadorMayorIgual = >=
-
-this = this
-flecha = ->
-
-operadorAnd = &&
-operadorOr = \|\|
-operadorNot = \!
-
-operadorDireccion = &
-operadorContenidoPuntero = @
-operadorAcceso = \.
-
-// Paréntesis, corchetes y llaves
-
-parentesisApertura = \(
-parentesisCierre = \)
-corcheteAbierto = \[
-corcheteCerrado = \]
-llaveApertura = "{"
-llaveCierre = "}"
-abrirBloque = ini
-cerrarBloque = fin
-
-coma = ,
-puntoYComa = ;
-dosPuntos = :
-
-
-
-
-// Reglas léxicas
+// Literales Fijos
+litCierto = cierto
+litFalso = falso
+litNull = null
 
 %%
-    {separador}             {}
-    {Comments}              { /* ignorar comentarios */ }
-    {BlankSpace}            { /* ignorar espacios */ }
-    {operadorPrinc} 		{ return ops.unidadOperadorPrinc(); }
-    {numeroEntero}             { return ops.unidadEnt(); }  
-    {numeroReal}               { return ops.unidadReal(); }
-    {dosPuntos} 			 {return ops.unidadDosPuntos();}
-  // Palabras clave
-  {operadorMenor}          { return ops.unidadMenor(); }
-  {operadorMayor}          { return ops.unidadMayor(); }
-  {operadorMenorIgual}     { return ops.unidadMenorIgual(); }
-  {operadorMayorIgual}     { return ops.unidadMayorIgual(); }
+// ==========================================
+// 3. REGLAS LÉXICAS
+// ==========================================
 
-  {operadorAnd}            { return ops.unidadAnd(); }
-  {operadorOr}             { return ops.unidadOr(); }
-  {operadorNot}            { return ops.unidadNot(); }
+  // --- Ignorar espacios y saltos de línea ---
+  [ \t\r\b\n]+              { /* Ignorar espacios y tabulaciones */ }
 
-  {operadorDireccion}      { return ops.unidadDireccion(); }
-  {operadorContenidoPuntero}   { return ops.unidadContenidoPuntero(); }
-	
+  // --- Comentarios ---
+  "//" [^\r\n]* { /* Ignorar comentarios de una línea */ }
+  "/*" [^*]* "*"+ ([^/*] [^*]* "*"+)* "/" { /* Ignorar comentarios de bloque */ }
 
-  {operadorAcceso}         { return ops.unidadAcceso(); }
+  // --- Tipos de Datos ---
+  {tipoEntero}              { return ops.unidadTipoEntero(); }
+  {tipoReal}                { return ops.unidadTipoReal(); }
+  {tipoBooleano}            { return ops.unidadTipoBooleano(); }
+  {tipoCaracter}            { return ops.unidadTipoCaracter(); }
+  {tipoCadena}              { return ops.unidadTipoCadena(); }
+  {tipoVacio}               { return ops.unidadVacio(); }
 
-  {corcheteAbierto}        { return ops.unidadCorcheteAbierto(); }
-  {corcheteCerrado}        { return ops.unidadCorcheteCerrado(); }
-  {parentesisApertura}     { return ops.unidadPAp(); }
-  {parentesisCierre}       { return ops.unidadPCierre(); }
-  {llaveApertura}         { return ops.unidadLlaveApertura(); }
-  {llaveCierre}           { return ops.unidadLlaveCierre(); }
-  {abrirBloque}             {return ops.unidadAbrirBloque();}
-  {cerrarBloque}             {return ops.unidadCerrarBloque();}
-  {coma}                  { return ops.unidadComa(); }
-  {puntoYComa}            { return ops.unidadPuntoYComa(); }
-  {asignacion}            { return ops.unidadAsignacion(); }
-  {this}                  { return ops.unidadThis();   }
-  {flecha}                { return ops.unidadFlecha(); }
-  
-  {operadorCaracter} { errores.errorLexico(fila(),columna(),lexema()); }
-  {operadorCadena}  {errores.errorLexico(fila(),columna(),lexema()); }
-  {operadorImprimir}           { return ops.unidadImprimir(); }
-  {operadorLeer}            { return ops.unidadLeer(); }
-  {operadorBooleano}           { return ops.unidadBooleano(); }
-  {operadorSi}             { return ops.unidadSi(); }
-  {operadorSino}           { return ops.unidadSino(); }
-  {operadorMientras}          { return ops.unidadMientras(); }
-  {operadorNuevo}            { return ops.unidadNuevo(); }
-  {operadorCierto}           { return ops.unidadCierto(); }
-  {operadorFalso}          { return ops.unidadFalso(); }
-  {operadorEntero}            { return ops.unidadEntero(); }
-  {operadorVacio}           { return ops.unidadVacio(); }
-  {operadorClase}           { return ops.unidadClase(); }
-  {operadorSize}            {return ops.unidadSize();}
-  {operadorValor}           {return ops.unidadValor();}
-  {operadorRef}            {return ops.unidadReferencia();}   
-  {operadorConstante}      { return ops.unidadConst(); }
-  {identifier}             { return ops.unidadId(); }
+  // --- Palabras Reservadas ---
+  {kwPrinc}                 { return ops.unidadOperadorPrinc(); }
+  {kwFunc}                  { return ops.unidadFunc(); }
+  {kwDe}                    { return ops.unidadDe(); }
+  {kwSi}                    { return ops.unidadSi(); }
+  {kwEntonces}              { return ops.unidadEntonces(); }
+  {kwSino}                  { return ops.unidadSino(); }
+  {kwMientras}              { return ops.unidadMientras(); }
+  {kwHacer}                 { return ops.unidadHacer(); }
+  {kwIni}                   { return ops.unidadAbreBloque(); } 
+  {kwFin}                   { return ops.unidadCierraBloque(); }
+  {kwClase}                 { return ops.unidadClase(); }
+  {kwNuevo}                 { return ops.unidadNuevo(); }
+  {kwSize}                  { return ops.unidadSize(); }
+  {kwVal}                   { return ops.unidadVal(); }
+  {kwRef}                   { return ops.unidadRef(); }
+  {kwConst}                 { return ops.unidadConst(); }
+  {kwImprimir}              { return ops.unidadImprimir(); }
+  {kwLeer}                  { return ops.unidadLeer(); }
 
-  // Operadores
-  {operadorSuma}           { return ops.unidadSuma(); }
-  {operadorResta}          { return ops.unidadResta(); }
-  {operadorMultiplicacion} { return ops.unidadMultiplicacion(); }
-  {operadorDivision}       { return ops.unidadDivision(); }
-  {operadorModulo}         { return ops.unidadModulo(); }
+  // --- Literales Fijos ---
+  {litCierto}               { return ops.unidadCierto(); }
+  {litFalso}                { return ops.unidadFalso(); }
+  {litNull}                 { return ops.unidadNull(); }
 
-  {igual}                  { return ops.unidadIgual(); }
-  {distinto}               { return ops.unidadDistinto(); }
-  
+  // --- Literales Dinámicos y Variables ---
+  {numeroEntero}            { return ops.unidadEntero(); }
+  {numeroReal}              { return ops.unidadReal(); }
+  {literalCaracter}         { return ops.unidadCaracter(); }
+  {literalCadena}           { return ops.unidadCadena(); }
+  {identifier}              { return ops.unidadId(); }
 
+  // --- Operadores Matemáticos ---
+  "+"                       { return ops.unidadSuma(); }
+  "-"                       { return ops.unidadResta(); }
+  "*"                       { return ops.unidadMultiplicacion(); }
+  "/"                       { return ops.unidadDivision(); }
+  "%"                       { return ops.unidadModulo(); }
 
-  // Errores léxicos
-  [^] { errores.errorLexico(fila(),columna(),lexema()); }
+  // --- Operadores Relacionales y Asignación ---
+  "=="                      { return ops.unidadIgual(); }
+  "!="                      { return ops.unidadDistinto(); }
+  "<="                      { return ops.unidadMenorIgual(); }
+  ">="                      { return ops.unidadMayorIgual(); }
+  "<"                       { return ops.unidadMenor(); }
+  ">"                       { return ops.unidadMayor(); }
+  "="                       { return ops.unidadAsignacion(); }
 
+  // --- Operadores Lógicos ---
+  "&&"                      { return ops.unidadAnd(); }
+  "||"                      { return ops.unidadOr(); }
+  "!"                       { return ops.unidadNot(); }
 
+  // --- Operadores de Punteros y Clases ---
+  "&"                       { return ops.unidadDireccion(); }
+  "@"                       { return ops.unidadContenidoPuntero(); } 
+  "->"                      { return ops.unidadFlecha(); }
+  "."                       { return ops.unidadAcceso(); }
+
+  // --- Signos de Puntuación y Agrupación ---
+  ":"                       { return ops.unidadDosPuntos(); }
+  ";"                       { return ops.unidadPuntoYComa(); }
+  ","                       { return ops.unidadComa(); }
+  "("                       { return ops.unidadPAp(); }
+  ")"                       { return ops.unidadPCierre(); }
+  "["                       { return ops.unidadCAp(); }
+  "]"                       { return ops.unidadCCierre(); }
+  "{"                       { return ops.unidadLlaveApertura(); }
+  "}"                       { return ops.unidadLlaveCierre(); }
+
+  // --- Manejo de Errores ---
+  [^]                       { errores.errorLexico(fila(), columna(), lexema()); }
