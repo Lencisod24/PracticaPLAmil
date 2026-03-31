@@ -1,5 +1,15 @@
 package ast;
 
 public enum KindE {
-  SUMA,MUL,NUM   
+  // Operaciones matemáticas
+    SUMA, RESTA, MUL, DIV,
+    
+    // Operaciones relacionales
+    MAYOR, MENOR, MAYORIGUAL, MENORIGUAL, IGUAL, DISTINTO,
+    
+    // Operaciones lógicas
+    AND, OR, NOT,
+    
+    // Tipos de valores
+    NUM, ENTERO, REAL, CARACTER, CADENA, IDEN, BOOLEANO  
 }
