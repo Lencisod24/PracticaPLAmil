@@ -21,7 +21,7 @@ public class EBin extends E {
         return "(" + opnd1.toString() + " " + op + " " + opnd2.toString() + ")";
    }
 
-   // Este es el método que te pedía E.java en tu última imagen
+   
    @Override
    public KindE kind() {
      return kindE; 

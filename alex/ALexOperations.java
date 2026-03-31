@@ -1,5 +1,5 @@
 package alex;
-
+import constructorast.*;
 public class ALexOperations {
   private AnalizadorLexicoExp alex;
   
@@ -127,7 +127,7 @@ public class ALexOperations {
   public UnidadLexica unidadNull() {
 	  return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.NULL, "null");
   }
-
+  
   // ==========================================
   // VALORES DINÁMICOS (Envían el lexema leído)
   // ==========================================

@@ -3,7 +3,6 @@
 // source: C:/Users/sanpe/Desktop/MatInfo/4to/2Cuatrimestre/PL/practica_git/PracticaPLAmil/lexer.l
 
 package alex;
-
 import errors.GestionErroresExp;
 
 

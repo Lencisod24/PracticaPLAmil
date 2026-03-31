@@ -24,17 +24,24 @@ init with {:
 :};
 
 
-terminal  MAS, POR, PAP, PCIERRE;
+terminal  MAS, POR, MENOS, DIV, MOD, PAP, PCIERRE, PRINC, FUNC, DE, SI, ENTONCES, SINO, MIENTRAS, HACER, ABREBLOQUE, CIERRABLOQUE, CLASE, NUEVO, SIZE, VAL, CONST, IMPRIMIR, LEER, THIS;
+terminal TIPO_ENTERO, TIPO_REAL, TIPO_BOOLEANO, TIPO_CARACTER, TIPO_CADENA, VACIO;
+terminal CIERTO, FALSO, NULL;
+terminal ENTERO, REAL, CARACTER, CADENA, IDEN;
+terminal IGUAL, DIST, MENORIGUAL, MAYORIGUAL, MENOR, MAYOR, ASIGNACION;
+terminal AND, OR, NOT;
+terminal DIRECCION, CONTPUNT, FLECHA, ACCESO;
+terminal DOSPUNTOS, PUNTOYCOMA, COMA, CA, CC, LLAVEAPERTURA, LLAVECIERRE;
 terminal TokenValue NUM;
 
 non terminal  E Exp, Term, Fact;
 
 Exp ::= Exp: aDeexp1 MAS Term: aDeterm 
-   {: RESULT= new Sum(aDeexp1,aDeterm); :};
+   {: RESULT= new EBin(aDeexp1,aDeterm,KindE.SUMA); :};
 Exp ::= Term: aDeterm
    {: RESULT=aDeterm; :};
 Term ::= Term: aDeterm1 POR Fact: aDefact 
-   {: RESULT= new Mul(aDeterm1,aDefact); :};
+   {: RESULT= new EBin(aDeterm1,aDefact,KindE.MUL); :};
 Term ::= Fact: aDefact
    {: RESULT=aDefact; :};   
 Fact ::= NUM: numValue           
