@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "cup.jar",
+        "jflex.jar",
+        "c:\\Users\\sanpe\\Downloads\\java-cup-bin-11b-20160615\\java-cup-11b-runtime.jar"
+    ]
+}

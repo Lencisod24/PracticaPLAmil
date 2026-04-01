@@ -1,8 +1,8 @@
 package ast;
 
 public enum NodeKind {
-    // Tipo genérico 
-    EXPRESSION,
+    
+    EXPRESION,
     INSTRUCCION,
     DECLARACION,
     PROGRAMA

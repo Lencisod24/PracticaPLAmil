@@ -1,10 +1,13 @@
 package ast;
 
-// Implementamos NodeAST para que sea un nodo válido del árbol general
-public abstract class Instruccion implements ASTNode {
+public abstract class Instruccion extends ASTNode {
     
-    // Todas las instrucciones devuelven su categoría general
-    public NodeKind nodeKind() {
-        return NodeKind.INSTRUCCION;
+    
+    public Instruccion(int fil, int col) {
+        
+        super(fil, col, NodeKind.INSTRUCCION);
     }
+
+    // No hace falta poner el método toString() aquí porque 
+    // al ser abstracta, ya obliga a sus hijos a implementarlo.
 }
