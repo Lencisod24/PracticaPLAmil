@@ -227,7 +227,7 @@ public class ALexOperations {
 	  return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.DIRECCION, "&");
   }
 
-  public UnidadLexica unidadContenidoPuntero() {
+  /*public UnidadLexica unidadContenidoPuntero() {
 	  return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.CONTPUNT, "@");
   }
 
@@ -237,7 +237,7 @@ public class ALexOperations {
 
   public UnidadLexica unidadAcceso() {
 	  return new UnidadLexica(alex.fila(), alex.columna(), ClaseLexica.ACCESO, ".");
-  }
+  }*/
 
   // ==========================================
   // PUNTUACIÓN Y AGRUPACIÓN

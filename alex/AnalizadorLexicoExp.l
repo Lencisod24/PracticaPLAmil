@@ -157,9 +157,9 @@ litNull = null
 
   // --- Operadores de Punteros y Clases ---
   "&"                       { return ops.unidadDireccion(); }
-  "@"                       { return ops.unidadContenidoPuntero(); } 
-  "->"                      { return ops.unidadFlecha(); }
-  "."                       { return ops.unidadAcceso(); }
+//  "@"                       { return ops.unidadContenidoPuntero(); } 
+//  "->"                      { return ops.unidadFlecha(); }
+//  "."                       { return ops.unidadAcceso(); }
 
   // --- Signos de Puntuación y Agrupación ---
   ":"                       { return ops.unidadDosPuntos(); }

@@ -19,7 +19,7 @@ import java_cup.runtime.XMLElement;
 public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return sym.class;
+    return ClaseLexica.class;
 }
 
   /** Default constructor. */
@@ -592,8 +592,8 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   public void user_init() throws java.lang.Exception
     {
  
-   errores = new GestionErroresTiny();
-   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   errores = new GestionErroresExp();
+   AnalizadorLexicoExp alex = (AnalizadorLexicoExp)getScanner();
    alex.fijaGestionErrores(errores);
 
     }
@@ -606,10 +606,10 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
     }
 
  
-   private GestionErroresTiny errores;
+   private GestionErroresExp errores;
    public void syntax_error(Symbol unidadLexica) {
      errores.errorSintactico((UnidadLexica)unidadLexica);
-   }
+   } 
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -1086,10 +1086,7 @@ class CUP$AnalizadorSintactico$actions {
           case 33: // Instruccion ::= Dec_Variable 
             {
               Instruccion RESULT =null;
-		int decleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int decright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		NodoDecVariable dec = (NodoDecVariable)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = dec; 
+		 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("Instruccion",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

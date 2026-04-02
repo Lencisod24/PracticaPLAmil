@@ -127,7 +127,7 @@ Lista_Parametros ::= Lista_Parametros:l COMA Param:p {: l.add(p); RESULT = l; :}
 Param ::= VAL:v IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(vleft, vright, t, id, false); :} // Paso por valor
         | REF:r IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(rleft, rright, t, id, true); :} ;  // Paso por referencia
 
-Instruccion ::= Dec_Variable:dec                                        {: RESULT = dec; :} // Declaraciones de variables
+Instruccion ::= Dec_Variable                                            {: :} // Declaraciones de variables
               | IDEN:id ASIGNACION Expresion:e PUNTOYCOMA               {: RESULT = new NodoAsignacion(idleft, idright, id, e); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, e); :} // Salida
               | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id); :} // Entrada
