@@ -9,14 +9,14 @@ import java.util.*;
 
 scan with {: return getScanner().next_token(); :};
 parser code {: 
-   private GestionErroresTiny errores;
+   private GestionErroresExp errores;
    public void syntax_error(Symbol unidadLexica) {
      errores.errorSintactico((UnidadLexica)unidadLexica);
-   }
+   } 
 :};
 init with {: 
-   errores = new GestionErroresTiny();
-   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   errores = new GestionErroresExp();
+   AnalizadorLexicoExp alex = (AnalizadorLexicoExp)getScanner();
    alex.fijaGestionErrores(errores);
 :};
 

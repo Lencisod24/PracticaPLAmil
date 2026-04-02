@@ -2,6 +2,7 @@ package ast;
 
 import java.util.List;
 
+
 public class NodoPrograma extends ASTNode {
 
     private List<Declaracion> declaracionesGlobales;
@@ -52,4 +53,7 @@ public class NodoPrograma extends ASTNode {
 
         return sb.toString();
     }
+
+
+
 }
