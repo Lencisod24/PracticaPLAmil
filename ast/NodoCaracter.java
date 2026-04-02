@@ -1,13 +1,13 @@
 package ast;
 
-public class NodoCadena extends Expresion {
+public class NodoCaracter extends Expresion {
 
     private String valor;
 
-    public NodoCadena(int fil, int col, String valor) {
+    public NodoCaracter(int fil, int col, String valor) {
         super(fil, col);
         this.valor = valor;
-        this.kind = KindE.CADENA;
+        this.kind = KindE.CARACTER;
     }
 
     public String getValor() {
@@ -16,6 +16,6 @@ public class NodoCadena extends Expresion {
 
     @Override
     public String toString(String tab) {
-        return tab + "Cadena: " + valor + "\n";
+        return tab + "Carácter: " + valor + "\n";
     }
 }
