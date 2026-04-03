@@ -1,1 +1,6 @@
-x+3
+entero: y;
+
+princ
+ini
+
+fin

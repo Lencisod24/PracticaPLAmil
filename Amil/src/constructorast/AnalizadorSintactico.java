@@ -19,7 +19,7 @@ import java_cup.runtime.XMLElement;
 public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return ClaseLexica.class;
+    return sym.class;
 }
 
   /** Default constructor. */

@@ -38,7 +38,7 @@ terminal
     TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, CLASE, SIZE, VAL, REF, CONST, THIS;
 
     // Literales y especiales
-terminal String IDEN,ENTERO,REAL,BOOLEANO,CARACTER,CADENA; //pones string porque devuelve un string ( es el contenido del entero, de las cadenas atc...)
+terminal alex.TokenValue IDEN, ENTERO, REAL, BOOLEANO, CARACTER, CADENA;
 terminal CIERTO, FALSO, NULL;
 
 /* === NO TERMINALES === */
