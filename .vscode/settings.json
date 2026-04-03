@@ -1,6 +1,0 @@
-{
-    "java.project.referencedLibraries": [
-        "jflex.jar",
-        "java-cup-11b-runtime.jar"
-    ]
-}
