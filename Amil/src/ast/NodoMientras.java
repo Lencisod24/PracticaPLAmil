@@ -21,7 +21,11 @@ public class NodoMientras extends Instruccion {
 
     @Override
     public String toString(String tab) {
-        return tab + "MIENTRAS (" + condicion.toString("") + ") HACER \n" +
-                bloque.toString(tab + "  ");
+        StringBuilder sb = new StringBuilder();
+        sb.append(tab).append("MIENTRAS\n");
+        sb.append(condicion.toString(tab + "    "));
+        sb.append(tab).append("HACER\n");
+        sb.append(bloque.toString(tab + "    "));
+        return sb.toString();
     }
 }

@@ -62,10 +62,9 @@ non terminal ArrayList<Expresion> Dims_Array;
 // Funciones
 non terminal ArrayList<NodoParametro> Parametros, Lista_Parametros;
 non terminal NodoParametro Param;
-non terminal Llamada_Funcion, Argumentos, Lista_Argumentos;
-
-// Expresiones jerarquizadas por precedencia (Tabla del documento)
 non terminal Expresion Expresion, E1, E2, E3, E4, E5, E6, E7, E8, E9;
+non terminal Expresion Llamada_Funcion; // <--- Importante: decir que es Expresion
+non terminal ArrayList<Expresion> Argumentos, Lista_Argumentos; // <--- Tipar las listas
 
 /* ========================================================
    REGLAS SINTÁCTICAS BASADAS EN LA ESPECIFICACIÓN "AMIL"
@@ -90,13 +89,13 @@ Tipo ::= TIPO_ENTERO   {: RESULT = "entero"; :}
        | TIPO_CARACTER {: RESULT = "caracter"; :}
        | TIPO_CADENA   {: RESULT = "cadena"; :}
        | VACIO         {: RESULT = "vacio"; :}
-       | IDEN:id       {: RESULT = id; :} ; // Clases definidas por el usuario actúan como tipos
+       | IDEN:id       {: RESULT = id.lexema; :} ; // Clases definidas por el usuario actúan como tipos
 
 // 3. Declaraciones de variables simples y arrays
 // Ej: entero : x;  o  [N][N] entero : arr;
-Dec_Variable ::= Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(tleft, tright, t, id, false, null); :} 
-               | CONST:c Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(cleft, cright, t, id, true, null); :} // Constantes
-               | Dims_Array:dims Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(dimsleft, dimsright, t, id, false, dims); :} ;
+Dec_Variable ::= Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(tleft, tright, t, id.lexema, false, null); :} 
+               | CONST:c Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(cleft, cright, t, id.lexema, true, null); :} // Constantes
+               | Dims_Array:dims Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(dimsleft, dimsright, t, id.lexema, false, dims); :} ;
 
 Dims_Array ::= Dims_Array:l CA Expresion:e CC {: l.add(e); RESULT = l; :} 
              | CA Expresion:e CC {: ArrayList<Expresion> l = new ArrayList<>(); l.add(e); RESULT = l; :} ;
@@ -108,7 +107,7 @@ Instrucciones ::= Instrucciones:lista Instruccion:inst {: if(inst != null) lista
                 | /* epsilon */ {: RESULT = new ArrayList<Instruccion>(); :} ;
 
 // 5. Clases y Objetos
-Clase ::= CLASE:c IDEN:id ABREBLOQUE Cuerpo_Clase:cuerpo CIERRABLOQUE {: RESULT = new NodoClase(cleft, cright, id, cuerpo); :} ;
+Clase ::= CLASE:c IDEN:id ABREBLOQUE Cuerpo_Clase:cuerpo CIERRABLOQUE {: RESULT = new NodoClase(cleft, cright, id.lexema, cuerpo); :} ;
 
 Cuerpo_Clase ::= Cuerpo_Clase:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
                | Cuerpo_Clase:l Funcion:f {: if(f != null) l.add(f); RESULT = l; :} 
@@ -116,21 +115,21 @@ Cuerpo_Clase ::= Cuerpo_Clase:l Dec_Variable:d {: if(d != null) l.add(d); RESULT
 
 // 6. Funciones
 // Ej: func miFuncion (val x : entero) de booleano : ini ... fin
-Funcion ::= FUNC:f Tipo:t PAP Parametros:p PCIERRE DOSPUNTOS IDEN:id Bloque:b {: RESULT = new NodoFuncion(fleft, fright, t, id, p, b); :} ; 
-          
+Funcion ::= FUNC:f Tipo:t PAP Parametros:p PCIERRE DOSPUNTOS IDEN:id Bloque:b {: RESULT = new NodoFuncion(fleft, fright, t, id.lexema, p, b); :} ;
+
 Parametros ::= Lista_Parametros:l {: RESULT = l; :} 
              | /* epsilon */ {: RESULT = new ArrayList<NodoParametro>(); :} ;
 
 Lista_Parametros ::= Lista_Parametros:l COMA Param:p {: l.add(p); RESULT = l; :} 
                    | Param:p {: ArrayList<NodoParametro> l = new ArrayList<>(); l.add(p); RESULT = l; :} ;
 
-Param ::= VAL:v IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(vleft, vright, t, id, false); :} // Paso por valor
-        | REF:r IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(rleft, rright, t, id, true); :} ;  // Paso por referencia
+Param ::= VAL:v IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(vleft, vright, t, id.lexema, false); :} // Paso por valor
+        | REF:r IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(rleft, rright, t, id.lexema, true); :} ; // Paso por referencia
 
 Instruccion ::= Dec_Variable                                            {: :} // Declaraciones de variables
-              | IDEN:id ASIGNACION Expresion:e PUNTOYCOMA               {: RESULT = new NodoAsignacion(idleft, idright, id, e); :} // Asignación genérica
+              | IDEN:id ASIGNACION Expresion:e PUNTOYCOMA               {: RESULT = new NodoAsignacion(idleft, idright, id.lexema, e); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, (Expresion) e); :} // Salida
-              | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id); :} // Entrada
+              | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id.lexema); :} // Entrada
               | Expresion:e PUNTOYCOMA                                  {: :} // Evaluar sin asignar (ej: métodos)
               | SI:s Expresion:e ENTONCES Bloque:b                      {: RESULT = new NodoSi(sleft, sright, e, b); :} // Condicional
               | SI:s Expresion:e ENTONCES Bloque:b1 SINO Bloque:b2      {: RESULT = new NodoSi(sleft, sright, e, b1, b2); :} // Condicional
@@ -172,7 +171,7 @@ E5 ::= E5:e1 POR E6:e2 {: RESULT = new NodoMul(e1left, e1right, e1, e2); :}
      | E6:e            {: RESULT = e; :} ;
 
 // Nivel 3: Acceso a clases (.) y punteros a clases (->)
-E6 ::= E6:e ACCESO_CLASE IDEN:id             {: RESULT = new NodoAccesoClase(eleft, eright, e, new NodoIden(idleft, idright, id)); :} 
+E6 ::= E6:e ACCESO_CLASE IDEN:id             {: RESULT = new NodoAccesoClase(eleft, eright, e, new NodoIden(idleft, idright, id.lexema)); :}
      | E6:e ACCESO_CLASE Llamada_Funcion:f   {: /* RESULT = new NodoAccesoClase(eleft, eright, e, f); */ :} 
      | E7:e                                  {: RESULT = e; :} ; 
 
@@ -190,26 +189,29 @@ E8 ::= DESREFERENCIA:op E8:e {: RESULT = new NodoDesreferencia(opleft, opright, 
      | E9:e                  {: RESULT = e; :} ;
 
 // Elementos atómicos y literales
-E9 ::= IDEN :id                              {: RESULT = new NodoIden(idleft, idright, id); :}
-     | ENTERO:e                              {: RESULT = new NodoEntero(eleft, eright, e); :} 
-     | REAL:r                                {: RESULT = new NodoReal(rleft, rright, r); :}
+E9 ::= IDEN :id                              {: RESULT = new NodoIden(idleft, idright, id.lexema); :}
+     | ENTERO:e                              {: RESULT = new NodoEntero(eleft, eright, e.lexema); :} 
+     | REAL:r                                {: RESULT = new NodoReal(rleft, rright, r.lexema); :}
      | BOOLEANO
-     | CARACTER:c                            {: RESULT = new NodoCaracter(cleft, cright, c); :}
-     | CADENA:c                              {: RESULT = new NodoCadena(cleft, cright, c); :}
+     | CARACTER:c                            {: RESULT = new NodoCaracter(cleft, cright, c.lexema); :}
+     | CADENA:c                              {: RESULT = new NodoCadena(cleft, cright, c.lexema); :}
      | CIERTO:c                              {: RESULT = new NodoBooleano(cleft, cright, "cierto"); :}
      | FALSO:f                               {: RESULT = new NodoBooleano(fleft, fright, "falso"); :}
      | NULL 
      | THIS
-     | Llamada_Funcion:f                     {: /* RESULT = f; */ :}
+     | Llamada_Funcion:f                     {: RESULT = f; :}
      | NUEVO IDEN                            // Creación de objetos
      | SIZE PAP Tipo PCIERRE                 // Función size(tipo)
      | PAP Expresion:e PCIERRE               {: RESULT = e; :} ;              // Paréntesis de agrupación
 
 // Soporte para llamadas a funciones y métodos
-Llamada_Funcion ::= IDEN PAP Argumentos PCIERRE ;
+Llamada_Funcion ::= IDEN:id PAP Argumentos:args PCIERRE 
+    {: RESULT = new NodoLlamadaFuncion(idleft, idright, id.lexema, args); :};
 
-Argumentos ::= Lista_Argumentos 
-             | /* epsilon */ ;
+Argumentos ::= Lista_Argumentos:l {: RESULT = l; :}
+             | /* epsilon */      {: RESULT = new ArrayList<Expresion>(); :};
 
-Lista_Argumentos ::= Lista_Argumentos COMA Expresion 
-                   | Expresion ;
+Lista_Argumentos ::= Lista_Argumentos:l COMA Expresion:e 
+                    {: l.add(e); RESULT = l; :}
+                   | Expresion:e 
+                    {: ArrayList<Expresion> l = new ArrayList<>(); l.add(e); RESULT = l; :};

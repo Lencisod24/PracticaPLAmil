@@ -1,0 +1,6 @@
+entero: contador;
+
+princ
+ini
+    contador = 0;
+fin

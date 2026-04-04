@@ -30,7 +30,7 @@ public class NodoPrograma extends ASTNode {
     }
 
     @Override
-    public String toString(String tab) {
+    public String toString(String tab) {    
         StringBuilder sb = new StringBuilder();
         sb.append(tab).append("PROGRAMA\n");
 

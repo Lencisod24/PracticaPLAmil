@@ -34,14 +34,19 @@ public class NodoSi extends Instruccion {
 
     @Override
     public String toString(String tab) {
-        String res = tab + "SI (" + condicion.toString("") + ") {\n" +
-                bloqueThen.toString(tab + "  ") + tab + "}";
-
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(tab).append("SI\n");
+        sb.append(condicion.toString(tab + "    "));
+        
+        sb.append(tab).append("ENTONCES\n");
+        sb.append(bloqueThen.toString(tab + "    "));
+        
         if (bloqueElse != null) {
-            res += "\n" + tab + "SINO {\n" +
-                    bloqueElse.toString(tab + "  ") + tab + "}";
+            sb.append(tab).append("SINO\n");
+            sb.append(bloqueElse.toString(tab + "    "));
         }
-
-        return res + "\n";
+        
+        return sb.toString();
     }
 }

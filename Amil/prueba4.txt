@@ -1,0 +1,18 @@
+entero: i;
+
+princ
+ini
+    i = 0;
+    mientras i < 5 hacer
+    ini
+        si i == 3 entonces
+        ini
+            imprimir(cierto);
+        fin
+        sino
+        ini
+            imprimir(falso);
+        fin
+        i = i + 1;
+    fin
+fin

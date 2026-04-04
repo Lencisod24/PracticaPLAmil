@@ -1,0 +1,11 @@
+entero: base;
+entero: altura;
+real: area;
+
+princ
+ini
+    leer(base);
+    leer(altura);
+    area = (base * altura) / 2;
+    imprimir(area);
+fin
