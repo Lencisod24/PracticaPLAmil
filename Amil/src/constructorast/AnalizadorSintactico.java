@@ -1094,7 +1094,10 @@ class CUP$AnalizadorSintactico$actions {
           case 33: // Instruccion ::= Dec_Variable 
             {
               Instruccion RESULT =null;
-		 
+		int dleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		NodoDecVariable d = (NodoDecVariable)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+		 RESULT = d; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("Instruccion",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

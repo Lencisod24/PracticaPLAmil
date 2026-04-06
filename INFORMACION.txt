@@ -1,0 +1,7 @@
+NOMBRES: Luis Enciso Durán, Francisco Bethencourt Lana, Jorge Marrodán García
+LENGUAJE: Amil
+
+El programa se ejecuta pasando un fichero como parámetro mediante el comando java -cp "bin;bin/constructorast/java-cup-11b.jar;lib/*" constructorast.Main prueba.txt.
+El árbol AST queda representado por pantalla mediante niveles de indentación que muestran la profundidad y las relaciones padre-hijo.
+
+IMPORTANTE: En esta entrega no hemos concluido la implementación de clases y punteros, posponiendo su integración en el AST para la práctica final, dado que en este momento nos han surgido dudas en cuanto a algunos detalles que no sabemos como tratar. Por tanto, aunque han quedado parcialmente implementados, no se espera su funcionamiento y los casos de prueba adjuntos no hacen uso de ellos.

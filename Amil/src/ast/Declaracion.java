@@ -1,9 +1,9 @@
 package ast;
 
-public abstract class Declaracion extends ASTNode {
+public abstract class Declaracion extends Instruccion {
 
     public Declaracion(int fil, int col) {
-        super(fil, col, NodeKind.DECLARACION);
+        super(fil, col);
     }
 
 }
