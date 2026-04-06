@@ -6,6 +6,7 @@ ini
 
     x = 5;
     copia = miArray[x];
+    miArray[x]=3;
 
     imprimir(miArray[0]);
     imprimir(copia);

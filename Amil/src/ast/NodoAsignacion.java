@@ -2,17 +2,17 @@ package ast;
 
 public class NodoAsignacion extends Instruccion {
 
-    private String identificador;
+    private Expresion variableDestino; 
     private Expresion expresion;
 
-    public NodoAsignacion(int fil, int col, String identificador, Expresion expresion) {
-        super(fil, col);
-        this.identificador = identificador;
+    public NodoAsignacion(int fila, int columna, Expresion variableDestino, Expresion expresion) {
+        super(fila, columna);
+        this.variableDestino = variableDestino;
         this.expresion = expresion;
     }
 
-    public String getIdentificador() {
-        return identificador;
+    public Expresion getIdentificador() {
+        return variableDestino;
     }
 
     public Expresion getExpresion() {
@@ -22,7 +22,7 @@ public class NodoAsignacion extends Instruccion {
     @Override
     public String toString(String tab) {
         // Imprimimos el nombre de la variable y, justo debajo, la expresión
-        return tab + "Asignacion a variable: " + identificador + "\n" +
-                expresion.toString(tab + "  ");
+        return tab + "Asignacion a variable: " + '\n'+variableDestino.toString(tab + "  ") + "\n" +
+                expresion.toString(tab + "  ")+ "\n";
     }
 }

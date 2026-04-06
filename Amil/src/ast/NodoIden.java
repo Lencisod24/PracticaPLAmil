@@ -17,6 +17,6 @@ public class NodoIden extends Expresion {
 
     @Override
     public String toString(String tab) {
-        return tab + "Identificador: " + nombre + "\n";
+        return tab + "Identificador: " + nombre ;
     }
 }
