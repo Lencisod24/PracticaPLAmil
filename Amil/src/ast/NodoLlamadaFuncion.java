@@ -16,10 +16,10 @@ public class NodoLlamadaFuncion extends Expresion {
         String s = tab + "LLAMADA_FUNCION: " + id + " (\n";
         if (argumentos != null) {
             for (Expresion e : argumentos) {
-                s += e.toString(tab + "  ") + "\n";
+                s += e.toString(tab + "  ");
             }
         }
-        s += tab + ")";
+        s += tab + ")\n";
         return s;
     }
 }

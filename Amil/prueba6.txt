@@ -1,0 +1,32 @@
+func entero (val n : entero) : factorial
+ini
+    entero: resultado;
+    resultado = 1;
+    
+    mientras n > 1 hacer
+    ini
+        resultado = resultado * n;
+        n = n - 1;
+    fin
+    
+    factorial = resultado;
+fin
+
+princ
+ini
+    entero: numero;
+    entero: fact;
+    
+    imprimir("Introduce un numero:");
+    leer(numero);
+    
+    si numero < 0 entonces
+    ini
+        imprimir("Error: numero negativo");
+    fin
+    sino
+    ini
+        fact = factorial(numero);
+        imprimir(fact);
+    fin
+fin

@@ -1,0 +1,20 @@
+princ
+ini
+    [10] entero : notas;
+    caracter : letra;
+    booleano : esValido;
+    entero : temperatura;
+    
+    letra = 'A';
+    temperatura = -5;
+    
+    si (temperatura < 0) || !esValido entonces
+    ini
+        imprimir("Hace mucho frio");
+    fin
+    
+    si (letra == 'A') && (cierto != falso) entonces
+    ini
+        imprimir("Todo correcto");
+    fin
+fin

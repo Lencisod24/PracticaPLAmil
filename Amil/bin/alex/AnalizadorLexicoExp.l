@@ -36,7 +36,7 @@ letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
 parteEntera = ({digitoPositivo}{digito}* | 0)
-parteDecimal = {digito}* {digitoPositivo}
+parteDecimal = {digito}+
 other_id_char = [_]
 
 // Identificadores y Literales dinámicos
@@ -156,10 +156,10 @@ litNull = null
   "!"                       { return ops.unidadNot(); }
 
   // --- Operadores de Punteros y Clases ---
-  "&"                       { return ops.unidadDireccion(); }
+  //"&"                       { return ops.unidadDireccion(); }
 //  "@"                       { return ops.unidadContenidoPuntero(); } 
 //  "->"                      { return ops.unidadFlecha(); }
-//  "."                       { return ops.unidadAcceso(); }
+  "."                       { return ops.unidadAcceso(); }
 
   // --- Signos de Puntuación y Agrupación ---
   ":"                       { return ops.unidadDosPuntos(); }

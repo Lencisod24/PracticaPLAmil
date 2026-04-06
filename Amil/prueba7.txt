@@ -1,0 +1,41 @@
+const real : GRAVEDAD;
+entero : contadorGlobal;
+
+func booleano (val peso : real) : esPesado
+ini
+    booleano: res;
+    
+    si peso > 100.0 entonces
+    ini
+        res = cierto;
+    fin
+    sino
+    ini
+        res = falso;
+    fin
+    
+    esPesado = res;
+fin
+
+princ
+ini
+    real: masa;
+    real: pesoFinal;
+    booleano: comprobacion;
+
+    GRAVEDAD = 9.81;
+    contadorGlobal = 0;
+    
+    imprimir("Introduce la masa:");
+    leer(masa);
+    
+    pesoFinal = masa * GRAVEDAD;
+    imprimir(pesoFinal);
+    
+    comprobacion = esPesado(pesoFinal);
+    
+    si comprobacion == cierto entonces
+    ini
+        imprimir("El objeto es muy pesado");
+    fin
+fin

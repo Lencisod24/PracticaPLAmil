@@ -1,0 +1,12 @@
+princ
+ini
+    [10] entero : miArray;
+    entero : x;
+    entero : copia;
+
+    x = 5;
+    copia = miArray[x];
+
+    imprimir(miArray[0]);
+    imprimir(copia);
+fin

@@ -12,7 +12,6 @@ public class Main {
 			Reader input = new InputStreamReader(new FileInputStream(args[0]));
 			AnalizadorLexicoExp alex = new AnalizadorLexicoExp(input);
 			AnalizadorSintactico asint = new AnalizadorSintactico(alex);
-			//System.out.println(asint.parse().value);
 			NodoPrograma ast = (NodoPrograma) asint.parse().value;
 			System.out.println(ast.toString(""));
 		}

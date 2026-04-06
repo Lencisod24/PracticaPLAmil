@@ -1,0 +1,13 @@
+func entero (val a : entero, val b : entero, val c : entero) : sumarTres
+ini
+    entero : suma;
+    suma = a + b + c;
+    sumarTres = suma;
+fin
+
+princ
+ini
+    entero : resultadoFinal;
+    resultadoFinal = sumarTres(10, 20, 30);
+    imprimir(resultadoFinal);
+fin
