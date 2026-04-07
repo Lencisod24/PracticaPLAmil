@@ -5,7 +5,7 @@ import java.util.List;
 public class NodoClase extends Declaracion {
 
     private String identificador;
-    private List<Declaracion> cuerpo; // Para almacenar tanto atributos como métodos
+    private List<Declaracion> cuerpo; // Para almacenar atributos y métodos
 
     public NodoClase(int fil, int col, String identificador, List<Declaracion> cuerpo) {
         super(fil, col);

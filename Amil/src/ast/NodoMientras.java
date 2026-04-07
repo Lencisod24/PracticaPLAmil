@@ -3,7 +3,7 @@ package ast;
 public class NodoMientras extends Instruccion {
 
     private Expresion condicion;
-    private Instruccion bloque; // Normalmente será un NodoBloque
+    private Instruccion bloque; // Normalmente es un NodoBloque
 
     public NodoMientras(int fil, int col, Expresion condicion, Instruccion bloque) {
         super(fil, col);

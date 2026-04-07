@@ -4,7 +4,7 @@ import java.util.List;
 
 public class NodoDecVariable extends Declaracion {
 
-    // Cubre la declaración de todo tipo de variables
+    
     private String tipo;
     private String identificador;
     private boolean esConstante;

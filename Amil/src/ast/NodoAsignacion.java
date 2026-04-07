@@ -21,7 +21,7 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public String toString(String tab) {
-        // Imprimimos el nombre de la variable y, justo debajo, la expresión
+        
         return tab + "Asignacion a variable: " + '\n'+variableDestino.toString(tab + "  ") +
                 expresion.toString(tab + "  ");
     }

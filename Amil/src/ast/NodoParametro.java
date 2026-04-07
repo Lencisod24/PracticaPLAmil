@@ -2,7 +2,7 @@ package ast;
 
 public class NodoParametro extends Declaracion {
 
-    // Cubre la declaración de los parámetros de las funciones
+    
     private String tipo;
     private String identificador;
     private boolean porReferencia;

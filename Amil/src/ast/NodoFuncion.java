@@ -4,7 +4,7 @@ import java.util.List;
 
 public class NodoFuncion extends Declaracion {
 
-    // Cubre la declaración de funciones
+    
     private String tipoRetorno;
     private String identificador;
     private List<NodoParametro> parametros;

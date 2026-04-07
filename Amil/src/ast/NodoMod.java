@@ -3,7 +3,7 @@ package ast;
 public class NodoMod extends ExpresionBinaria {
     public NodoMod(int fil, int col, Expresion opIzq, Expresion opDer) {
         super(fil, col, opIzq, opDer);
-        this.kind = KindE.MOD; // ¡Añade MOD a tu KindE.java!
+        this.kind = KindE.MOD; 
     }
 
     @Override

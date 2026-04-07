@@ -3,10 +3,10 @@ package ast;
 public class NodoSi extends Instruccion {
 
     private Expresion condicion;
-    private Instruccion bloqueThen; // Normalmente será un NodoBloque
+    private Instruccion bloqueThen; // Normalmente es un NodoBloque
     private Instruccion bloqueElse; // Puede ser null
 
-    // Constructor para el "SI" (sin sino)
+    // Constructor para el "SI" 
     public NodoSi(int fil, int col, Expresion condicion, Instruccion bloqueThen) {
         this(fil, col, condicion, bloqueThen, null);
     }
