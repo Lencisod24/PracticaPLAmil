@@ -1,6 +1,6 @@
 package ast;
 
-public class NodoIden extends Expresion {
+public class NodoIden extends Designador {
 
     private String nombre;
 

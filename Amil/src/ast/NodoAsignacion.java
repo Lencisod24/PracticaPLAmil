@@ -2,10 +2,10 @@ package ast;
 
 public class NodoAsignacion extends Instruccion {
 
-    private Expresion variableDestino; 
+    private Designador variableDestino; 
     private Expresion expresion;
 
-    public NodoAsignacion(int fila, int columna, Expresion variableDestino, Expresion expresion) {
+    public NodoAsignacion(int fila, int columna, Designador variableDestino, Expresion expresion) {
         super(fila, columna);
         this.variableDestino = variableDestino;
         this.expresion = expresion;
