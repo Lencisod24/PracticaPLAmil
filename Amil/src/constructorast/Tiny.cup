@@ -28,14 +28,14 @@ terminal
     AND, OR, NOT,
 
     // Operadores de asignación y punteros
-    ASIGNACION, DIRECCION, ACCESO_CLASE, DESREFERENCIA, 
+    ASIGNACION, DIRECCION, ACCESO_STRUCT, DESREFERENCIA, 
 
     // Signos de puntuación y agrupación
     DOSPUNTOS, PAP, PCIERRE, CA, CC, LLAVEAPERTURA, LLAVECIERRE, COMA, PUNTOYCOMA,
 
     // Palabras reservadas
     PRINC,FUNC,DE,ENTONCES, HACER, ABREBLOQUE, CIERRABLOQUE, IMPRIMIR, LEER, SI, SINO, MIENTRAS, NUEVO,
-    TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, CLASE, SIZE, VAL, REF, CONST, THIS;
+    TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, STRUCT, SIZE, VAL, REF, CONST;
 
     // Literales y especiales
 terminal alex.TokenValue IDEN, ENTERO, REAL, BOOLEANO, CARACTER, CADENA;
@@ -45,9 +45,9 @@ terminal CIERTO, FALSO, NULL;
 
 // Estructura principal
 non terminal NodoPrograma Programa;
-non terminal ArrayList<Declaracion> Lista_Globales, Funciones_Clases, Cuerpo_Clase;
+non terminal ArrayList<Declaracion> Lista_Globales, Funciones_Structs, Cuerpo_Struct;
 non terminal NodoFuncion Funcion;
-non terminal NodoClase Clase;
+non terminal NodoStruct Struct;
 
 // Bloques e instrucciones
 non terminal NodoBloque Bloque;                   
@@ -72,17 +72,17 @@ non terminal ArrayList<Expresion> Argumentos, Lista_Argumentos; // <--- Tipar la
    ======================================================== */
 
 // 1. Estructura del programa: Declaraciones -> (Clases/Funciones) -> princ
-Programa ::= Lista_Globales:g Funciones_Clases:fc PRINC:p Bloque:b {: RESULT = new NodoPrograma(pleft, pright, g, fc, b); :} ;
+Programa ::= Lista_Globales:g Funciones_Structs:fs PRINC:p Bloque:b 
+    {: RESULT = new NodoPrograma(pleft, pright, g, fs, b); :} ;
 
-// Declaraciones Globales (Variables y Arrays fuera de funciones)
+// Declaraciones Globales
 Lista_Globales ::= Lista_Globales:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
-                 | /* epsilon (vacio) */ {: RESULT = new ArrayList<Declaracion>(); :} ;
+                 | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
 
-// Clases y Funciones
-Funciones_Clases ::= Funciones_Clases:l Clase:c {: if(c != null) l.add(c); RESULT = l; :} 
-                   | Funciones_Clases:l Funcion:f {: if(f != null) l.add(f); RESULT = l; :} 
-                   | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
-
+// Funciones y Structs a nivel global
+Funciones_Structs ::= Funciones_Structs:l Struct:s {: if(s != null) l.add(s); RESULT = l; :} 
+                    | Funciones_Structs:l Funcion:f {: if(f != null) l.add(f); RESULT = l; :} 
+                    | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
 // 2. Tipos de datos soportados
 Tipo ::= TIPO_ENTERO   {: RESULT = "entero"; :}
        | TIPO_BOOLEANO {: RESULT = "booleano"; :}
@@ -107,13 +107,12 @@ Bloque ::= ABREBLOQUE:a Instrucciones:inst CIERRABLOQUE {: RESULT = new NodoBloq
 Instrucciones ::= Instrucciones:lista Instruccion:inst {: if(inst != null) lista.add(inst); RESULT = lista; :}
                 | /* epsilon */ {: RESULT = new ArrayList<Instruccion>(); :} ;
 
-// 5. Clases y Objetos
-Clase ::= CLASE:c IDEN:id ABREBLOQUE Cuerpo_Clase:cuerpo CIERRABLOQUE {: RESULT = new NodoClase(cleft, cright, id.lexema, cuerpo); :} ;
+// 5. Structs
+Struct ::= STRUCT:s IDEN:id ABREBLOQUE Cuerpo_Struct:cuerpo CIERRABLOQUE 
+    {: RESULT = new NodoStruct(sleft, sright, id.lexema, cuerpo); :} ;
 
-Cuerpo_Clase ::= Cuerpo_Clase:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
-               | Cuerpo_Clase:l Funcion:f {: if(f != null) l.add(f); RESULT = l; :} 
-               | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
-
+Cuerpo_Struct ::= Cuerpo_Struct:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
+                | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
 // 6. Funciones
 // Ej: func miFuncion (val x : entero) de booleano : ini ... fin
 Funcion ::= FUNC:f Tipo:t PAP Parametros:p PCIERRE DOSPUNTOS IDEN:id Bloque:b {: RESULT = new NodoFuncion(fleft, fright, t, id.lexema, p, b); :} ;
@@ -149,20 +148,21 @@ Designador ::= DESREFERENCIA:op Designador:d                     {: RESULT = new
                
 
 // Desig1 Arrays ([]) y Accesos a Clase (.)
-Desig1 ::= Desig1:d1 CA Expresion:e CC                           {: RESULT = new NodoAccesoArray(d1left, d1right, d1, e); :}
-          | Desig1:d1 ACCESO_CLASE IDEN:id                       {: RESULT = new NodoAccesoClase(d1left, d1right, d1, new NodoIden(idleft, idright, id.lexema)); :}
-          | Desig2:d2                                          {: RESULT = d2; :};
-         
+Desig1 ::= Desig1:d1 CA Expresion:e CC                           
+            {: RESULT = new NodoAccesoArray(d1left, d1right, d1, e); :}
+          | Desig1:d1 ACCESO_STRUCT IDEN:id                       
+            {: RESULT = new NodoAccesoStruct(d1left, d1right, d1, new NodoIden(idleft, idright, id.lexema)); :}
+          | Desig2:d2                                          
+            {: RESULT = d2; :};
           
          
 
         
 // Desig2 
-Desig2 ::= IDEN:id                                                {: RESULT = new NodoIden(idleft, idright, id.lexema); :}
-          | THIS:t                                                {: RESULT = new NodoThis(tleft, tright); :}
-          | PAP Designador:d PCIERRE                              {: RESULT = d; :}
-           
-         ;                                                 
+Desig2 ::= IDEN:id                                                
+            {: RESULT = new NodoIden(idleft, idright, id.lexema); :}
+          | PAP Designador:d PCIERRE                              
+            {: RESULT = d; :} ;                                          
           
         
                                      
