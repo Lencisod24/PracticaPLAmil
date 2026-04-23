@@ -130,7 +130,7 @@ Instruccion ::= Dec_Variable:d                                            {: RES
               | Designador:d ASIGNACION Expresion:e2 PUNTOYCOMA            {: RESULT = new NodoAsignacion(dleft, dright, d, e2); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, (Expresion) e); :} // Salida
               | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id.lexema); :} // Entrada
-              | Expresion:e PUNTOYCOMA                                  {: :} // Evaluar sin asignar (ej: métodos)
+              | Expresion:e PUNTOYCOMA                                  {: RESULT = e; :} // Evaluar sin asignar (ej: métodos)
               | SI:s Expresion:e ENTONCES Bloque:b                      {: RESULT = new NodoSi(sleft, sright, e, b); :} // Condicional
               | SI:s Expresion:e ENTONCES Bloque:b1 SINO Bloque:b2      {: RESULT = new NodoSi(sleft, sright, e, b1, b2); :} // Condicional
               | MIENTRAS:m Expresion:e HACER Bloque:b                   {: RESULT = new NodoMientras(mleft, mright, e, b); :} ; // Bucles
@@ -147,11 +147,11 @@ Designador ::= DESREFERENCIA:op Designador:d                     {: RESULT = new
                
                
 
-// Desig1 Arrays ([]) y Accesos a Clase (.)
+// Desig1 Arrays ([]) y Accesos a Struct (.)
 Desig1 ::= Desig1:d1 CA Expresion:e CC                           
             {: RESULT = new NodoAccesoArray(d1left, d1right, d1, e); :}
           | Desig1:d1 ACCESO_STRUCT IDEN:id                       
-            {: RESULT = new NodoAccesoStruct(d1left, d1right, d1, new NodoIden(idleft, idright, id.lexema)); :}
+            {: RESULT = new NodoAccesoStruct(d1left, d1right, d1, id.lexema); :} // <--- AQUÍ ESTÁ EL CAMBIO
           | Desig2:d2                                          
             {: RESULT = d2; :};
           
@@ -222,16 +222,15 @@ E7 ::= NOT:op E7:e           {: RESULT = new NodoNot(opleft, opright, e); :}    
 // Elementos atómicos y literales
 E8 ::= ENTERO:e                              {: RESULT = new NodoEntero(eleft, eright, e.lexema); :} 
      | REAL:r                                {: RESULT = new NodoReal(rleft, rright, r.lexema); :}
-     | BOOLEANO
      | CARACTER:c                            {: RESULT = new NodoCaracter(cleft, cright, c.lexema); :}
      | CADENA:c                              {: RESULT = new NodoCadena(cleft, cright, c.lexema); :}
      | CIERTO:c                              {: RESULT = new NodoBooleano(cleft, cright, "cierto"); :}
      | FALSO:f                               {: RESULT = new NodoBooleano(fleft, fright, "falso"); :}
-     | NULL 
+     | NULL:n                                {: RESULT = new NodoNull(nleft, nright); :}
      | Llamada_Funcion:f                     {: RESULT = f; :}
-     | NUEVO IDEN                            // Creación de objetos
-     | SIZE PAP Tipo PCIERRE                 // Función size(tipo)
-     | PAP Expresion:e PCIERRE               {: RESULT = e; :} ;              // Paréntesis de agrupación
+     | NUEVO PAP Expresion:e PCIERRE         {: RESULT = new NodoNuevo(eleft, eright, e); :}
+     | SIZE PAP Tipo:t PCIERRE               {: RESULT = new NodoSize(tleft, tright, t); :}
+     | PAP Expresion:e PCIERRE               {: RESULT = e; :} ;
       
 
 // Soporte para llamadas a funciones y métodos

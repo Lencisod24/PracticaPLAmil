@@ -1,16 +1,32 @@
 package ast;
 
-public class NodoAccesoStruct extends ExpresionBinaria {
+public class NodoAccesoStruct extends Designador {
 
-    public NodoAccesoStruct(int fil, int col, Designador objeto, Expresion atributo) {
-        super(fil, col, objeto, atributo);
-        this.kind = KindE.ACCESO_STRUCT; 
+    private Designador variableStruct;
+    private String campo;
+
+    public NodoAccesoStruct(int fil, int col, Designador variableStruct, String campo) {
+        super(fil, col);
+        this.variableStruct = variableStruct;
+        this.campo = campo;
+        this.kind = KindE.ACCESO_STRUCT;
+    }
+
+    public Designador getVariableStruct() {
+        return variableStruct;
+    }
+
+    public String getCampo() {
+        return campo;
     }
 
     @Override
     public String toString(String tab) {
         return tab + "ACCESO A STRUCT (.)\n" +
-                opIzq().toString(tab + "  ") +
-                opDer().toString(tab + "  ");
+                variableStruct.toString(tab + "  ") +
+                tab + "  Campo: " + campo + "\n";
+    }
+
+    public void chequeaTipo() {
     }
 }

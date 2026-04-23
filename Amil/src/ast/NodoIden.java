@@ -17,6 +17,12 @@ public class NodoIden extends Designador {
 
     @Override
     public String toString(String tab) {
-        return tab + "Identificador: " + nombre + "\n" ;
+        return tab + "Identificador: " + nombre + "\n";
+    }
+
+    @Override
+    public void chequeaTipo() {
+        // 1. Buscar en la Tabla de Símbolos
+        // 2. Comprobar si existe y es válido como designador
     }
 }
