@@ -9,6 +9,8 @@ public class NodoDesreferencia extends Designador {
         this.operando = operando;
         this.kind = KindE.DESREFERENCIA;
     }
+    
+    
 
     public Designador getOperando() {
         return operando;

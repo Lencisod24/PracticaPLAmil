@@ -1104,7 +1104,7 @@ class CUP$AnalizadorSintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).right;
 		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
-		 RESULT = e; 
+		 RESULT = new NodoInstruccionExpresion(eleft,eright,e); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("Instruccion",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -1230,7 +1230,7 @@ class CUP$AnalizadorSintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		alex.TokenValue id = (alex.TokenValue)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = new NodoDesreferencia(opleft, opright, id); 
+		 RESULT = new NodoDesreferencia(opleft, opright, new NodoIden(idleft, idright, id.lexema)); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("Desig1",26, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

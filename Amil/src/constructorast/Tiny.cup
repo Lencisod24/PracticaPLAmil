@@ -130,7 +130,7 @@ Instruccion ::= Dec_Variable:d                                            {: RES
               | Designador:d ASIGNACION Expresion:e2 PUNTOYCOMA            {: RESULT = new NodoAsignacion(dleft, dright, d, e2); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, (Expresion) e); :} // Salida
               | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id.lexema); :} // Entrada
-              | Expresion:e PUNTOYCOMA                                  {: RESULT = e; :} // Evaluar sin asignar (ej: métodos)
+              | Expresion:e PUNTOYCOMA                                  {: RESULT = new NodoInstruccionExpresion(eleft,eright,e); :} // Evaluar sin asignar (ej: métodos)
               | SI:s Expresion:e ENTONCES Bloque:b                      {: RESULT = new NodoSi(sleft, sright, e, b); :} // Condicional
               | SI:s Expresion:e ENTONCES Bloque:b1 SINO Bloque:b2      {: RESULT = new NodoSi(sleft, sright, e, b1, b2); :} // Condicional
               | MIENTRAS:m Expresion:e HACER Bloque:b                   {: RESULT = new NodoMientras(mleft, mright, e, b); :} ; // Bucles
@@ -139,20 +139,7 @@ Instruccion ::= Dec_Variable:d                                            {: RES
 /* ========================================================
    JERARQUÍA DE DESIGNADORES ([] y . > *)
    ======================================================== */
-
-
-/* Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new NodoAccesoArray(dleft, dright, d, e); :}                 
-           |Designador:d ACCESO_STRUCT IDEN:id                    {: RESULT = new NodoAccesoStruct(dleft, dright, d, id.lexema); :} 
-           |Desig1:d1                                            {: RESULT = d1; :};
-
-               
-
-// Desig1 Accesos a Struct (.) y desreferencia *
-Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
-          |DESREFERENCIA:op Designador:d                         {: RESULT = new NodoDesreferencia(opleft, opright, d); :}
-          |DESREFERENCIA:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                      
-*/
-
+                     
 Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new NodoAccesoArray(dleft, dright, d, e); :}               
            |Designador:d ACCESO_STRUCT IDEN:id                    {: RESULT = new NodoAccesoStruct(dleft, dright, d, id.lexema); :} 
            |Desig1:d1                                            {: RESULT = d1; :};
@@ -161,7 +148,7 @@ Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new
 
 // Desig1 Accesos a Struct (.) y desreferencia *
 Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
-          |DESREFERENCIA:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, id); :}
+          |DESREFERENCIA:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, new NodoIden(idleft, idright, id.lexema)); :}
           |DESREFERENCIA:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                                                  
            
        
