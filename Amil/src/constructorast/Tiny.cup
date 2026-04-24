@@ -137,32 +137,39 @@ Instruccion ::= Dec_Variable:d                                            {: RES
 
 
 /* ========================================================
-   JERARQUÍA DE DESIGNADORES (Estilo C: [] y . > *)
+   JERARQUÍA DE DESIGNADORES ([] y . > *)
    ======================================================== */
 
-// Entrada Principal (Menor prioridad): Desreferencia (*)
-Designador ::= DESREFERENCIA:op Designador:d                     {: RESULT = new NodoDesreferencia(opleft, opright, d); :}
-             | Desig1:d1                                         {: RESULT = d1; :}
-             ;
-               
+
+/* Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new NodoAccesoArray(dleft, dright, d, e); :}                 
+           |Designador:d ACCESO_STRUCT IDEN:id                    {: RESULT = new NodoAccesoStruct(dleft, dright, d, id.lexema); :} 
+           |Desig1:d1                                            {: RESULT = d1; :};
+
                
 
-// Desig1 Arrays ([]) y Accesos a Struct (.)
-Desig1 ::= Desig1:d1 CA Expresion:e CC                           
-            {: RESULT = new NodoAccesoArray(d1left, d1right, d1, e); :}
-          | Desig1:d1 ACCESO_STRUCT IDEN:id                       
-            {: RESULT = new NodoAccesoStruct(d1left, d1right, d1, id.lexema); :} // <--- AQUÍ ESTÁ EL CAMBIO
-          | Desig2:d2                                          
-            {: RESULT = d2; :};
+// Desig1 Accesos a Struct (.) y desreferencia *
+Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
+          |DESREFERENCIA:op Designador:d                         {: RESULT = new NodoDesreferencia(opleft, opright, d); :}
+          |DESREFERENCIA:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                      
+*/
+
+Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new NodoAccesoArray(dleft, dright, d, e); :}               
+           |Designador:d ACCESO_STRUCT IDEN:id                    {: RESULT = new NodoAccesoStruct(dleft, dright, d, id.lexema); :} 
+           |Desig1:d1                                            {: RESULT = d1; :};
+
+               
+
+// Desig1 Accesos a Struct (.) y desreferencia *
+Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
+          |DESREFERENCIA:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, id); :}
+          |DESREFERENCIA:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                                                  
+           
+       
           
          
 
         
-// Desig2 
-Desig2 ::= IDEN:id                                                
-            {: RESULT = new NodoIden(idleft, idright, id.lexema); :}
-          | PAP Designador:d PCIERRE                              
-            {: RESULT = d; :} ;                                          
+                                          
           
         
                                      

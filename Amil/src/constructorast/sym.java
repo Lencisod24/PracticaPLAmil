@@ -18,17 +18,17 @@ public class sym {
   public static final int TIPO_REAL = 44;
   public static final int IMPRIMIR = 36;
   public static final int PCIERRE = 22;
-  public static final int ENTERO = 55;
+  public static final int ENTERO = 54;
   public static final int SI = 38;
   public static final int PRINC = 29;
-  public static final int CIERTO = 60;
+  public static final int CIERTO = 59;
   public static final int ENTONCES = 32;
   public static final int REF = 51;
   public static final int NOT = 15;
   public static final int MENORIGUAL = 11;
   public static final int AND = 13;
   public static final int IGUAL = 7;
-  public static final int CARACTER = 58;
+  public static final int CARACTER = 57;
   public static final int SINO = 39;
   public static final int OR = 14;
   public static final int DESREFERENCIA = 19;
@@ -36,7 +36,6 @@ public class sym {
   public static final int MIENTRAS = 40;
   public static final int DIV = 5;
   public static final int CC = 24;
-  public static final int THIS = 53;
   public static final int CA = 23;
   public static final int MAYORIGUAL = 12;
   public static final int DIST = 8;
@@ -44,32 +43,32 @@ public class sym {
   public static final int LLAVECIERRE = 26;
   public static final int LLAVEAPERTURA = 25;
   public static final int SIZE = 49;
-  public static final int CLASE = 48;
   public static final int TIPO_ENTERO = 43;
   public static final int error = 1;
   public static final int COMA = 27;
-  public static final int CADENA = 59;
+  public static final int CADENA = 58;
   public static final int MENOS = 3;
-  public static final int NULL = 62;
+  public static final int NULL = 61;
   public static final int MENOR = 9;
   public static final int MOD = 6;
   public static final int DIRECCION = 17;
   public static final int CIERRABLOQUE = 35;
   public static final int ASIGNACION = 16;
-  public static final int REAL = 56;
+  public static final int REAL = 55;
   public static final int NUEVO = 41;
   public static final int MAYOR = 10;
   public static final int PAP = 21;
   public static final int VACIO = 47;
   public static final int FUNC = 30;
-  public static final int IDEN = 54;
-  public static final int FALSO = 61;
-  public static final int ACCESO_CLASE = 18;
+  public static final int IDEN = 53;
+  public static final int FALSO = 60;
   public static final int LEER = 37;
   public static final int HACER = 33;
-  public static final int BOOLEANO = 57;
+  public static final int BOOLEANO = 56;
   public static final int TIPO_BOOLEANO = 42;
   public static final int TIPO_CADENA = 46;
+  public static final int STRUCT = 48;
+  public static final int ACCESO_STRUCT = 18;
   public static final int MAS = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -90,7 +89,7 @@ public class sym {
   "NOT",
   "ASIGNACION",
   "DIRECCION",
-  "ACCESO_CLASE",
+  "ACCESO_STRUCT",
   "DESREFERENCIA",
   "DOSPUNTOS",
   "PAP",
@@ -120,12 +119,11 @@ public class sym {
   "TIPO_CARACTER",
   "TIPO_CADENA",
   "VACIO",
-  "CLASE",
+  "STRUCT",
   "SIZE",
   "VAL",
   "REF",
   "CONST",
-  "THIS",
   "IDEN",
   "ENTERO",
   "REAL",
