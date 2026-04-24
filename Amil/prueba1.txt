@@ -1,4 +1,7 @@
-entero: y;
+func entero () : doble
+ini
+
+fin
 
 princ
 ini
