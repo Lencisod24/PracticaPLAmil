@@ -114,7 +114,6 @@ Struct ::= STRUCT:s IDEN:id ABREBLOQUE Cuerpo_Struct:cuerpo CIERRABLOQUE
 Cuerpo_Struct ::= Cuerpo_Struct:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
                 | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
 // 6. Funciones
-// Ej: func miFuncion (val x : entero) de booleano : ini ... fin
 Funcion ::= FUNC:f Tipo:t PAP Parametros:p PCIERRE DOSPUNTOS IDEN:id Bloque:b {: RESULT = new NodoFuncion(fleft, fright, t, id.lexema, p, b); :} ;
 
 Parametros ::= Lista_Parametros:l {: RESULT = l; :} 

@@ -1,9 +1,4 @@
-func entero () : doble
-ini
-
-fin
-
 princ
 ini
-
+entero: x;
 fin

@@ -1,0 +1,16 @@
+struct Punto ini
+    entero: x;
+    entero: y;
+fin
+
+princ
+ini
+    Punto: p1;
+
+    p1.x = 10;
+    p1.y = 20;
+
+    imprimir(p1.x);
+    imprimir(p1.y);
+    imprimir(p1.x + p1.y);
+fin

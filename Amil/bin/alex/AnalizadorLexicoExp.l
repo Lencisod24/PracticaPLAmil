@@ -68,7 +68,6 @@ kwMientras = mientras
 kwHacer = hacer
 kwIni = ini
 kwFin = fin
-kwClase = clase
 kwNuevo = nuevo
 kwSize = size
 kwVal = val
@@ -76,6 +75,7 @@ kwRef = ref
 kwConst = const
 kwImprimir = imprimir
 kwLeer = leer
+kwStruct = struct
 
 // Literales Fijos
 litCierto = cierto
@@ -113,7 +113,6 @@ litNull = null
   {kwHacer}                 { return ops.unidadHacer(); }
   {kwIni}                   { return ops.unidadAbreBloque(); } 
   {kwFin}                   { return ops.unidadCierraBloque(); }
-  {kwClase}                 { return ops.unidadClase(); }
   {kwNuevo}                 { return ops.unidadNuevo(); }
   {kwSize}                  { return ops.unidadSize(); }
   {kwVal}                   { return ops.unidadVal(); }
@@ -121,6 +120,7 @@ litNull = null
   {kwConst}                 { return ops.unidadConst(); }
   {kwImprimir}              { return ops.unidadImprimir(); }
   {kwLeer}                  { return ops.unidadLeer(); }
+  {kwStruct}                { return ops.unidadStruct(); }
 
   // --- Literales Fijos ---
   {litCierto}               { return ops.unidadCierto(); }
@@ -160,7 +160,7 @@ litNull = null
 //  "@"                       { return ops.unidadContenidoPuntero(); } 
 //  "->"                      { return ops.unidadFlecha(); }
   "."                       { return ops.unidadAcceso(); }
-
+  
   // --- Signos de Puntuación y Agrupación ---
   ":"                       { return ops.unidadDosPuntos(); }
   ";"                       { return ops.unidadPuntoYComa(); }
