@@ -28,14 +28,14 @@ terminal
     AND, OR, NOT,
 
     // Operadores de asignación y punteros
-    ASIGNACION, DIRECCION, ACCESO_STRUCT, DESREFERENCIA, 
+    ASIGNACION, DIRECCION, ACCESO_STRUCT, 
 
     // Signos de puntuación y agrupación
     DOSPUNTOS, PAP, PCIERRE, CA, CC, LLAVEAPERTURA, LLAVECIERRE, COMA, PUNTOYCOMA,
 
     // Palabras reservadas
     PRINC,FUNC,DE,ENTONCES, HACER, ABREBLOQUE, CIERRABLOQUE, IMPRIMIR, LEER, SI, SINO, MIENTRAS, NUEVO,
-    TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, STRUCT, SIZE, VAL, REF, CONST;
+    TIPO_BOOLEANO, TIPO_ENTERO,TIPO_REAL,TIPO_CARACTER,TIPO_CADENA, VACIO, STRUCT, SIZE, VAL, REF, CONST, PUNTERO;
 
     // Literales y especiales
 terminal alex.TokenValue IDEN, ENTERO, REAL, BOOLEANO, CARACTER, CADENA;
@@ -62,7 +62,7 @@ non terminal ArrayList<Expresion> Dims_Array;
 // Funciones
 non terminal ArrayList<NodoParametro> Parametros, Lista_Parametros;
 non terminal NodoParametro Param;
-non terminal Expresion Expresion, E1, E2, E3, E4, E5, E6, E7, E8, E9;
+non terminal Expresion Expresion, E1, E2, E3, E4, E5, E6, E6, E8, E9;
 non terminal Designador Designador, Desig1, Desig2;
 non terminal Expresion Llamada_Funcion; // <--- Importante: decir que es Expresion
 non terminal ArrayList<Expresion> Argumentos, Lista_Argumentos; // <--- Tipar las listas
@@ -90,6 +90,7 @@ Tipo ::= TIPO_ENTERO   {: RESULT = "entero"; :}
        | TIPO_CARACTER {: RESULT = "caracter"; :}
        | TIPO_CADENA   {: RESULT = "cadena"; :}
        | VACIO         {: RESULT = "vacio"; :}
+       | PUNTERO Tipo:t {: RESULT = "puntero a " + t; :}
        | IDEN:id       {: RESULT = id.lexema; :} ; // Clases definidas por el usuario actúan como tipos
 
 // 3. Declaraciones de variables simples y arrays
@@ -147,8 +148,8 @@ Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new
 
 // Desig1 Accesos a Struct (.) y desreferencia *
 Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
-          |DESREFERENCIA:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, new NodoIden(idleft, idright, id.lexema)); :}
-          |DESREFERENCIA:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                                                  
+          |POR:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, new NodoIden(idleft, idright, id.lexema)); :}
+          |POR:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                                                  
            
        
           
@@ -197,23 +198,16 @@ E5 ::= E5:e1 POR E6:e2 {: RESULT = new NodoMul(e1left, e1right, e1, e2); :}
      | E5:e1 MOD E6:e2 {: RESULT = new NodoMod(e1left, e1right, e1, e2); :} 
      | E6:e            {: RESULT = e; :} ;
 
-// Nivel 3: Acceso a clases (.) y punteros a clases (->)
-// Nivel 3: Recibe al Designador
-E6 ::= Designador:d {: RESULT = d; :}
-     | E7:e         {: RESULT = e; :}
-     ;
-
 // Nivel 1: Prefijos unarios (*, &, !, +, -)
 // He integrado las opciones de Op_Unario directamente aquí para capturar fácilmente la fila y columna de cada operador.
-E7 ::= NOT:op E7:e           {: RESULT = new NodoNot(opleft, opright, e); :}           // !
-     | MAS:op E7:e           {: RESULT = new NodoMasUnario(opleft, opright, e); :}     // + unario
-     | MENOS:op E7:e         {: RESULT = new NodoMenosUnario(opleft, opright, e); :}   // - unario
-     | E8:e                  {: RESULT = e; :} ;
-     
-     
+E6 ::= NOT:op E6:e           {: RESULT = new NodoNot(opleft, opright, e); :}           // !
+     | MAS:op E6:e           {: RESULT = new NodoMasUnario(opleft, opright, e); :}     // + unario
+     | MENOS:op E6:e         {: RESULT = new NodoMenosUnario(opleft, opright, e); :}   // - unario
+     | DIRECCION:op E6:e     {: RESULT = new NodoDireccion(opleft, opright, e); :}     // operador &
+     | E7:e                  {: RESULT = e; :} ;
 
 // Elementos atómicos y literales
-E8 ::= ENTERO:e                              {: RESULT = new NodoEntero(eleft, eright, e.lexema); :} 
+E7 ::= ENTERO:e                              {: RESULT = new NodoEntero(eleft, eright, e.lexema); :} 
      | REAL:r                                {: RESULT = new NodoReal(rleft, rright, r.lexema); :}
      | CARACTER:c                            {: RESULT = new NodoCaracter(cleft, cright, c.lexema); :}
      | CADENA:c                              {: RESULT = new NodoCadena(cleft, cright, c.lexema); :}
@@ -223,7 +217,8 @@ E8 ::= ENTERO:e                              {: RESULT = new NodoEntero(eleft, e
      | Llamada_Funcion:f                     {: RESULT = f; :}
      | NUEVO PAP Expresion:e PCIERRE         {: RESULT = new NodoNuevo(eleft, eright, e); :}
      | SIZE PAP Tipo:t PCIERRE               {: RESULT = new NodoSize(tleft, tright, t); :}
-     | PAP Expresion:e PCIERRE               {: RESULT = e; :} ;
+     | PAP Expresion:e PCIERRE               {: RESULT = e; :} 
+     | Designador:d                          {: RESULT = d; :} ;
       
 
 // Soporte para llamadas a funciones y métodos

@@ -1,0 +1,11 @@
+DESDE LA CARPETA AMIL
+
+GENERAR .JAVA: 
+java -jar lib/java-cup-11b.jar -parser AnalizadorSintactico -symbols sym -destdir src/constructorast src/constructorast/Tiny.cup
+java -jar lib/jflex.jar src/alex/AnalizadorLexicoExp.l
+
+GENERAR .CLASS: 
+javac -d bin -cp "lib/*;src" src/alex/*.java src/ast/*.java src/constructorast/*.java src/errors/*.java
+
+EJEUCTAR:
+java -cp "bin;lib/*" constructorast.Main prueba1.txt

@@ -76,6 +76,7 @@ kwConst = const
 kwImprimir = imprimir
 kwLeer = leer
 kwStruct = struct
+kwPuntero = puntero
 
 // Literales Fijos
 litCierto = cierto
@@ -121,6 +122,7 @@ litNull = null
   {kwImprimir}              { return ops.unidadImprimir(); }
   {kwLeer}                  { return ops.unidadLeer(); }
   {kwStruct}                { return ops.unidadStruct(); }
+  {kwPuntero}               { return ops.unidadPuntero(); }
 
   // --- Literales Fijos ---
   {litCierto}               { return ops.unidadCierto(); }
@@ -156,9 +158,7 @@ litNull = null
   "!"                       { return ops.unidadNot(); }
 
   // --- Operadores de Punteros y Clases ---
-  //"&"                       { return ops.unidadDireccion(); }
-//  "@"                       { return ops.unidadContenidoPuntero(); } 
-//  "->"                      { return ops.unidadFlecha(); }
+  "&"                       { return ops.unidadDireccion(); }
   "."                       { return ops.unidadAcceso(); }
   
   // --- Signos de Puntuación y Agrupación ---

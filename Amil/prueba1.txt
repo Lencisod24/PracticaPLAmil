@@ -1,4 +1,5 @@
 princ
 ini
-entero: x;
+    entero: x; entero : y;
+    puntero entero: z;
 fin

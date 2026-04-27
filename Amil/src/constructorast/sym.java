@@ -8,66 +8,66 @@ package constructorast;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int VAL = 50;
-  public static final int DOSPUNTOS = 20;
-  public static final int ABREBLOQUE = 34;
-  public static final int DE = 31;
-  public static final int CONST = 52;
+  public static final int VAL = 49;
+  public static final int DOSPUNTOS = 19;
+  public static final int ABREBLOQUE = 33;
+  public static final int DE = 30;
+  public static final int CONST = 51;
   public static final int POR = 4;
-  public static final int PUNTOYCOMA = 28;
-  public static final int TIPO_REAL = 44;
-  public static final int IMPRIMIR = 36;
-  public static final int PCIERRE = 22;
+  public static final int PUNTOYCOMA = 27;
+  public static final int TIPO_REAL = 43;
+  public static final int IMPRIMIR = 35;
+  public static final int PCIERRE = 21;
   public static final int ENTERO = 54;
-  public static final int SI = 38;
-  public static final int PRINC = 29;
+  public static final int SI = 37;
+  public static final int PRINC = 28;
   public static final int CIERTO = 59;
-  public static final int ENTONCES = 32;
-  public static final int REF = 51;
+  public static final int ENTONCES = 31;
+  public static final int REF = 50;
   public static final int NOT = 15;
   public static final int MENORIGUAL = 11;
   public static final int AND = 13;
   public static final int IGUAL = 7;
   public static final int CARACTER = 57;
-  public static final int SINO = 39;
+  public static final int SINO = 38;
   public static final int OR = 14;
-  public static final int DESREFERENCIA = 19;
-  public static final int TIPO_CARACTER = 45;
-  public static final int MIENTRAS = 40;
+  public static final int TIPO_CARACTER = 44;
+  public static final int MIENTRAS = 39;
   public static final int DIV = 5;
-  public static final int CC = 24;
-  public static final int CA = 23;
+  public static final int CC = 23;
+  public static final int CA = 22;
   public static final int MAYORIGUAL = 12;
   public static final int DIST = 8;
   public static final int EOF = 0;
-  public static final int LLAVECIERRE = 26;
-  public static final int LLAVEAPERTURA = 25;
-  public static final int SIZE = 49;
-  public static final int TIPO_ENTERO = 43;
+  public static final int LLAVECIERRE = 25;
+  public static final int LLAVEAPERTURA = 24;
+  public static final int SIZE = 48;
+  public static final int TIPO_ENTERO = 42;
   public static final int error = 1;
-  public static final int COMA = 27;
+  public static final int COMA = 26;
   public static final int CADENA = 58;
   public static final int MENOS = 3;
   public static final int NULL = 61;
   public static final int MENOR = 9;
   public static final int MOD = 6;
   public static final int DIRECCION = 17;
-  public static final int CIERRABLOQUE = 35;
+  public static final int PUNTERO = 52;
   public static final int ASIGNACION = 16;
+  public static final int CIERRABLOQUE = 34;
   public static final int REAL = 55;
-  public static final int NUEVO = 41;
+  public static final int NUEVO = 40;
   public static final int MAYOR = 10;
-  public static final int PAP = 21;
-  public static final int VACIO = 47;
-  public static final int FUNC = 30;
+  public static final int PAP = 20;
+  public static final int VACIO = 46;
+  public static final int FUNC = 29;
   public static final int IDEN = 53;
   public static final int FALSO = 60;
-  public static final int LEER = 37;
-  public static final int HACER = 33;
+  public static final int LEER = 36;
+  public static final int HACER = 32;
   public static final int BOOLEANO = 56;
-  public static final int TIPO_BOOLEANO = 42;
-  public static final int TIPO_CADENA = 46;
-  public static final int STRUCT = 48;
+  public static final int TIPO_BOOLEANO = 41;
+  public static final int TIPO_CADENA = 45;
+  public static final int STRUCT = 47;
   public static final int ACCESO_STRUCT = 18;
   public static final int MAS = 2;
   public static final String[] terminalNames = new String[] {
@@ -90,7 +90,6 @@ public class sym {
   "ASIGNACION",
   "DIRECCION",
   "ACCESO_STRUCT",
-  "DESREFERENCIA",
   "DOSPUNTOS",
   "PAP",
   "PCIERRE",
@@ -124,6 +123,7 @@ public class sym {
   "VAL",
   "REF",
   "CONST",
+  "PUNTERO",
   "IDEN",
   "ENTERO",
   "REAL",

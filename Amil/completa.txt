@@ -1,0 +1,79 @@
+entero : contador_global;
+[10] entero : historial;
+
+struct Punto ini
+    entero : x;
+    entero : y;
+fin
+
+struct Rectangulo ini
+    Punto : origen;
+    entero : ancho;
+    entero : alto;
+fin
+
+func entero (val a : entero, ref b : entero) : resulato_suma
+ini
+    resultado_suma = a + b;
+    b = b + 1; // Se modifica la variable original al ser pasada por referencia
+fin
+
+princ
+ini
+    entero : numero;
+    real : pi;
+    booleano : bandera;
+    caracter : letra;
+    cadena : mensaje;
+    
+    [5][5] entero : matriz;
+    Rectangulo : mi_rect;
+    
+    puntero entero : ptr_dinamico;
+    puntero entero : ptr_directo;
+
+    numero = 42;
+    pi = 3.1416;
+    bandera = cierto;
+    
+    mi_rect.origen.x = 10;
+    mi_rect.origen.y = 20;
+    mi_rect.ancho = 100;
+    mi_rect.alto = 50;
+
+    historial[0] = 5;
+    matriz[1][1] = 99;
+
+    ptr_dinamico = nuevo(size(entero));
+    *ptr_dinamico = 500;
+    
+    ptr_directo = &numero;
+    *ptr_directo = 24; // Ahora 'numero' vale 24
+
+    si (mi_rect.ancho > 50) && (bandera == cierto) entonces
+    ini
+        imprimir(mi_rect.ancho);
+    fin
+    sino
+    ini
+        imprimir(mi_rect.alto);
+    fin
+
+    contador_global = 0;
+    mientras contador_global < 5 hacer
+    ini
+        historial[contador_global] = contador_global * 2;
+        contador_global = contador_global + 1;
+    fin
+
+    entero : valor_ref;
+    entero : retorno_func;
+    
+    valor_ref = 10;
+    
+    retorno_func = resultado_suma(5, valor_ref);
+
+    imprimir(retorno_func); 
+    
+    imprimir(valor_ref);    
+fin
