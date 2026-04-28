@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public abstract class ASTNode {
     // ponemos fila y columna para luego encontrar los errores y el tipo de Nodo
     // para hacer el binding más adelante
@@ -26,4 +28,6 @@ public abstract class ASTNode {
     }
 
     public abstract String toString(String tab);
+
+    public abstract void chequea(TablaSimbolos ts);
 }

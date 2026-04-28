@@ -15,6 +15,4 @@ public abstract class Designador extends Expresion {
     public void settipoInferido(String tipoInferido) {
         this.tipoInferido = tipoInferido;
     }
-
-    public abstract void chequeaTipo();
 }
