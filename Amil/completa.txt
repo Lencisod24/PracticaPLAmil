@@ -30,7 +30,6 @@ ini
     Rectangulo : mi_rect;
     
     puntero entero : ptr_dinamico;
-    puntero entero : ptr_directo;
 
     numero = 42;
     pi = 3.1416;
@@ -46,9 +45,6 @@ ini
 
     ptr_dinamico = nuevo(size(entero));
     *ptr_dinamico = 500;
-    
-    ptr_directo = &numero;
-    *ptr_directo = 24; // Ahora 'numero' vale 24
 
     si (mi_rect.ancho > 50) && (bandera == cierto) entonces
     ini

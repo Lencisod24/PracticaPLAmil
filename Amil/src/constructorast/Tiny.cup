@@ -62,7 +62,7 @@ non terminal ArrayList<Expresion> Dims_Array;
 // Funciones
 non terminal ArrayList<NodoParametro> Parametros, Lista_Parametros;
 non terminal NodoParametro Param;
-non terminal Expresion Expresion, E1, E2, E3, E4, E5, E6, E6, E8, E9;
+non terminal Expresion Expresion, E1, E2, E3, E4, E5, E6, E7;
 non terminal Designador Designador, Desig1, Desig2;
 non terminal Expresion Llamada_Funcion; // <--- Importante: decir que es Expresion
 non terminal ArrayList<Expresion> Argumentos, Lista_Argumentos; // <--- Tipar las listas
@@ -203,7 +203,6 @@ E5 ::= E5:e1 POR E6:e2 {: RESULT = new NodoMul(e1left, e1right, e1, e2); :}
 E6 ::= NOT:op E6:e           {: RESULT = new NodoNot(opleft, opright, e); :}           // !
      | MAS:op E6:e           {: RESULT = new NodoMasUnario(opleft, opright, e); :}     // + unario
      | MENOS:op E6:e         {: RESULT = new NodoMenosUnario(opleft, opright, e); :}   // - unario
-     | DIRECCION:op E6:e     {: RESULT = new NodoDireccion(opleft, opright, e); :}     // operador &
      | E7:e                  {: RESULT = e; :} ;
 
 // Elementos atómicos y literales
