@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoNuevo extends Expresion {
 
     private Expresion expresionTamano;
@@ -18,5 +20,12 @@ public class NodoNuevo extends Expresion {
     public String toString(String tab) {
         return tab + "RESERVA MEMORIA (nuevo)\n" +
                 expresionTamano.toString(tab + "  ");
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (expresionTamano != null) {
+            expresionTamano.chequea(ts);
+        }
     }
 }

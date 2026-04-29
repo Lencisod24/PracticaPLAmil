@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoLeer extends Instruccion {
 
     private String identificador; // La variable donde vamos a leer
@@ -16,5 +18,13 @@ public class NodoLeer extends Instruccion {
     @Override
     public String toString(String tab) {
         return tab + "LEER (" + identificador + ")\n";
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (ts.buscaId(identificador) == null) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                            "]: La variable '" + identificador + "' no ha sido declarada.");
+        }
     }
 }

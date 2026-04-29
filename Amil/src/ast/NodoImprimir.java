@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoImprimir extends Instruccion {
     
     private Expresion expresion;
@@ -19,5 +21,12 @@ public class NodoImprimir extends Instruccion {
         // añadiéndole un poco más de tab
         return tab + "Imprimir\n" + 
                expresion.toString(tab + "  ");
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (expresion != null) {
+            expresion.chequea(ts);
+        }
     }
 }

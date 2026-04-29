@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoCadena extends Expresion {
 
     private String valor;
@@ -18,4 +20,7 @@ public class NodoCadena extends Expresion {
     public String toString(String tab) {
         return tab + "Cadena: " + valor + "\n";
     }
+    @Override
+    public void chequea(TablaSimbolos ts) {
+    }   
 }

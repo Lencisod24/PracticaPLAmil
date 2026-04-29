@@ -2,6 +2,8 @@ package ast;
 
 import java.util.List;
 
+import semantico.TablaSimbolos;
+
 public class NodoFuncion extends Declaracion {
 
     
@@ -29,5 +31,32 @@ public class NodoFuncion extends Declaracion {
         sb.append(bloque.toString(tab + "  "));
         sb.append(tab).append("}\n");
         return sb.toString();
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        boolean insertado = ts.insertaId(identificador, this);
+        if (!insertado) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                            "]: La función '" + identificador + "' ya ha sido declarada en este ámbito.");
+        }
+        
+        ts.abreBloque();
+        
+        if (parametros != null) {
+            for (NodoParametro param : parametros) {
+                if (param != null) {
+                    param.chequea(ts);
+                }
+            }
+        }
+        
+        //al hacer bloque otro abreBloque() tendremos que plantear si parametros y variables
+        //locales de funcion deben estar al mismo nivel
+        if (bloque != null) {
+            bloque.chequea(ts);
+        }
+        
+        ts.cierraBloque();
     }
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoAsignacion extends Instruccion {
 
     private Designador variableDestino; 
@@ -24,5 +26,14 @@ public class NodoAsignacion extends Instruccion {
         
         return tab + "Asignacion a variable: " + '\n'+variableDestino.toString(tab + "  ") +
                 expresion.toString(tab + "  ");
+    }
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (variableDestino != null) {
+            variableDestino.chequea(ts);
+        }
+        if (expresion != null) {
+            expresion.chequea(ts);
+        }
     }
 }

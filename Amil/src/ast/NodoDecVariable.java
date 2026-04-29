@@ -2,6 +2,8 @@ package ast;
 
 import java.util.List;
 
+import semantico.TablaSimbolos;
+
 public class NodoDecVariable extends Declaracion {
 
     
@@ -24,5 +26,22 @@ public class NodoDecVariable extends Declaracion {
         String pre = esConstante ? "CONST " : "";
         String arr = (dimensionesArray != null && !dimensionesArray.isEmpty()) ? "[ARRAY] " : "";
         return tab + "DECLARACION VARIABLE: " + pre + arr + tipo + " " + identificador + "\n";
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (dimensionesArray != null) {
+            for (Expresion dim : dimensionesArray) {
+                if (dim != null) {
+                    dim.chequea(ts);
+                }
+            }
+        }
+        boolean insertado = ts.insertaId(identificador, this);
+
+        if (!insertado) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                               "]: El identificador '" + identificador + "' ya ha sido declarado en este ámbito.");
+        }
     }
 }

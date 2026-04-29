@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoIden extends Designador {
 
     private String nombre;
@@ -20,9 +22,10 @@ public class NodoIden extends Designador {
         return tab + "Identificador: " + nombre + "\n";
     }
 
-    @Override
-    public void chequeaTipo() {
-        // 1. Buscar en la Tabla de Símbolos
-        // 2. Comprobar si existe y es válido como designador
+    public void chequea(TablaSimbolos ts) {
+        if (ts.buscaId(nombre) == null) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                            "]: El identificador '" + nombre + "' no ha sido declarado.");
+        }
     }
 }

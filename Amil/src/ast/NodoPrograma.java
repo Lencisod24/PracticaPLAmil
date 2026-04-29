@@ -2,18 +2,20 @@ package ast;
 
 import java.util.List;
 
+import semantico.TablaSimbolos;
+
 
 public class NodoPrograma extends ASTNode {
 
     private List<Declaracion> declaracionesGlobales;
-    private List<Declaracion> funcionesYClases;
+    private List<Declaracion> funcionesYStructs;
     private NodoBloque bloquePrincipal;
 
-    public NodoPrograma(int fil, int col, List<Declaracion> declaracionesGlobales, List<Declaracion> funcionesYClases,
+    public NodoPrograma(int fil, int col, List<Declaracion> declaracionesGlobales, List<Declaracion> funcionesYStructs,
             NodoBloque bloquePrincipal) {
         super(fil, col, NodeKind.PROGRAMA);
         this.declaracionesGlobales = declaracionesGlobales;
-        this.funcionesYClases = funcionesYClases;
+        this.funcionesYStructs = funcionesYStructs;
         this.bloquePrincipal = bloquePrincipal;
     }
 
@@ -21,8 +23,8 @@ public class NodoPrograma extends ASTNode {
         return declaracionesGlobales;
     }
 
-    public List<Declaracion> getFuncionesYClases() {
-        return funcionesYClases;
+    public List<Declaracion> getfuncionesYStructs() {
+        return funcionesYStructs;
     }
 
     public NodoBloque getBloquePrincipal() {
@@ -41,9 +43,9 @@ public class NodoPrograma extends ASTNode {
             }
         }
 
-        if (funcionesYClases != null && !funcionesYClases.isEmpty()) {
+        if (funcionesYStructs != null && !funcionesYStructs.isEmpty()) {
             sb.append(tab).append("  [Clases y Funciones]\n");
-            for (Declaracion dec : funcionesYClases) {
+            for (Declaracion dec : funcionesYStructs) {
                 sb.append(dec.toString(tab + "    "));
             }
         }
@@ -54,6 +56,28 @@ public class NodoPrograma extends ASTNode {
         return sb.toString();
     }
 
+    @Override
+    public void chequea(TablaSimbolos ts) {
 
+        if (declaracionesGlobales != null) {
+            for (Declaracion dec : declaracionesGlobales) {
+                if (dec != null) {
+                    dec.chequea(ts);
+                }
+            }
+        }
+
+        if (funcionesYStructs != null) {
+            for (Declaracion func : funcionesYStructs) {
+                if (func != null) {
+                    func.chequea(ts);
+                }
+            }
+        }
+
+        if (bloquePrincipal != null) {
+            bloquePrincipal.chequea(ts);
+        }
+    }
 
 }

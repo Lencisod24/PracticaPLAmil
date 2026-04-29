@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoAccesoStruct extends Designador {
 
     private Designador variableStruct;
@@ -27,6 +29,10 @@ public class NodoAccesoStruct extends Designador {
                 tab + "  Campo: " + campo + "\n";
     }
 
-    public void chequeaTipo() {
+    @Override
+public void chequea(TablaSimbolos ts) {
+    if (variableStruct != null) {
+        variableStruct.chequea(ts);
     }
+}
 }

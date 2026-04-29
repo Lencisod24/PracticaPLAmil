@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoSi extends Instruccion {
 
     private Expresion condicion;
@@ -48,5 +50,18 @@ public class NodoSi extends Instruccion {
         }
         
         return sb.toString();
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (condicion != null) {
+            condicion.chequea(ts);
+        }
+        if (bloqueThen != null) {
+            bloqueThen.chequea(ts);
+        }
+        if (bloqueElse != null) {
+            bloqueElse.chequea(ts);
+        }
     }
 }

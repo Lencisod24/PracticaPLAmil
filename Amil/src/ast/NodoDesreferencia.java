@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoDesreferencia extends Designador {
 
     private Designador operando;
@@ -22,6 +24,12 @@ public class NodoDesreferencia extends Designador {
         return tab + "DESREFERENCIA (*)\n" + operando.toString(tab + "  ");
     }
 
-    public void chequeaTipo() {
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (operando != null) {
+            operando.chequea(ts);
+        }
     }
+
+    
 }

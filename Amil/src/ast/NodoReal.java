@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoReal extends Expresion {
 
     private String valor;
@@ -17,5 +19,10 @@ public class NodoReal extends Expresion {
     @Override
     public String toString(String tab) {
         return tab + "Real: " + valor + "\n";
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        
     }
 }

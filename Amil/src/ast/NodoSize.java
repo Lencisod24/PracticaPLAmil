@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoSize extends Expresion {
 
     private String tipo;
@@ -17,5 +19,10 @@ public class NodoSize extends Expresion {
     @Override
     public String toString(String tab) {
         return tab + "OPERADOR SIZE (Tipo: " + tipo + ")\n";
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        
     }
 }

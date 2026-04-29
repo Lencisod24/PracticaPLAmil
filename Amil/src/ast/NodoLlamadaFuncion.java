@@ -1,6 +1,8 @@
 package ast;
 import java.util.ArrayList;
 
+import semantico.TablaSimbolos;
+
 public class NodoLlamadaFuncion extends Expresion {
     private String id;
     private ArrayList<Expresion> argumentos;
@@ -21,5 +23,21 @@ public class NodoLlamadaFuncion extends Expresion {
         }
         s += tab + ")\n";
         return s;
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (ts.buscaId(id) == null) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                            "]: La función '" + id + "' no está declarada.");
+        }
+        
+        if (argumentos != null) {
+            for (Expresion arg : argumentos) {
+                if (arg != null) {
+                    arg.chequea(ts);
+                }
+            }
+        }
     }
 }

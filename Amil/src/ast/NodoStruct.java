@@ -2,6 +2,8 @@ package ast;
 
 import java.util.List;
 
+import semantico.TablaSimbolos;
+
 public class NodoStruct extends Declaracion {
 
     private String identificador;
@@ -24,5 +26,26 @@ public class NodoStruct extends Declaracion {
 
         sb.append(tab).append("}\n");
         return sb.toString();
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        boolean insertado = ts.insertaId(identificador, this);
+        if (!insertado) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                            "]: El struct '" + identificador + "' ya ha sido declarado en este ámbito.");
+        }
+        
+        ts.abreBloque();
+        
+        if (campos != null) {
+            for (Declaracion campo : campos) {
+                if (campo != null) {
+                    campo.chequea(ts);
+                }
+            }
+        }
+        
+        ts.cierraBloque();
     }
 }

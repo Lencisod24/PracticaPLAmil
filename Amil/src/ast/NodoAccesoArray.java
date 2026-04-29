@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoAccesoArray extends Designador {
 
     private Designador array;
@@ -28,6 +30,13 @@ public class NodoAccesoArray extends Designador {
                 indice.toString(tab + "  ");
     }
 
-    public void chequeaTipo() {
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (array != null) {
+            array.chequea(ts);
+        }
+        if (indice != null) {
+            indice.chequea(ts);
+        }
     }
 }

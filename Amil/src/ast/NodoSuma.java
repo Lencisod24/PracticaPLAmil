@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoSuma extends ExpresionBinaria {
 
     public NodoSuma(int fil, int col, Expresion opIzq, Expresion opDer) {
@@ -17,6 +19,16 @@ public class NodoSuma extends ExpresionBinaria {
         resultado += opDer().toString(nuevoTab);
 
         return resultado;
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (opIzq() != null) {
+            opIzq().chequea(ts);
+        }
+        if (opDer() != null) {
+            opDer().chequea(ts);
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoBooleano extends Expresion {
 
     private String valor;
@@ -17,5 +19,9 @@ public class NodoBooleano extends Expresion {
     @Override
     public String toString(String tab) {
         return tab + "Booleano: " + valor + "\n";
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
     }
 }

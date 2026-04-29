@@ -3,6 +3,8 @@ package ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import semantico.TablaSimbolos;
+
 public class NodoBloque extends Instruccion {
 
     private List<Instruccion> instrucciones;
@@ -36,5 +38,20 @@ public class NodoBloque extends Instruccion {
         }
         sb.append(tab).append("}\n");
         return sb.toString();
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        ts.abreBloque();
+        
+        if (instrucciones != null) {
+            for (Instruccion inst : instrucciones) {
+                if (inst != null) {
+                    inst.chequea(ts);
+                }
+            }
+        }
+        
+        ts.cierraBloque();
     }
 }

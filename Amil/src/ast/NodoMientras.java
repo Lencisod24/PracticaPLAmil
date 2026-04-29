@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoMientras extends Instruccion {
 
     private Expresion condicion;
@@ -27,5 +29,15 @@ public class NodoMientras extends Instruccion {
         sb.append(tab).append("HACER\n");
         sb.append(bloque.toString(tab + "    "));
         return sb.toString();
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (condicion != null) {
+            condicion.chequea(ts);
+        }
+        if (bloque != null) {
+            bloque.chequea(ts);
+        }
     }
 }

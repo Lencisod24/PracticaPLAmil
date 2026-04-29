@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoEntero extends Expresion {
 
     private String valor;
@@ -17,6 +19,9 @@ public class NodoEntero extends Expresion {
     @Override
     public String toString(String tab) {
         return tab + "Entero: " + valor + "\n";
+    }
+        @Override
+    public void chequea(TablaSimbolos ts) {
     }
 
 }

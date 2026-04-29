@@ -1,5 +1,7 @@
 package ast;
 
+import semantico.TablaSimbolos;
+
 public class NodoMasUnario extends ExpresionUnaria {
 
     public NodoMasUnario(int fil, int col, Expresion operando) {
@@ -10,5 +12,12 @@ public class NodoMasUnario extends ExpresionUnaria {
     @Override
     public String toString(String tab) {
         return tab + "MAS UNARIO (+)\n" + operando().toString(tab + "  ");
+    }
+
+    @Override
+    public void chequea(TablaSimbolos ts) {
+        if (operando() != null) {
+            operando().chequea(ts);
+        }
     }
 }
