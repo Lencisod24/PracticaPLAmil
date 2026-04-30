@@ -8,15 +8,17 @@ public class ComprobadorTipos {
 
     // Nos indica si el tipo se puede imprimir, es decir, si es primitivo
     public static boolean esPresentable(String tipo) {
-        if (tipo == null || tipo.equals("error"))
+        if (tipo == null || tipo.equals(Tipos.ERROR))
             return false;
-        return tipo.equals("entero") || tipo.equals("real") || tipo.equals("booleano") || tipo.equals("caracter")
-                || tipo.equals("cadena");
+        return tipo.equals(Tipos.ENTERO) || tipo.equals(Tipos.REAL) || tipo.equals(Tipos.BOOLEANO)
+                || tipo.equals(Tipos.CARACTER)
+                || tipo.equals(Tipos.CADENA);
     }
 
     // Nos indica si dos tipos son iguales para las asignaciones
     public static boolean sonCompatibles(String tipoDestino, String tipoValor) {
-        if (tipoDestino == null || tipoValor == null || tipoDestino.equals("error") || tipoValor.equals("error")) {
+        if (tipoDestino == null || tipoValor == null || tipoDestino.equals(Tipos.ERROR)
+                || tipoValor.equals(Tipos.ERROR)) {
             return false;
         }
 
@@ -24,7 +26,7 @@ public class ComprobadorTipos {
             return true;
         }
         // Para poder asignar enteros a reales
-        if (tipoDestino.equals("real") && tipoValor.equals("entero")) {
+        if (tipoDestino.equals(Tipos.REAL) && tipoValor.equals(Tipos.ENTERO)) {
             return true;
         }
         return false;
@@ -33,13 +35,13 @@ public class ComprobadorTipos {
     // Comprueba si dos tipos son comparables para operaciones de igualdad y
     // relacionales
     public static boolean tiposComparables(String tipo1, String tipo2) {
-        if (tipo1 == null || tipo2 == null || tipo1.equals("error") || tipo2.equals("error")) {
+        if (tipo1 == null || tipo2 == null || tipo1.equals(Tipos.ERROR) || tipo2.equals(Tipos.ERROR)) {
             return true;
         }
 
         // Si son del mismo tipo o ambos son numéricos
-        if (tipo1.equals(tipo2) || ((tipo1.equals("entero") || tipo1.equals("real"))
-                && (tipo2.equals("entero") || tipo2.equals("real")))) {
+        if (tipo1.equals(tipo2) || ((tipo1.equals(Tipos.ENTERO) || tipo1.equals(Tipos.REAL))
+                && (tipo2.equals(Tipos.ENTERO) || tipo2.equals(Tipos.REAL)))) {
             return true;
         }
 
@@ -48,46 +50,47 @@ public class ComprobadorTipos {
 
     // Comprueba si dos operandos son compatibles en una operación aritmética
     public static String inferirTipoAritmetico(String tipo1, String tipo2) {
-        if (tipo1 == null || tipo2 == null || tipo1.equals("error") || tipo2.equals("error")) {
-            return "error";
+        if (tipo1 == null || tipo2 == null || tipo1.equals(Tipos.ERROR) || tipo2.equals(Tipos.ERROR)) {
+            return Tipos.ERROR;
         }
 
         // Si los dos son enteros el resultado es entero, y desde que uno sea real el
         // resultado es real
-        if (tipo1.equals("entero") && tipo2.equals("entero")) {
-            return "entero";
+        if (tipo1.equals(Tipos.ENTERO) && tipo2.equals(Tipos.ENTERO)) {
+            return Tipos.ENTERO;
         }
-        if ((tipo1.equals("real") || tipo1.equals("entero")) && (tipo2.equals("real") || tipo2.equals("entero"))) {
-            return "real";
+        if ((tipo1.equals(Tipos.REAL) || tipo1.equals(Tipos.ENTERO))
+                && (tipo2.equals(Tipos.REAL) || tipo2.equals(Tipos.ENTERO))) {
+            return Tipos.REAL;
         }
 
         // Error al intentar sumar tipos no numéricos
-        return "error";
+        return Tipos.ERROR;
     }
 
     // Comprueba si un identificador es un array
     public static boolean esArray(String tipo) {
         if (tipo == null)
             return false;
-        return tipo.startsWith("[");
+        return Tipos.esArray(tipo);
     }
 
     // Comprueba si un identificador es un puntero
     public static boolean esPuntero(String tipo) {
         if (tipo == null)
             return false;
-        return tipo.startsWith("puntero");
+        return Tipos.esPuntero(tipo);
     }
 
     // Obtiene el tipo base de arrays y punteros
     public static String obtenerTipoBase(String tipoCompleto) {
         // si es puntero pasa de "puntero a tipo" a "tipo"
         if (esPuntero(tipoCompleto)) {
-            return tipoCompleto.replace("puntero a ", "").trim();
+            return Tipos.tipoDelPuntero(tipoCompleto);
         }
         // Si es un array pasa de "[N] tipo" a "tipo"
         if (esArray(tipoCompleto)) {
-            return tipoCompleto.substring(tipoCompleto.lastIndexOf("]") + 1).trim();
+            return Tipos.tipoDelArray(tipoCompleto);
         }
         return tipoCompleto;
     }

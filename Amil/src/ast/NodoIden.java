@@ -24,8 +24,8 @@ public class NodoIden extends Designador {
 
     public void chequea(TablaSimbolos ts) {
         if (ts.buscaId(nombre) == null) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                            "]: El identificador '" + nombre + "' no ha sido declarado.");
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El identificador '" + nombre + "' no ha sido declarado.");
         }
     }
 }

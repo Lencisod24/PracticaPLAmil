@@ -23,5 +23,6 @@ public class NodoBooleano extends Expresion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
+        this.setTipo("booleano");
     }
 }
