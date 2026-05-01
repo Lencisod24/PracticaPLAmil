@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoCadena extends Expresion {
 
@@ -22,5 +23,6 @@ public class NodoCadena extends Expresion {
     }
     @Override
     public void chequea(TablaSimbolos ts) {
+        this.setTipo(Tipos.CADENA);
     }   
 }

@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoBooleano extends Expresion {
 
@@ -23,6 +24,6 @@ public class NodoBooleano extends Expresion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        this.setTipo("booleano");
+        this.setTipo(Tipos.BOOLEANO);
     }
 }

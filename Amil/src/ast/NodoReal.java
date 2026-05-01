@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoReal extends Expresion {
 
@@ -23,6 +24,6 @@ public class NodoReal extends Expresion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        
+        this.setTipo(Tipos.REAL);
     }
 }

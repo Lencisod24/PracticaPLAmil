@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoEntero extends Expresion {
 
@@ -22,6 +23,7 @@ public class NodoEntero extends Expresion {
     }
         @Override
     public void chequea(TablaSimbolos ts) {
+        this.setTipo(Tipos.ENTERO);
     }
 
 }
