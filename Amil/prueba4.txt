@@ -1,8 +1,7 @@
-entero: i;
+entero: i = 0;
 
 princ
 ini
-    i = 0;
     mientras i < 5 hacer
     ini
         si i == 3 entonces

@@ -1,6 +1,6 @@
 package ast;
 
-import semantico.TablaSimbolos;
+import semantico.*;
 
 public class NodoSize extends Expresion {
 
@@ -23,6 +23,14 @@ public class NodoSize extends Expresion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        
+        // Comprobamos que el tipo existe
+        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: No se puede calcular el tamaño de '" + tipo + "' porque el tipo no existe.");
+            this.setTipo(Tipos.ERROR);
+        } else {
+            // Resultado siempre es un entero si el tipo es válido
+            this.setTipo(Tipos.ENTERO);
+        }
     }
 }

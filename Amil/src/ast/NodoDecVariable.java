@@ -12,14 +12,20 @@ public class NodoDecVariable extends Declaracion {
     private String identificador;
     private boolean esConstante;
     private List<Expresion> dimensionesArray; // Será null si no es un array
+    private Expresion valorInicial; // Será null si no lo hay
 
     public NodoDecVariable(int fil, int col, String tipo, String identificador, boolean esConstante,
-            List<Expresion> dimensionesArray) {
+            List<Expresion> dimensionesArray, Expresion valorInicial) {
         super(fil, col);
         this.tipo = tipo;
         this.identificador = identificador;
         this.esConstante = esConstante;
         this.dimensionesArray = dimensionesArray;
+        this.valorInicial = valorInicial;
+    }
+
+    public boolean esConstante() {
+        return this.esConstante;
     }
 
     @Override
@@ -41,18 +47,14 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        // Validamos las expresiones de las dimensiones
+        // Si es un array, chequeamos que las dimensiones sean enteros
         if (dimensionesArray != null) {
             for (Expresion dim : dimensionesArray) {
                 if (dim != null) {
-                    // Evaluación ascendente del nodo de la dimensión
                     dim.chequea(ts);
-
-                    // Las dimensiones deben ser estrictamente enteras
                     if (dim.getTipo() != null && !dim.getTipo().equals(Tipos.ENTERO)) {
                         System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
-                                "]: La dimensión del array '" + identificador +
-                                "' debe ser de tipo entero. Se encontró: " + dim.getTipo());
+                                "]: La dimensión debe ser de tipo entero.");
                     }
                 }
             }
@@ -60,16 +62,31 @@ public class NodoDecVariable extends Declaracion {
 
         // Validamos que el tipo base existe
         if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
-                    "]: El tipo '" + tipo + "' de la variable '" + identificador +
-                    "' no está definido (no es un tipo básico ni un struct conocido).");
+            System.err.println("Error Semántico: El tipo '" + tipo + "' no está definido.");
+        }
+
+        // Validar la inicialización en caso de haberla
+        if (valorInicial != null) {
+            // Evaluación ascendente del valor inicial
+            valorInicial.chequea(ts);
+
+            // Comprobamos compatibilidad de tipos entre la variable y su valor inicial
+            if (valorInicial.getTipo() != null && !ComprobadorTipos.sonCompatibles(this.tipo, valorInicial.getTipo())) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: Tipos incompatibles. No se puede inicializar un '" + this.tipo +
+                        "' con un valor de tipo '" + valorInicial.getTipo() + "'.");
+            }
+        } else {
+            // Si es constante sin valor inicial, es un error semántico
+            if (this.esConstante) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: La constante '" + identificador + "' debe ser inicializada.");
+            }
         }
 
         // Insertamos en la tabla de símbolos
         if (!ts.insertaId(identificador, this)) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
-                    "]: El identificador '" + identificador +
-                    "' ya ha sido declarado en este ámbito.");
+            System.err.println("Error Semántico: '" + identificador + "' ya declarado en este ámbito.");
         }
     }
 }

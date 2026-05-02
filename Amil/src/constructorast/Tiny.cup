@@ -58,6 +58,7 @@ non terminal Instruccion Instruccion;
 non terminal String Tipo;
 non terminal NodoDecVariable Dec_Variable;
 non terminal ArrayList<Expresion> Dims_Array;
+non terminal Expresion AsignacionOpcional;
 
 // Funciones
 non terminal ArrayList<NodoParametro> Parametros, Lista_Parametros;
@@ -95,9 +96,19 @@ Tipo ::= TIPO_ENTERO   {: RESULT = "entero"; :}
 
 // 3. Declaraciones de variables simples y arrays
 // Ej: entero : x;  o  [N][N] entero : arr;
-Dec_Variable ::= Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(tleft, tright, t, id.lexema, false, null); :} 
-               | CONST:c Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(cleft, cright, t, id.lexema, true, null); :} // Constantes
-               | Dims_Array:dims Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(dimsleft, dimsright, t, id.lexema, false, dims); :} ;
+Dec_Variable ::= 
+    // Variable con inicialización opcional: entero : x; entero : y = 5;
+    Tipo:t DOSPUNTOS IDEN:id AsignacionOpcional:val PUNTOYCOMA {: RESULT = new NodoDecVariable(tleft, tright, t, id.lexema, false, null, val); :}
+
+    // Constante sin asignación obligatoria para que el error venga en el tipado y no en la sintaxis
+  | CONST:c Tipo:t DOSPUNTOS IDEN:id AsignacionOpcional:val PUNTOYCOMA {: RESULT = new NodoDecVariable(cleft, cright, t, id.lexema, true, null, val); :}
+
+    // Arrays (por complejidad no permitimos que sean constantes ni asignarles valores en la declaración)
+  | Dims_Array:dims Tipo:t DOSPUNTOS IDEN:id PUNTOYCOMA {: RESULT = new NodoDecVariable(dimsleft, dimsright, t, id.lexema, false, dims, null); :} ;
+
+AsignacionOpcional ::= 
+    ASIGNACION Expresion:e {: RESULT = e; :}
+  | /* epsilon */          {: RESULT = null; :} ;
 
 Dims_Array ::= Dims_Array:l CA Expresion:e CC {: l.add(e); RESULT = l; :} 
              | CA Expresion:e CC {: ArrayList<Expresion> l = new ArrayList<>(); l.add(e); RESULT = l; :} ;

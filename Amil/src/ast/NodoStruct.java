@@ -46,7 +46,6 @@ public class NodoStruct extends Declaracion {
 
         // Preparamos el mapa que guardará los campos en la Tabla de Símbolos
         Map<String, String> mapaCampos = new HashMap<>();
-
         if (campos != null) {
             for (Declaracion campo : campos) {
                 if (campo != null) {

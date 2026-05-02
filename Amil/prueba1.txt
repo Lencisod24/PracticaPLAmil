@@ -1,5 +1,6 @@
 princ
 ini
-    entero: x; entero : y;
+    const entero: x = 1 + a; 
+    entero : y;
     puntero entero: z;
 fin

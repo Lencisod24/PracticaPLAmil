@@ -56,5 +56,16 @@ public class NodoAsignacion extends Instruccion {
                         + "' a una variable de tipo '" + tipoDestino + "'.");
             }
         }
+
+        // Comprobamos si la variable destino es constante con su declaración
+        if (variableDestino instanceof NodoIden) {
+            Declaracion dec = ((NodoIden) variableDestino).getVinculo();
+            // TODO: ver si los parámetros pueden ser constantes o no
+            if (dec instanceof NodoDecVariable && ((NodoDecVariable) dec).esConstante()) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: No se puede modificar el valor del identificador '" +
+                        ((NodoIden) variableDestino).getNombre() + "' porque es una CONSTANTE.");
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoMientras extends Instruccion {
 
@@ -33,9 +34,17 @@ public class NodoMientras extends Instruccion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
+        // Validamos ascendentemente la condición, que debe ser booleana
         if (condicion != null) {
             condicion.chequea(ts);
+            if (condicion.getTipo() != null && !condicion.getTipo().equals(Tipos.BOOLEANO)) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: La condición de la instrucción 'SI' debe ser de tipo booleano. Se encontró: " +
+                        condicion.getTipo());
+            }
         }
+
+        // Validamos el bloque, que si es NodoBloque abrirá y cerrará su propio ámbito
         if (bloque != null) {
             bloque.chequea(ts);
         }

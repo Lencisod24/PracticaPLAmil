@@ -43,7 +43,7 @@ public class NodoBloque extends Instruccion {
     @Override
     public void chequea(TablaSimbolos ts) {
         ts.abreBloque();
-        
+
         if (instrucciones != null) {
             for (Instruccion inst : instrucciones) {
                 if (inst != null) {
@@ -51,7 +51,7 @@ public class NodoBloque extends Instruccion {
                 }
             }
         }
-        
+
         ts.cierraBloque();
     }
 }
