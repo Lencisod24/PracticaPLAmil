@@ -1,7 +1,8 @@
 package ast;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import semantico.TablaSimbolos;
 
 public class NodoStruct extends Declaracion {
@@ -13,6 +14,16 @@ public class NodoStruct extends Declaracion {
         super(fil, col);
         this.identificador = identificador;
         this.campos = campos;
+    }
+
+    @Override
+    public String getIdentificador() {
+        return this.identificador;
+    }
+
+    @Override
+    public String getTipo() {
+        return this.identificador;
     }
 
     @Override
@@ -30,22 +41,34 @@ public class NodoStruct extends Declaracion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        boolean insertado = ts.insertaId(identificador, this);
-        if (!insertado) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                            "]: El struct '" + identificador + "' ya ha sido declarado en este ámbito.");
-        }
-        
+        // Abrimos un bloque para chequear los campos
         ts.abreBloque();
-        
+
+        // Preparamos el mapa que guardará los campos en la Tabla de Símbolos
+        Map<String, String> mapaCampos = new HashMap<>();
+
         if (campos != null) {
             for (Declaracion campo : campos) {
                 if (campo != null) {
+                    // Validamos el campo
                     campo.chequea(ts);
+
+                    // Buscamos el campo y su tipo en la tabla de símbolos, y los añadimos al mapa
+                    // de campos
+                    String nombreCampo = campo.getIdentificador();
+                    String tipoCampo = campo.getTipo();
+                    mapaCampos.put(nombreCampo, tipoCampo);
                 }
             }
         }
-        
+
+        // Cerramos el bloque
         ts.cierraBloque();
+
+        // Guardamos la definición del struct en la tabla de símbolos
+        if (!ts.registrarStruct(identificador, mapaCampos)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El struct '" + identificador + "' ya ha sido definido anteriormente.");
+        }
     }
 }

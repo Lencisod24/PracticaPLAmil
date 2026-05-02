@@ -1,10 +1,10 @@
 package ast;
 
+import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
 
 public class NodoParametro extends Declaracion {
 
-    
     private String tipo;
     private String identificador;
     private boolean porReferencia;
@@ -17,6 +17,16 @@ public class NodoParametro extends Declaracion {
     }
 
     @Override
+    public String getIdentificador() {
+        return this.identificador;
+    }
+
+    @Override
+    public String getTipo() {
+        return this.tipo;
+    }
+
+    @Override
     public String toString(String tab) {
         String ref = porReferencia ? "ref" : "val";
         return tab + "PARAMETRO: (" + ref + ") " + tipo + " " + identificador + "\n";
@@ -24,10 +34,15 @@ public class NodoParametro extends Declaracion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        boolean insertado = ts.insertaId(identificador, this);
-        if (!insertado) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                            "]: El parámetro '" + identificador + "' ya ha sido declarado o su nombre choca con otro identificador en este ámbito.");
+        // Comprobamos que existe el tipo (los presentables son los primitivos)
+        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
+            System.err.println("Error Semántico: El tipo '" + tipo + "' no existe.");
+        }
+
+        // Lo añadimos a la tabla aunque el tipo sea inválido para reservar el
+        // identificador en el ámbito
+        if (!ts.insertaId(identificador, this)) {
+            System.err.println("Error Semántico: El identificador '" + identificador + "' ya existe.");
         }
     }
 }

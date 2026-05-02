@@ -1,7 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
-import semantico.Tipos; // Importante para usar Tipos.ERROR
+import semantico.Tipos;
 
 public class NodoAccesoStruct extends Designador {
 

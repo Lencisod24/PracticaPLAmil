@@ -21,7 +21,8 @@ public class NodoEntero extends Expresion {
     public String toString(String tab) {
         return tab + "Entero: " + valor + "\n";
     }
-        @Override
+
+    @Override
     public void chequea(TablaSimbolos ts) {
         this.setTipo(Tipos.ENTERO);
     }

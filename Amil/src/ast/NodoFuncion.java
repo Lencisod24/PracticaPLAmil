@@ -6,7 +6,6 @@ import semantico.TablaSimbolos;
 
 public class NodoFuncion extends Declaracion {
 
-    
     private String tipoRetorno;
     private String identificador;
     private List<NodoParametro> parametros;
@@ -19,6 +18,16 @@ public class NodoFuncion extends Declaracion {
         this.identificador = identificador;
         this.parametros = parametros;
         this.bloque = bloque;
+    }
+
+    @Override
+    public String getIdentificador() {
+        return this.identificador;
+    }
+
+    @Override
+    public String getTipo() {
+        return this.tipoRetorno;
     }
 
     @Override
@@ -37,12 +46,12 @@ public class NodoFuncion extends Declaracion {
     public void chequea(TablaSimbolos ts) {
         boolean insertado = ts.insertaId(identificador, this);
         if (!insertado) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                            "]: La función '" + identificador + "' ya ha sido declarada en este ámbito.");
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: La función '" + identificador + "' ya ha sido declarada en este ámbito.");
         }
-        
+
         ts.abreBloque();
-        
+
         if (parametros != null) {
             for (NodoParametro param : parametros) {
                 if (param != null) {
@@ -50,13 +59,14 @@ public class NodoFuncion extends Declaracion {
                 }
             }
         }
-        
-        //al hacer bloque otro abreBloque() tendremos que plantear si parametros y variables
-        //locales de funcion deben estar al mismo nivel
+
+        // al hacer bloque otro abreBloque() tendremos que plantear si parametros y
+        // variables
+        // locales de funcion deben estar al mismo nivel
         if (bloque != null) {
             bloque.chequea(ts);
         }
-        
+
         ts.cierraBloque();
     }
 }

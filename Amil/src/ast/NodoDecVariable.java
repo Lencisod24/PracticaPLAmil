@@ -2,11 +2,12 @@ package ast;
 
 import java.util.List;
 
+import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoDecVariable extends Declaracion {
 
-    
     private String tipo;
     private String identificador;
     private boolean esConstante;
@@ -22,6 +23,16 @@ public class NodoDecVariable extends Declaracion {
     }
 
     @Override
+    public String getIdentificador() {
+        return this.identificador;
+    }
+
+    @Override
+    public String getTipo() {
+        return this.tipo;
+    }
+
+    @Override
     public String toString(String tab) {
         String pre = esConstante ? "CONST " : "";
         String arr = (dimensionesArray != null && !dimensionesArray.isEmpty()) ? "[ARRAY] " : "";
@@ -30,18 +41,35 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
+        // Validamos las expresiones de las dimensiones
         if (dimensionesArray != null) {
             for (Expresion dim : dimensionesArray) {
                 if (dim != null) {
+                    // Evaluación ascendente del nodo de la dimensión
                     dim.chequea(ts);
+
+                    // Las dimensiones deben ser estrictamente enteras
+                    if (dim.getTipo() != null && !dim.getTipo().equals(Tipos.ENTERO)) {
+                        System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                                "]: La dimensión del array '" + identificador +
+                                "' debe ser de tipo entero. Se encontró: " + dim.getTipo());
+                    }
                 }
             }
         }
-        boolean insertado = ts.insertaId(identificador, this);
 
-        if (!insertado) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                               "]: El identificador '" + identificador + "' ya ha sido declarado en este ámbito.");
+        // Validamos que el tipo base existe
+        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El tipo '" + tipo + "' de la variable '" + identificador +
+                    "' no está definido (no es un tipo básico ni un struct conocido).");
+        }
+
+        // Insertamos en la tabla de símbolos
+        if (!ts.insertaId(identificador, this)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El identificador '" + identificador +
+                    "' ya ha sido declarado en este ámbito.");
         }
     }
 }

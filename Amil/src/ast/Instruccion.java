@@ -6,5 +6,4 @@ public abstract class Instruccion extends ASTNode {
         super(fil, col, NodeKind.INSTRUCCION);
     }
 
-    
 }
