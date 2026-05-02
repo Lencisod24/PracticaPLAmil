@@ -32,6 +32,11 @@ public class ComprobadorTipos {
         return false;
     }
 
+    // Comprueba que un tipo sea numérico
+    public static boolean esNumerico(String tipo) {
+        return tipo.equals(Tipos.ENTERO) || tipo.equals(Tipos.REAL);
+    }
+
     // Comprueba si dos tipos son comparables para operaciones de igualdad y
     // relacionales
     public static boolean tiposComparables(String tipo1, String tipo2) {
@@ -40,8 +45,7 @@ public class ComprobadorTipos {
         }
 
         // Si son del mismo tipo o ambos son numéricos
-        if (tipo1.equals(tipo2) || ((tipo1.equals(Tipos.ENTERO) || tipo1.equals(Tipos.REAL))
-                && (tipo2.equals(Tipos.ENTERO) || tipo2.equals(Tipos.REAL)))) {
+        if (tipo1.equals(tipo2) || ((esNumerico(tipo1)) && (esNumerico(tipo2)))) {
             return true;
         }
 

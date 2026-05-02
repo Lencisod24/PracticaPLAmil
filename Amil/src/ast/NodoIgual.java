@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 import semantico.ComprobadorTipos;
 
 public class NodoIgual extends ExpresionBinaria {
@@ -16,21 +17,36 @@ public class NodoIgual extends ExpresionBinaria {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        opIzq().chequea(ts);
-        opDer().chequea(ts);
+        // Evaluamos los hijos con bottom-up
+        if (opIzq() != null) {
+            opIzq().chequea(ts);
+        }
+        if (opDer() != null) {
+            opDer().chequea(ts);
+        }
 
-        if (opIzq().getTipo() == null || opDer().getTipo() == null ||
-                opIzq().getTipo().equals("error") || opDer().getTipo().equals("error")) {
-            this.setTipo("error");
+        // Extraemos los tipos
+        String tipoIzq = (opIzq() != null && opIzq().getTipo() != null)
+                ? opIzq().getTipo()
+                : Tipos.ERROR;
+
+        String tipoDer = (opDer() != null && opDer().getTipo() != null)
+                ? opDer().getTipo()
+                : Tipos.ERROR;
+
+        if (tipoIzq.equals(Tipos.ERROR) || tipoDer.equals(Tipos.ERROR)) {
+            this.setTipo(Tipos.ERROR);
             return;
         }
 
-        if (ComprobadorTipos.tiposComparables(opIzq().getTipo(), opDer().getTipo())) {
-            this.setTipo("booleano");
+        // Vemos si son comparables
+        if (ComprobadorTipos.tiposComparables(tipoIzq, tipoDer)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: Tipos no comparables con '=='. No se puede comparar '" +
+                    tipoIzq + "' con '" + tipoDer + "'.");
+            this.setTipo(Tipos.ERROR);
         } else {
-            System.err.println("ERROR SEMÁNTICO (Fila " + this.getFila() + "): Tipos no comparables. " +
-                    "No se puede comparar '" + opIzq().getTipo() + "' con '" + opDer().getTipo() + "'.");
-            this.setTipo("error");
+            this.setTipo(Tipos.BOOLEANO);
         }
     }
 }
