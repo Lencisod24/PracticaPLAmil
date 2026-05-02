@@ -1,11 +1,12 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoMod extends ExpresionBinaria {
     public NodoMod(int fil, int col, Expresion opIzq, Expresion opDer) {
         super(fil, col, opIzq, opDer);
-        this.kind = KindE.MOD; 
+        this.kind = KindE.MOD;
     }
 
     @Override
@@ -15,11 +16,36 @@ public class NodoMod extends ExpresionBinaria {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        if (opIzq() != null) {
+        // Evaluación ascendente
+        if (opIzq() != null)
             opIzq().chequea(ts);
-        }
-        if (opDer() != null) {
+        if (opDer() != null)
             opDer().chequea(ts);
+
+        // Extraemos los tipos
+        String tipoIzq = (opIzq() != null && opIzq().getTipo() != null) ? opIzq().getTipo() : Tipos.ERROR;
+        String tipoDer = (opDer() != null && opDer().getTipo() != null) ? opDer().getTipo() : Tipos.ERROR;
+
+        if (tipoIzq.equals(Tipos.ERROR) || tipoDer.equals(Tipos.ERROR)) {
+            this.setTipo(Tipos.ERROR);
+            return;
+        }
+
+        boolean hayError = false;
+
+        // Ambos operandos deben ser enteros
+        if (!tipoIzq.equals(Tipos.ENTERO) || !tipoDer.equals(Tipos.ENTERO)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El operador módulo ('%') solo admite operandos de tipo 'entero'. Se encontraron '" +
+                    tipoIzq + "' y '" + tipoDer + "'.");
+            hayError = true;
+        }
+
+        // Resultado siempre entero
+        if (hayError) {
+            this.setTipo(Tipos.ERROR);
+        } else {
+            this.setTipo(Tipos.ENTERO);
         }
     }
 }
