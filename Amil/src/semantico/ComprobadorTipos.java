@@ -25,10 +25,17 @@ public class ComprobadorTipos {
         if (tipoDestino.equals(tipoValor)) {
             return true;
         }
+
+        // Para poder inicializar punteros a null
+        if (Tipos.esPuntero(tipoDestino) && tipoValor.equals(Tipos.NULL)) {
+            return true;
+        }
+
         // Para poder asignar enteros a reales
         if (tipoDestino.equals(Tipos.REAL) && tipoValor.equals(Tipos.ENTERO)) {
             return true;
         }
+
         return false;
     }
 

@@ -8,6 +8,7 @@ public class Tipos {
     public static final String CARACTER = "caracter";
     public static final String VACIO = "vacio";
     public static final String ERROR = "error";
+    public static final String NULL = "null";
 
     private Tipos() {
     }

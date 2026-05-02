@@ -2,5 +2,5 @@ princ
 ini
     const entero: x = 1 + a; 
     entero : y;
-    puntero entero: z;
+    puntero caca: z;
 fin

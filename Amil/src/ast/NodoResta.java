@@ -33,7 +33,6 @@ public class NodoResta extends ExpresionBinaria {
         }
 
         // Ambos deben ser tipos numéricos
-
         if (!ComprobadorTipos.esNumerico(tipoDer) || !ComprobadorTipos.esNumerico(tipoDer)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: Operación aritmética '-' inválida. Se esperaban tipos numéricos, pero se encontraron '" +

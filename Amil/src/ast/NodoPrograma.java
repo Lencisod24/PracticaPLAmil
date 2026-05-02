@@ -4,7 +4,6 @@ import java.util.List;
 
 import semantico.TablaSimbolos;
 
-
 public class NodoPrograma extends ASTNode {
 
     private List<Declaracion> declaracionesGlobales;
@@ -32,7 +31,7 @@ public class NodoPrograma extends ASTNode {
     }
 
     @Override
-    public String toString(String tab) {    
+    public String toString(String tab) {
         StringBuilder sb = new StringBuilder();
         sb.append(tab).append("PROGRAMA\n");
 
@@ -50,8 +49,10 @@ public class NodoPrograma extends ASTNode {
             }
         }
 
-        sb.append(tab).append("  [Bloque Principal (princ)]\n");
-        sb.append(bloquePrincipal.toString(tab + "    "));
+        if (bloquePrincipal != null) {
+            sb.append(tab).append("  [Bloque Principal (princ)]\n");
+            sb.append(bloquePrincipal.toString(tab + "    "));
+        }
 
         return sb.toString();
     }

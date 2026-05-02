@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoNuevo extends Expresion {
 
@@ -25,7 +26,19 @@ public class NodoNuevo extends Expresion {
     @Override
     public void chequea(TablaSimbolos ts) {
         if (expresionTamano != null) {
+            // Evaluamos la expresión ascendentemente
             expresionTamano.chequea(ts);
+
+            // Comprobamos que sea de tipo entero
+            if (expresionTamano.getTipo() != null && !expresionTamano.getTipo().equals(Tipos.ENTERO)) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: La expresión de tamaño para la reserva de memoria (nuevo) debe ser de tipo entero. Se encontró: "
+                        + expresionTamano.getTipo());
+                this.setTipo(Tipos.ERROR);
+            } else {
+                // Devolvemos un puntero a vacío, al que se asignará un tipo una vez se asigne
+                this.setTipo("puntero a " + Tipos.VACIO);
+            }
         }
     }
 }
