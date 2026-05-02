@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos; // Importante para usar Tipos.ERROR
 
 public class NodoAccesoStruct extends Designador {
 
@@ -30,9 +31,42 @@ public class NodoAccesoStruct extends Designador {
     }
 
     @Override
-public void chequea(TablaSimbolos ts) {
-    if (variableStruct != null) {
-        variableStruct.chequea(ts);
+    public void chequea(TablaSimbolos ts) {
+        // Chequeamos el designador con evaluación bottom-up
+        if (variableStruct != null) {
+            variableStruct.chequea(ts);
+        }
+
+        // Extraemos su tipo
+        String tipoVar = (variableStruct != null && variableStruct.getTipo() != null)
+                ? variableStruct.getTipo()
+                : Tipos.ERROR;
+
+        if (tipoVar.equals(Tipos.ERROR)) {
+            this.setTipo(Tipos.ERROR);
+            return;
+        }
+
+        // Comprobamos que sea un struct
+        if (!ts.esStructDefinido(tipoVar)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: Se intentó acceder al campo '" + campo + "' en una variable de tipo '" +
+                    tipoVar + "', que no es un struct.");
+            this.setTipo(Tipos.ERROR);
+            return;
+        }
+
+        // Comprobamos que el struct tenga ese campo
+        String tipoCampo = ts.getTipoCampoDeStruct(tipoVar, campo);
+
+        if (tipoCampo == null) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El struct '" + tipoVar + "' no contiene el campo '" + campo + "'.");
+            this.setTipo(Tipos.ERROR);
+            return;
+        }
+
+        // Asignamos al nodo el tipo del campo
+        this.setTipo(tipoCampo);
     }
-}
 }

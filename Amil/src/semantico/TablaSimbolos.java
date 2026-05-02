@@ -7,8 +7,11 @@ import java.util.Stack;
 
 public class TablaSimbolos {
 
-    // Pila de tablas donde cada mapa es la tabla de un ámbito
+    // Pila de tablas para manejar la estructura de bloques anidados
     private Stack<Map<String, ASTNode>> pila;
+
+    // Para manejar los structs independientemente del ámbito
+    private Map<String, Map<String, String>> structsDefinidos;
 
     public TablaSimbolos() {
         inicializa();
@@ -17,6 +20,7 @@ public class TablaSimbolos {
 
     public void inicializa() {
         pila = new Stack<>();
+        structsDefinidos = new HashMap<>();
     }
 
     public void abreBloque() {
@@ -30,9 +34,8 @@ public class TablaSimbolos {
     public boolean insertaId(String id, ASTNode puntero) {
         Map<String, ASTNode> cima = pila.peek();
 
-        // Comprobación de error que salta si ya está declarada en este mismo bloque
         if (cima.containsKey(id)) {
-            return false; // Error semántico, variable duplicada
+            return false;
         }
 
         cima.put(id, puntero);
@@ -45,6 +48,26 @@ public class TablaSimbolos {
             if (tablaBloque.containsKey(id)) {
                 return tablaBloque.get(id);
             }
+        }
+        return null;
+    }
+
+    public boolean registrarStruct(String nombreStruct, Map<String, String> campos) {
+        if (structsDefinidos.containsKey(nombreStruct)) {
+            return false;
+        }
+        structsDefinidos.put(nombreStruct, campos);
+        return true;
+    }
+
+    public boolean esStructDefinido(String nombreTipo) {
+        return structsDefinidos.containsKey(nombreTipo);
+    }
+
+    public String getTipoCampoDeStruct(String nombreStruct, String nombreCampo) {
+        if (esStructDefinido(nombreStruct)) {
+            Map<String, String> camposDelStruct = structsDefinidos.get(nombreStruct);
+            return camposDelStruct.get(nombreCampo);
         }
         return null;
     }
