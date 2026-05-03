@@ -44,7 +44,8 @@ public class NodoFuncion extends Declaracion {
     public List<NodoParametro> getParametros(){
         return parametros;
     }
-
+    //TODO: AQUÍ HAY QUE MIRAR QUE ESTEMOS EN EL ÁMBITO GENERAL QUE SE CREA CUANDO SE CREA EL PROGRAMA (NO SE QUE INDEX DE LA LISTA DE TABLASIMBOLOS ES)
+    //Y AHÍ VER QUE NO SE HA DECLARADO ANTES
     @Override
     public void chequea(TablaSimbolos ts) {
         boolean insertado = ts.insertaId(identificador, this);

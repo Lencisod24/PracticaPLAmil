@@ -28,6 +28,10 @@ public abstract class ASTNode {
     }
 
     public abstract String toString(String tab);
-
+    
+    /*public abstract void generate_code_instr(StringBuilder code_builder,int identado); 
+    public abstract void generate_code_desig(StringBuilder code_builder,int identado);
+    public abstract void generate_code_expr(StringBuilder code_builder,int identado);*/
+    
     public abstract void chequea(TablaSimbolos ts);
 }

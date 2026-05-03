@@ -22,7 +22,7 @@ public class NodoDiv extends ExpresionBinaria {
             opIzq().chequea(ts);
         if (opDer() != null)
             opDer().chequea(ts);
-
+        
         // Extraemos los tipos
         String tipoIzq = (opIzq() != null && opIzq().getTipo() != null) ? opIzq().getTipo() : Tipos.ERROR;
         String tipoDer = (opDer() != null && opDer().getTipo() != null) ? opDer().getTipo() : Tipos.ERROR;
@@ -39,6 +39,13 @@ public class NodoDiv extends ExpresionBinaria {
                     tipoIzq + "' y '" + tipoDer + "'.");
             this.setTipo(Tipos.ERROR);
             return;
+        }
+        //controlamos la división entre 0;
+        
+        if(opDer().toString()=="0"){
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: Operación aritmética '+' inválida. No se puede dividir entre 0");
+            this.setTipo(Tipos.ERROR);
         }
 
         // Asignamos el tipo resultante
