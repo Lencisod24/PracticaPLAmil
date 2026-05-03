@@ -5,6 +5,7 @@ java -jar lib/java-cup-11b.jar -parser AnalizadorSintactico -symbols sym -destdi
 java -jar lib/jflex.jar src/alex/AnalizadorLexicoExp.l
 
 GENERAR .CLASS: 
-javac -encoding UTF-8 -d bin -cp "lib/*;src" src/alex/*.java src/ast/*.java src/constructorast/*.java src/errors/*.java
+javac -encoding UTF-8 -d bin -cp "lib/*;src" src/alex/*.java src/ast/*.java src/constructorast/*.java src/errors/*.java src/semantico/*.java
+
 EJEUCTAR:
 java -cp "bin;lib/*" constructorast.Main prueba1.txt

@@ -43,7 +43,8 @@ public class NodoParametro extends Declaracion {
         // Lo añadimos a la tabla aunque el tipo sea inválido para reservar el
         // identificador en el ámbito
         if (!ts.insertaId(identificador, this)) {
-            System.err.println("Error Semántico: El identificador '" + identificador + "' ya existe.");
+            System.err.println("Error Semántico: El identificador '[" + getFila() + ":" + getColumna() + "]: "
+                    + identificador + "' ya existe.");
         }
     }
 }

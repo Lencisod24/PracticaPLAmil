@@ -93,7 +93,8 @@ public class NodoDecVariable extends Declaracion {
 
         // Insertamos en la tabla de símbolos
         if (!ts.insertaId(identificador, this)) {
-            System.err.println("Error Semántico: '" + identificador + "' ya declarado en este ámbito.");
+            System.err.println("Error Semántico: '[" + getFila() + ":" + getColumna() + "]: " + identificador
+                    + "' ya declarado en este ámbito.");
         }
     }
 }

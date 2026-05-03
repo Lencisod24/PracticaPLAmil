@@ -125,6 +125,7 @@ Struct ::= STRUCT:s IDEN:id ABREBLOQUE Cuerpo_Struct:cuerpo CIERRABLOQUE
 
 Cuerpo_Struct ::= Cuerpo_Struct:l Dec_Variable:d {: if(d != null) l.add(d); RESULT = l; :} 
                 | /* epsilon */ {: RESULT = new ArrayList<Declaracion>(); :} ;
+
 // 6. Funciones
 Funcion ::= FUNC:f Tipo:t PAP Parametros:p PCIERRE DOSPUNTOS IDEN:id Bloque:b {: RESULT = new NodoFuncion(fleft, fright, t, id.lexema, p, b); :} ;
 
@@ -137,8 +138,8 @@ Lista_Parametros ::= Lista_Parametros:l COMA Param:p {: l.add(p); RESULT = l; :}
 Param ::= VAL:v IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(vleft, vright, t, id.lexema, false); :} // Paso por valor
         | REF:r IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(rleft, rright, t, id.lexema, true); :} ; // Paso por referencia
 
-Instruccion ::= Dec_Variable:d                                            {: RESULT = d; :} // Declaraciones de variables
-              | Designador:d ASIGNACION Expresion:e2 PUNTOYCOMA            {: RESULT = new NodoAsignacion(dleft, dright, d, e2); :} // Asignación genérica
+Instruccion ::= Dec_Variable:d                                          {: RESULT = d; :} // Declaraciones de variables
+              | Designador:d ASIGNACION:op Expresion:e2 PUNTOYCOMA      {: RESULT = new NodoAsignacion(opleft, opright, d, e2); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, (Expresion) e); :} // Salida
               | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id.lexema); :} // Entrada
               | Expresion:e PUNTOYCOMA                                  {: RESULT = new NodoInstruccionExpresion(eleft,eright,e); :} // Evaluar sin asignar (ej: métodos)
@@ -161,53 +162,62 @@ Designador ::= Designador:d CA Expresion:e CC                    {: RESULT = new
 Desig1 ::= IDEN:id                                               {: RESULT = new NodoIden(idleft, idright, id.lexema); :}                   
           |POR:op IDEN:id                         {: RESULT = new NodoDesreferencia(opleft, opright, new NodoIden(idleft, idright, id.lexema)); :}
           |POR:op1  PAP Designador:d1 PCIERRE          {: RESULT =  new NodoDesreferencia(op1left, op1right, d1); :} ;                                                  
-           
-       
-          
-         
-
-        
                                           
           
-        
-                                     
-               
                
 /* ========================================================
    EXPRESIONES Y PRECEDENCIA DE OPERADORES
-   ======================================================== */               
-               
-             
-// Nivel 9: Lógico OR (||)
-Expresion ::= Expresion:e1 OR E1:e2 {: RESULT = new NodoOr(e1left, e1right, e1, e2); :} 
-            | E1:e                  {: RESULT = e; :} ;
+   ======================================================== */ 
 
-// Nivel 8: Lógico AND (&&)
-E1 ::= E1:e1 AND E2:e2 {: RESULT = new NodoAnd(e1left, e1right, e1, e2); :} 
-     | E2:e            {: RESULT = e; :} ;
+// Nivel 9: OR
+Expresion ::= Expresion:e1 OR:op E1:e2 
+                {: RESULT = new NodoOr(opleft, opright, e1, e2); :}
+            | E1:e                  
+                {: RESULT = e; :} ;
 
-// Nivel 7: Igualdad (==, !=)
-E2 ::= E2:e1 IGUAL E3:e2 {: RESULT = new NodoIgual(e1left, e1right, e1, e2); :} 
-     | E2:e1 DIST E3:e2  {: RESULT = new NodoDistinto(e1left, e1right, e1, e2); :} 
-     | E3:e              {: RESULT = e; :} ;
+// Nivel 8: AND
+E1 ::= E1:e1 AND:op E2:e2 
+            {: RESULT = new NodoAnd(opleft, opright, e1, e2); :}
+     | E2:e            
+            {: RESULT = e; :} ;
 
-// Nivel 6: Relacionales (<, <=, >, >=)
-E3 ::= E3:e1 MENOR E4:e2      {: RESULT = new NodoMenor(e1left, e1right, e1, e2); :} 
-     | E3:e1 MAYOR E4:e2      {: RESULT = new NodoMayor(e1left, e1right, e1, e2); :} 
-     | E3:e1 MENORIGUAL E4:e2 {: RESULT = new NodoMenorIgual(e1left, e1right, e1, e2); :} 
-     | E3:e1 MAYORIGUAL E4:e2 {: RESULT = new NodoMayorIgual(e1left, e1right, e1, e2); :} 
-     | E4:e                   {: RESULT = e; :} ;
+// Nivel 7: igualdad
+E2 ::= E2:e1 IGUAL:op E3:e2 
+            {: RESULT = new NodoIgual(opleft, opright, e1, e2); :}
+     | E2:e1 DIST:op E3:e2  
+            {: RESULT = new NodoDistinto(opleft, opright, e1, e2); :}
+     | E3:e              
+            {: RESULT = e; :} ;
 
-// Nivel 5: Suma y Resta Binarias (+, -)
-E4 ::= E4:e1 MAS E5:e2   {: RESULT = new NodoSuma(e1left, e1right, e1, e2); :} 
-     | E4:e1 MENOS E5:e2 {: RESULT = new NodoResta(e1left, e1right, e1, e2); :} 
-     | E5:e              {: RESULT = e; :} ;
+// Nivel 6: relacionales
+E3 ::= E3:e1 MENOR:op E4:e2      
+            {: RESULT = new NodoMenor(opleft, opright, e1, e2); :}
+     | E3:e1 MAYOR:op E4:e2      
+            {: RESULT = new NodoMayor(opleft, opright, e1, e2); :}
+     | E3:e1 MENORIGUAL:op E4:e2 
+            {: RESULT = new NodoMenorIgual(opleft, opright, e1, e2); :}
+     | E3:e1 MAYORIGUAL:op E4:e2 
+            {: RESULT = new NodoMayorIgual(opleft, opright, e1, e2); :}
+     | E4:e                   
+            {: RESULT = e; :} ;
 
-// Nivel 4: Multiplicación, División, Módulo (*, /, %)
-E5 ::= E5:e1 POR E6:e2 {: RESULT = new NodoMul(e1left, e1right, e1, e2); :} 
-     | E5:e1 DIV E6:e2 {: RESULT = new NodoDiv(e1left, e1right, e1, e2); :} 
-     | E5:e1 MOD E6:e2 {: RESULT = new NodoMod(e1left, e1right, e1, e2); :} 
-     | E6:e            {: RESULT = e; :} ;
+// Nivel 5: suma y resta
+E4 ::= E4:e1 MAS:op E5:e2   
+            {: RESULT = new NodoSuma(opleft, opright, e1, e2); :}
+     | E4:e1 MENOS:op E5:e2 
+            {: RESULT = new NodoResta(opleft, opright, e1, e2); :}
+     | E5:e              
+            {: RESULT = e; :} ;
+
+// Nivel 4: multiplicacion, division, modulo
+E5 ::= E5:e1 POR:op E6:e2 
+            {: RESULT = new NodoMul(opleft, opright, e1, e2); :}
+     | E5:e1 DIV:op E6:e2 
+            {: RESULT = new NodoDiv(opleft, opright, e1, e2); :}
+     | E5:e1 MOD:op E6:e2 
+            {: RESULT = new NodoMod(opleft, opright, e1, e2); :}
+     | E6:e            
+            {: RESULT = e; :} ;
 
 // Nivel 1: Prefijos unarios (*, &, !, +, -)
 // He integrado las opciones de Op_Unario directamente aquí para capturar fácilmente la fila y columna de cada operador.
@@ -225,8 +235,8 @@ E7 ::= ENTERO:e                              {: RESULT = new NodoEntero(eleft, e
      | FALSO:f                               {: RESULT = new NodoBooleano(fleft, fright, "falso"); :}
      | NULL:n                                {: RESULT = new NodoNull(nleft, nright); :}
      | Llamada_Funcion:f                     {: RESULT = f; :}
-     | NUEVO PAP Expresion:e PCIERRE         {: RESULT = new NodoNuevo(eleft, eright, e); :}
-     | SIZE PAP Tipo:t PCIERRE               {: RESULT = new NodoSize(tleft, tright, t); :}
+     | NUEVO:op PAP Expresion:e PCIERRE      {: RESULT = new NodoNuevo(opleft, opright, e); :}
+     | SIZE:op PAP Tipo:t PCIERRE            {: RESULT = new NodoSize(opleft, opright, t); :}
      | PAP Expresion:e PCIERRE               {: RESULT = e; :} 
      | Designador:d                          {: RESULT = d; :} ;
       

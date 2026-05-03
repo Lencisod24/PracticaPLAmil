@@ -1,4 +1,5 @@
 package ast;
+
 import java.util.ArrayList;
 
 import semantico.TablaSimbolos;
@@ -28,7 +29,7 @@ public class NodoLlamadaFuncion extends Expresion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        
+
         if (argumentos != null) {
             for (Expresion arg : argumentos) {
                 if (arg != null) {
@@ -37,48 +38,45 @@ public class NodoLlamadaFuncion extends Expresion {
             }
         }
         ASTNode def = ts.buscaId(id);
-        if(def == null){
-            System.err.println("Error: " + id + " no declarado.");
+        if (def == null) {
+            System.err.println("Error: [" + getFila() + ":" + getColumna() + "]: " + id + " no declarado.");
             this.setTipo(Tipos.ERROR);
-        }
-        else if (!(def instanceof NodoFuncion)) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                           "]: El identificador '" + id + "' no corresponde a una función.");
+        } else if (!(def instanceof NodoFuncion)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El identificador '" + id + "' no corresponde a una función.");
             this.setTipo(Tipos.ERROR);
             return;
-        }
-        else{//valida
+        } else {// valida
             NodoFuncion funcion = (NodoFuncion) def;
-            
+
             int numArgs = (argumentos == null) ? 0 : argumentos.size();
             int numParams = (funcion.getParametros() == null) ? 0 : funcion.getParametros().size();
 
-            //Comprobamos la cantidad de parámetros
+            // Comprobamos la cantidad de parámetros
             if (numArgs != numParams) {
-                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                                "]: Número incorrecto de argumentos para la función '" + id + 
-                                "'. Esperados: " + numParams + ", Dados: " + numArgs);
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: Número incorrecto de argumentos para la función '" + id +
+                        "'. Esperados: " + numParams + ", Dados: " + numArgs);
                 this.setTipo(Tipos.ERROR);
-            } 
-            else {
+            } else {
                 boolean err = false;
-                //primero  comprobamos los argumentos
+                // primero comprobamos los argumentos
                 for (int i = 0; i < numArgs; i++) {
                     Expresion arg = argumentos.get(i);
                     NodoParametro param = funcion.getParametros().get(i);
-                    
+
                     String tipoArg = (arg != null && arg.getTipo() != null) ? arg.getTipo() : Tipos.ERROR;
-                    String tipoParam = param.getTipo(); 
-                    
+                    String tipoParam = param.getTipo();
+
                     if (!tipoArg.equals(Tipos.ERROR) && !tipoArg.equals(tipoParam)) {
-                        System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                                        "]: Tipo de argumento incorrecto en la posición " + (i + 1) + 
-                                        " de la función '" + id + "'. Esperado: '" + tipoParam + 
-                                        "', Dado: '" + tipoArg + "'.");
+                        System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                                "]: Tipo de argumento incorrecto en la posición " + (i + 1) +
+                                " de la función '" + id + "'. Esperado: '" + tipoParam +
+                                "', Dado: '" + tipoArg + "'.");
                         err = true;
                     }
                 }
-                
+
                 // 3. Asignamos el tipo a la LlamadaFuncion
                 if (err) {
                     this.setTipo(Tipos.ERROR);
@@ -86,9 +84,8 @@ public class NodoLlamadaFuncion extends Expresion {
                     this.setTipo(funcion.getTipo());
                 }
 
-
             }
 
         }
-    }   
+    }
 }
