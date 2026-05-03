@@ -14,4 +14,7 @@ ini
         fin
         i = i + 1;
     fin
+    entero : tam_entero = size(entero);
+    entero : tam_real = size(real);
+    puntero entero : ptr_real = nuevo(size(real));
 fin

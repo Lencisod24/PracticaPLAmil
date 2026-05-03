@@ -12,7 +12,7 @@ struct Rectangulo ini
     entero : alto;
 fin
 
-func entero (val a : entero, ref b : entero) : resulato_suma
+func entero (val a : entero, ref b : entero) : resultado_suma
 ini
     resultado_suma = a + b;
     b = b + 1; // Se modifica la variable original al ser pasada por referencia

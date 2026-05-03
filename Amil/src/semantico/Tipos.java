@@ -19,7 +19,7 @@ public class Tipos {
     }
 
     public static String tipoDelArray(String array) {
-        return array.substring(array.lastIndexOf("]") + 1).trim();
+        return array.substring(array.indexOf("]") + 1).trim();
     }
 
     public static boolean esArray(String tipo) {

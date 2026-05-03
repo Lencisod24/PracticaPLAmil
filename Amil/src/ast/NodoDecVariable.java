@@ -35,13 +35,29 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public String getTipo() {
+        if (dimensionesArray != null && !dimensionesArray.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            int dims = dimensionesArray.size();
+            for (int i = 0; i < dims; i++) {
+                sb.append("[]");
+            }
+            sb.append(this.tipo);
+            return sb.toString();
+        }
         return this.tipo;
     }
 
     @Override
     public String toString(String tab) {
         String pre = esConstante ? "CONST " : "";
-        String arr = (dimensionesArray != null && !dimensionesArray.isEmpty()) ? "[ARRAY] " : "";
+        StringBuilder arr = new StringBuilder();
+        if (dimensionesArray != null && !dimensionesArray.isEmpty()) {
+            int dims = dimensionesArray.size();
+            for (int i = 0; i < dims; i++) {
+                arr.append("[ARRAY]");
+            }
+            arr.append(" ");
+        }
         String res = tab + "DECLARACION VARIABLE: " + pre + arr + tipo + " " + identificador;
         if (valorInicial != null) {
             res += " CON VALOR INICIAL:\n" + valorInicial.toString(tab + "  ");
