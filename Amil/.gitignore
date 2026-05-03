@@ -1,0 +1,9 @@
+# Ignorar todos los archivos compilados (.class)
+*.class
+
+# Ignorar carpetas de salida comunes de IDEs y compiladores
+bin/
+out/
+target/
+build/
+
