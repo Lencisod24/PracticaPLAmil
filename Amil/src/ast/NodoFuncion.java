@@ -41,6 +41,9 @@ public class NodoFuncion extends Declaracion {
         sb.append(tab).append("}\n");
         return sb.toString();
     }
+    public List<NodoParametro> getParametros(){
+        return parametros;
+    }
 
     @Override
     public void chequea(TablaSimbolos ts) {
@@ -63,6 +66,7 @@ public class NodoFuncion extends Declaracion {
         // al hacer bloque otro abreBloque() tendremos que plantear si parametros y
         // variables
         // locales de funcion deben estar al mismo nivel
+        // ahora mismo se produce un ocultamiento de los parametros por parte de las variables locales
         if (bloque != null) {
             bloque.chequea(ts);
         }

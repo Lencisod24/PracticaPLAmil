@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoImprimir extends Instruccion {
     
@@ -27,6 +28,14 @@ public class NodoImprimir extends Instruccion {
     public void chequea(TablaSimbolos ts) {
         if (expresion != null) {
             expresion.chequea(ts);
+            String tipoExp = expresion.getTipo();
+            if(tipoExp.equals(Tipos.ERROR)){
+                return;
+            }
+        }
+        else {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
+                           "]: Intento de imprimir una expresión nula.");
         }
     }
 }
