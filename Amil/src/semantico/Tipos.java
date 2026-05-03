@@ -9,6 +9,7 @@ public class Tipos {
     public static final String VACIO = "vacio";
     public static final String ERROR = "error";
     public static final String NULL = "null";
+    public static final String PUNTERO_NUEVO = "puntero_nuevo";
 
     private Tipos() {
     }

@@ -67,8 +67,9 @@ public class NodoDecVariable extends Declaracion {
         }
 
         // Validamos que el tipo base existe
-        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
-            System.err.println("Error Semántico: El tipo '" + tipo + "' no está definido.");
+        if (!ComprobadorTipos.esTipoValido(tipo, ts)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El tipo '" + tipo + "' no está definido.");
         }
 
         // Validar la inicialización en caso de haberla

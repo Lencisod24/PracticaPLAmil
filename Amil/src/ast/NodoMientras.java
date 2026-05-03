@@ -39,7 +39,7 @@ public class NodoMientras extends Instruccion {
             condicion.chequea(ts);
             if (condicion.getTipo() != null && !condicion.getTipo().equals(Tipos.BOOLEANO)) {
                 System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
-                        "]: La condición de la instrucción 'SI' debe ser de tipo booleano. Se encontró: " +
+                        "]: La condición de la instrucción 'MIENTRAS' debe ser de tipo booleano. Se encontró: " +
                         condicion.getTipo());
             }
         }

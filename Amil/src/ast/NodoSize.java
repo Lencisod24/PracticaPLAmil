@@ -24,7 +24,9 @@ public class NodoSize extends Expresion {
     @Override
     public void chequea(TablaSimbolos ts) {
         // Comprobamos que el tipo existe
-        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
+        if (!ComprobadorTipos.esPresentable(tipo)
+                && !Tipos.esPuntero(tipo)
+                && !ts.esStructDefinido(tipo)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: No se puede calcular el tamaño de '" + tipo + "' porque el tipo no existe.");
             this.setTipo(Tipos.ERROR);

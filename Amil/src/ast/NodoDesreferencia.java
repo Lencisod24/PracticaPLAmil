@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoDesreferencia extends Designador {
 
@@ -11,8 +12,6 @@ public class NodoDesreferencia extends Designador {
         this.operando = operando;
         this.kind = KindE.DESREFERENCIA;
     }
-    
-    
 
     public Designador getOperando() {
         return operando;
@@ -28,8 +27,16 @@ public class NodoDesreferencia extends Designador {
     public void chequea(TablaSimbolos ts) {
         if (operando != null) {
             operando.chequea(ts);
+            String tipoOp = operando.getTipo();
+            if (tipoOp == null || tipoOp.equals(Tipos.ERROR)) {
+                this.setTipo(Tipos.ERROR);
+            } else if (!Tipos.esPuntero(tipoOp)) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                        "]: Se intentó desreferenciar una variable de tipo '" + tipoOp + "', que no es un puntero.");
+                this.setTipo(Tipos.ERROR);
+            } else {
+                this.setTipo(Tipos.tipoDelPuntero(tipoOp));
+            }
         }
     }
-
-    
 }

@@ -35,8 +35,9 @@ public class NodoParametro extends Declaracion {
     @Override
     public void chequea(TablaSimbolos ts) {
         // Comprobamos que existe el tipo (los presentables son los primitivos)
-        if (!ComprobadorTipos.esPresentable(tipo) && !ts.esStructDefinido(tipo)) {
-            System.err.println("Error Semántico: El tipo '" + tipo + "' no existe.");
+        if (!ComprobadorTipos.esTipoValido(tipo, ts)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El tipo '" + tipo + "' no está definido.");
         }
 
         // Lo añadimos a la tabla aunque el tipo sea inválido para reservar el

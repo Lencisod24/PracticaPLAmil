@@ -1,13 +1,271 @@
+// ==========================================
+// VARIABLES PRIMITIVAS Y ASIGNACIONES
+// ==========================================
+entero : contador_global = 0;
+real : pi = 3.1416;
+booleano : flag = cierto;
+caracter : letra = 'A';
+cadena : mensaje = "hola mundo";
+
+// ==========================================
+// STRUCTS
+// ==========================================
+struct Punto ini
+    entero : x;
+    entero : y;
+fin
+
+struct Rectangulo ini
+    Punto : origen;
+    entero : ancho;
+    entero : alto;
+fin
+
+// ==========================================
+// FUNCIONES
+// ==========================================
+
+// Función sin retorno
+func vacio () : imprimirMensaje
+ini
+    imprimir("Soy una funcion sin retorno");
+fin
+
+// Función con retorno entero
+func entero (val a : entero, val b : entero) : suma
+ini
+    suma = a + b;
+fin
+
+// Función con retorno real
+func real (val x : real, val y : real) : producto
+ini
+    producto = x * y;
+fin
+
+// Función con retorno booleano
+func booleano (val n : entero) : esPositivo
+ini
+    esPositivo = n > 0;
+fin
+
+// Función con parámetro por referencia
+func vacio (ref n : entero) : incrementar
+ini
+    n = n + 1;
+fin
+
+// Función con varios tipos
 func entero (val a : entero, val b : entero, val c : entero) : sumarTres
 ini
-    entero : suma;
-    suma = a + b + c;
-    sumarTres = suma;
+    entero : tmp;
+    tmp = a + b;
+    sumarTres = tmp + c;
 fin
 
 princ
 ini
-    entero : resultadoFinal;
-    resultadoFinal = sumarTres(10, 20, 30);
-    imprimir(resultadoFinal);
+    // ==========================================
+    // OPERACIONES ARITMÉTICAS
+    // ==========================================
+    entero : a = 10;
+    entero : b = 3;
+    real : x = 2.5;
+    real : y = 4.0;
+
+    entero : s = a + b;
+    entero : r = a - b;
+    entero : p = a * b;
+    entero : d = a / b;
+    entero : m = a % b;
+
+    real : sr = x + y;
+    real : rr = x - y;
+    real : pr = x * y;
+    real : dr = x / y;
+
+    // entero asignable a real
+    real : z = a;
+
+    // operadores unarios
+    entero : neg = -a;
+    entero : pos = +a;
+
+    // ==========================================
+    // OPERACIONES RELACIONALES Y LÓGICAS
+    // ==========================================
+    booleano : b1 = a == b;
+    booleano : b2 = a != b;
+    booleano : b3 = a < b;
+    booleano : b4 = a > b;
+    booleano : b5 = a <= b;
+    booleano : b6 = a >= b;
+
+    // entero y real son comparables entre sí
+    booleano : b7 = x > a;
+    booleano : b8 = a < y;
+
+    booleano : l1 = b1 && b2;
+    booleano : l2 = b1 || b2;
+    booleano : l3 = !b1;
+    booleano : l4 = (b1 && b2) || !b3;
+
+    // ==========================================
+    // CONDICIONALES
+    // ==========================================
+    si a > 0 entonces
+    ini
+        imprimir("a es positivo");
+    fin
+
+    si a > b entonces
+    ini
+        imprimir("a mayor");
+    fin
+    sino
+    ini
+        imprimir("b mayor o iguales");
+    fin
+
+    si (a > 0) && (b > 0) entonces
+    ini
+        imprimir("ambos positivos");
+    fin
+
+    // ==========================================
+    // BUCLES
+    // ==========================================
+    entero : i = 0;
+    mientras i < 10 hacer
+    ini
+        i = i + 1;
+    fin
+
+    entero : j = 0;
+    mientras (j < 5) && (a > 0) hacer
+    ini
+        j = j + 1;
+    fin
+
+    // ==========================================
+    // ARRAYS
+    // ==========================================
+    [10] entero : notas;
+    [5][5] entero : matriz;
+
+    notas[0] = 10;
+    notas[1] = 8;
+    matriz[0][0] = 1;
+    matriz[1][2] = 5;
+
+    entero : nota = notas[0];
+    entero : elem = matriz[1][2];
+
+    // ==========================================
+    // STRUCTS
+    // ==========================================
+    Punto : p1;
+    p1.x = 10;
+    p1.y = 20;
+    imprimir(p1.x);
+    imprimir(p1.y);
+    imprimir(p1.x + p1.y);
+
+    Rectangulo : rect;
+    rect.origen.x = 0;
+    rect.origen.y = 0;
+    rect.ancho = 100;
+    rect.alto = 50;
+
+    // ==========================================
+    // PUNTEROS
+    // ==========================================
+    puntero entero : ptr;
+    ptr = nuevo(size(entero));
+    *ptr = 42;
+    entero : vale = *ptr;
+    ptr = null;
+
+    puntero real : ptr_real;
+    ptr_real = nuevo(size(real));
+    *ptr_real = 3.14;
+    ptr_real = null;
+
+    // puntero a puntero
+    puntero puntero entero : ptr_ptr;
+    ptr_ptr = nuevo(size(puntero entero));
+    ptr_ptr = null;
+
+    // puntero a struct
+    puntero Punto : ptr_punto;
+    ptr_punto = nuevo(size(Punto));
+    ptr_punto = null;
+
+    // ==========================================
+    // LLAMADAS A FUNCIONES
+    // ==========================================
+    entero : resultado = suma(3, 4);
+    imprimir(resultado);
+
+    real : res_real = producto(2.5, 3.0);
+    imprimir(res_real);
+
+    booleano : es_pos = esPositivo(5);
+    imprimir(es_pos);
+
+    entero : n = 5;
+    incrementar(n);
+    imprimir(n);
+
+    entero : res3 = sumarTres(1, 2, 3);
+    imprimir(res3);
+
+    imprimirMensaje();
+
+    // llamada como instrucción
+    suma(1, 2);
+
+    // ==========================================
+    // IMPRIMIR Y LEER
+    // ==========================================
+    imprimir(42);
+    imprimir(3.14);
+    imprimir(cierto);
+    imprimir('A');
+    imprimir("cadena");
+    imprimir(a + b);
+    imprimir(a > b);
+
+    leer(a);
+    leer(i);
+
+    // ==========================================
+    // CONSTANTES
+    // ==========================================
+    const entero : MAX = 100;
+    const real : GRAVEDAD = 9.81;
+    const booleano : ACTIVO = cierto;
+
+    imprimir(MAX);
+    imprimir(GRAVEDAD);
+
+    // ==========================================
+    // SIZE
+    // ==========================================
+    entero : tam_entero = size(entero);
+    entero : tam_real = size(real);
+    entero : tam_punto = size(Punto);
+
+    // ==========================================
+    // NULL
+    // ==========================================
+    puntero entero : ptr_null = null;
+
+    // ==========================================
+    // EXPRESIONES COMPLEJAS
+    // ==========================================
+    entero : complejo = (a + b) * (a - b) / 2 % 3;
+    booleano : complejo2 = (a > 0) && (b < 10) || !(a == b);
+    real : complejo3 = (x + y) * z / 2.0;
+
 fin

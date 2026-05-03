@@ -5,7 +5,7 @@ fin
 
 princ
 ini
-    entero: resultado;
-    resultado = doble(5);
-    imprimir(resultado);
+    entero : r1 = doble(1, 2);      // ERROR: demasiados argumentos
+    entero : r2 = doble();           // ERROR: faltan argumentos
+    entero : r3 = doble(cierto);     // ERROR: tipo incorrecto
 fin

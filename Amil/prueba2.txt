@@ -1,6 +1,15 @@
-entero: contador;
+func vacio () : hola
+ini
+    cadena : hola = "hola";
+    imprimir(hola);
+fin
 
 princ
 ini
-    contador = 0;
+    hola();
+    puntero entero : p;
+    p = nuevo(size(entero));
+    *p = 42;
+    entero : x = *p;
+    p = null;
 fin

@@ -5,20 +5,22 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import alex.AnalizadorLexicoExp;
 import ast.NodoPrograma;
+import semantico.TablaSimbolos;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		try{
+		try {
 			Reader input = new InputStreamReader(new FileInputStream(args[0]));
 			AnalizadorLexicoExp alex = new AnalizadorLexicoExp(input);
 			AnalizadorSintactico asint = new AnalizadorSintactico(alex);
 			NodoPrograma ast = (NodoPrograma) asint.parse().value;
 			System.out.println(ast.toString(""));
+			TablaSimbolos ts = new TablaSimbolos();
+			ast.chequea(ts);
+		} catch (Exception e) {
+			System.out.println("Excepción durante la compilación:");
+			e.printStackTrace();
 		}
-		catch (Exception e) {
-           System.out.println("Excepción durante la compilación:");
-           e.printStackTrace();
-       }
-		
-	} 
+
+	}
 }

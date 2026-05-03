@@ -1,6 +1,21 @@
 princ
 ini
-    const entero: x = 1 + a; 
+    const entero : MAX = 10;
+    MAX = 20;
+    const entero: x = 1 + 2; 
     entero : y;
-    puntero caca: z;
+    entero : a = 5;
+    entero : b = 3;
+    real : c = 3.14;
+    real : d = a;        // entero → real es compatible
+    booleano : e = cierto;
+    booleano : f = a < b;
+    booleano : g = e && f;
+    booleano : h = e || f;
+    booleano : i = !e;
+    entero : suma = a + b;
+    real : producto = c * d;
+    entero : modulo = a % b;
+    a = caca + 1;
+    imprimir(suma);
 fin

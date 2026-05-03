@@ -31,6 +31,11 @@ public class ComprobadorTipos {
             return true;
         }
 
+        // A la hora de reservar memoria
+        if (Tipos.esPuntero(tipoDestino) && tipoValor.equals(Tipos.PUNTERO_NUEVO)) {
+            return true;
+        }
+
         // Para poder asignar enteros a reales
         if (tipoDestino.equals(Tipos.REAL) && tipoValor.equals(Tipos.ENTERO)) {
             return true;
@@ -110,5 +115,29 @@ public class ComprobadorTipos {
     public static boolean validoComoDesignador(ASTNode vinculo) {
         // Solo es válido como designador si es una variable o un parámetro
         return (vinculo instanceof NodoDecVariable) || (vinculo instanceof NodoParametro);
+    }
+
+    public static boolean esTipoValido(String tipo, TablaSimbolos ts) {
+        // Arrastrar errores y no permitir declarar variables de tipo vacío
+        if (tipo == null || tipo.equals(Tipos.ERROR) || tipo.equals(Tipos.VACIO))
+            return false;
+
+        // Tipos primitivos son siempre válidos
+        if (esPresentable(tipo))
+            return true;
+
+        // Si es puntero, validar recursivamente el tipo al que apunta
+        if (Tipos.esPuntero(tipo))
+            return esTipoValido(Tipos.tipoDelPuntero(tipo), ts);
+
+        // Si es array, validar recursivamente el tipo base
+        if (Tipos.esArray(tipo))
+            return esTipoValido(Tipos.tipoDelArray(tipo), ts);
+
+        // Si es un struct definido por el usuario
+        if (ts.esStructDefinido(tipo))
+            return true;
+
+        return false;
     }
 }

@@ -36,8 +36,9 @@ public class NodoNuevo extends Expresion {
                         + expresionTamano.getTipo());
                 this.setTipo(Tipos.ERROR);
             } else {
-                // Devolvemos un puntero a vacío, al que se asignará un tipo una vez se asigne
-                this.setTipo("puntero a " + Tipos.VACIO);
+                // Devolvemos un puntero genérico al que se asignará un tipo una vez se asigne a
+                // una variable
+                this.setTipo(Tipos.PUNTERO_NUEVO);
             }
         }
     }

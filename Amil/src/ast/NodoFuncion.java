@@ -2,7 +2,9 @@ package ast;
 
 import java.util.List;
 
+import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoFuncion extends Declaracion {
 
@@ -41,13 +43,23 @@ public class NodoFuncion extends Declaracion {
         sb.append(tab).append("}\n");
         return sb.toString();
     }
-    public List<NodoParametro> getParametros(){
+
+    public List<NodoParametro> getParametros() {
         return parametros;
     }
-    //TODO: AQUÍ HAY QUE MIRAR QUE ESTEMOS EN EL ÁMBITO GENERAL QUE SE CREA CUANDO SE CREA EL PROGRAMA (NO SE QUE INDEX DE LA LISTA DE TABLASIMBOLOS ES)
-    //Y AHÍ VER QUE NO SE HA DECLARADO ANTES
+
+    // TODO: AQUÍ HAY QUE MIRAR QUE ESTEMOS EN EL ÁMBITO GENERAL QUE SE CREA CUANDO
+    // SE CREA EL PROGRAMA (NO SE QUE INDEX DE LA LISTA DE TABLASIMBOLOS ES)
+    // Y AHÍ VER QUE NO SE HA DECLARADO ANTES
     @Override
     public void chequea(TablaSimbolos ts) {
+        // Comprobamos que el valor de retorno sea válido
+        if (!ComprobadorTipos.esTipoValido(tipoRetorno, ts) && !tipoRetorno.equals(Tipos.VACIO)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El tipo de retorno '" + tipoRetorno + "' de la función '" + identificador
+                    + "' no está definido.");
+        }
+
         boolean insertado = ts.insertaId(identificador, this);
         if (!insertado) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
@@ -67,9 +79,13 @@ public class NodoFuncion extends Declaracion {
         // al hacer bloque otro abreBloque() tendremos que plantear si parametros y
         // variables
         // locales de funcion deben estar al mismo nivel
-        // ahora mismo se produce un ocultamiento de los parametros por parte de las variables locales
+        // ahora mismo se produce un ocultamiento de los parametros por parte de las
+        // variables locales ARREGLADO, YA NO HAY OCULTAMIENTO
         if (bloque != null) {
-            bloque.chequea(ts);
+            for (Instruccion inst : bloque.getInstrucciones()) {
+                if (inst != null)
+                    inst.chequea(ts);
+            }
         }
 
         ts.cierraBloque();

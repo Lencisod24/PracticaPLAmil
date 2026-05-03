@@ -40,7 +40,7 @@ public class NodoIgual extends ExpresionBinaria {
         }
 
         // Vemos si son comparables
-        if (ComprobadorTipos.tiposComparables(tipoIzq, tipoDer)) {
+        if (!ComprobadorTipos.tiposComparables(tipoIzq, tipoDer)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: Tipos no comparables con '=='. No se puede comparar '" +
                     tipoIzq + "' con '" + tipoDer + "'.");
