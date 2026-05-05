@@ -26,4 +26,12 @@ public class NodoReal extends Expresion {
     public void chequea(TablaSimbolos ts) {
         this.setTipo(Tipos.REAL);
     }
+
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        sb.append("  ".repeat(indent))
+                .append("f64.const ")
+                .append(valor)
+                .append("\n");
+    }
 }

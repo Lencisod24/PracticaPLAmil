@@ -52,4 +52,15 @@ public class NodoSuma extends ExpresionBinaria {
         // Asignamos el tipo resultante
         this.setTipo(ComprobadorTipos.inferirTipoAritmetico(tipoIzq, tipoDer));
     }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        opIzq().generateCodeExpresion(sb, indent);
+        opDer().generateCodeExpresion(sb, indent);
+        if (opIzq().getTipo().equals(Tipos.ENTERO)) {
+            sb.append(tab).append("i32.add\n");
+        } else if (opIzq().getTipo().equals(Tipos.REAL)) {
+            sb.append(tab).append("f64.add\n");
+        }
+    }
 }

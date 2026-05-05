@@ -45,4 +45,17 @@ public class NodoMenosUnario extends ExpresionUnaria {
             this.setTipo(tipo);
         }
     }
+    //TODO: revisar porque no lo entiendo esto de claude;
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        if (this.getTipo().equals(Tipos.ENTERO)) {
+            sb.append(tab).append("i32.const 0\n");
+            operando().generateCodeExpresion(sb, indent);
+            sb.append(tab).append("i32.sub\n");
+        } else if (this.getTipo().equals(Tipos.REAL)) {
+            operando().generateCodeExpresion(sb, indent);
+            sb.append(tab).append("f64.neg\n");
+        }
+    }
 }

@@ -40,16 +40,19 @@ public class NodoDiv extends ExpresionBinaria {
             this.setTipo(Tipos.ERROR);
             return;
         }
-        // controlamos la división entre 0;
-        /*
-         * Creo que debería ser fallo en ejecución y no en compilación
-         * if (opDer().toString() == "0") {
-         * System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
-         * "]: Operación aritmética '+' inválida. No se puede dividir entre 0");
-         * this.setTipo(Tipos.ERROR);
-         * }
-         */
+        
         // Asignamos el tipo resultante
         this.setTipo(ComprobadorTipos.inferirTipoAritmetico(tipoIzq, tipoDer));
+    }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        opIzq().generateCodeExpresion(sb, indent);
+        opDer().generateCodeExpresion(sb, indent);
+        if (opIzq().getTipo().equals(Tipos.ENTERO)) {
+            sb.append(tab).append("i32.div_s\n");
+        } else if (opIzq().getTipo().equals(Tipos.REAL)) {
+            sb.append(tab).append("f64.div\n");
+        }
     }
 }

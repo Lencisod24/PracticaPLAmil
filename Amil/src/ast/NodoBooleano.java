@@ -26,4 +26,11 @@ public class NodoBooleano extends Expresion {
     public void chequea(TablaSimbolos ts) {
         this.setTipo(Tipos.BOOLEANO);
     }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        sb.append(tab).append("i32.const ")
+        .append(valor.equals("cierto") ? "1" : "0")
+        .append("\n");
+    }
 }

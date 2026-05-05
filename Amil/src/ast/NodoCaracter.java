@@ -26,4 +26,12 @@ public class NodoCaracter extends Expresion {
     public void chequea(TablaSimbolos ts) {
         this.setTipo(Tipos.CARACTER);
     }
+    //TODO: revisar esto;
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        // El carácter viene con comillas simples ej: 'a', sacamos el char del medio
+        char c = valor.charAt(1);
+        sb.append(tab).append("i32.const ").append((int) c).append("\n");
+    }
 }

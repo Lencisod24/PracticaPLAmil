@@ -21,4 +21,7 @@ public abstract class Expresion extends ASTNode {
     public KindE kind() {
         return kind;
     }
-}
+    public abstract void generateCodeExpresion(StringBuilder sb,int indent);
+
+
+    }

@@ -62,4 +62,11 @@ public class NodoOr extends ExpresionBinaria {
             this.setTipo(Tipos.BOOLEANO);
         }
     }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String tab = "  ".repeat(indent);
+        opIzq().generateCodeExpresion(sb, indent);
+        opDer().generateCodeExpresion(sb, indent);
+        sb.append(tab).append("i32.or\n");
+    }
 }

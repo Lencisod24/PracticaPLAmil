@@ -27,4 +27,14 @@ public class NodoEntero extends Expresion {
         this.setTipo(Tipos.ENTERO);
     }
 
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+
+        sb.append("  ".repeat(indent))
+                .append("i32.const ")
+                .append(valor)
+                .append("\n");
+
+    }
+
 }

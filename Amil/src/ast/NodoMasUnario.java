@@ -45,4 +45,8 @@ public class NodoMasUnario extends ExpresionUnaria {
             this.setTipo(tipo);
         }
     }
-}
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        operando().generateCodeExpresion(sb, indent);
+    }
+} 
