@@ -15,7 +15,7 @@ public class Tipos {
     }
 
     public static String tipoDelPuntero(String puntero) {
-        return puntero.replace("puntero a ", "").trim();
+        return puntero.replaceFirst("puntero a ", "").trim();
     }
 
     public static String tipoDelArray(String array) {
