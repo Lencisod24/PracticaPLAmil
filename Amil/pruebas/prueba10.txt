@@ -1,13 +1,21 @@
+func vacio () : hola 
+ini
+    imprimir("hola");
+fin
+
 princ
 ini
     [10] entero : miArray;
     entero : x;
     entero : copia;
-
+    x;
+    5;
     x = 5;
     copia = miArray[x];
     miArray[x]=3;
-
+    imprimir(x+5);
+    leer(x);
+    leer(x+5);
     imprimir(miArray[0]);
     imprimir(copia);
 fin

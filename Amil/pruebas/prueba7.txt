@@ -1,4 +1,4 @@
-const real : GRAVEDAD;
+const real : GRAVEDAD = 9.81;
 entero : contadorGlobal;
 
 func booleano (val peso : real) : esPesado
@@ -23,7 +23,6 @@ ini
     real: pesoFinal;
     booleano: comprobacion;
 
-    GRAVEDAD = 9.81;
     contadorGlobal = 0;
     
     imprimir("Introduce la masa:");

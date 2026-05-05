@@ -9,7 +9,8 @@ ini
 
     p1.x = 10;
     p1.y = 20;
-
+    leer(p1);
+    imprimir(p1);
     imprimir(p1.x);
     imprimir(p1.y);
     imprimir(p1.x + p1.y);

@@ -9,7 +9,7 @@ ini
     hola();
     puntero entero : p;
     p = nuevo(size(entero));
-    *p = 42;
+    *p = size(real);
     entero : x = *p;
     p = null;
 fin

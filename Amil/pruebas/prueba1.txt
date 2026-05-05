@@ -1,0 +1,12 @@
+princ
+ini
+    puntero entero : x;
+    puntero real : y;
+    puntero puntero entero : z;
+    x = *z;
+    entero : a = *x;
+    imprimir(2*a);
+    imprimir(a **x);
+    entero : b = *(*z);
+    *y = *x;
+fin
