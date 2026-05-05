@@ -88,4 +88,19 @@ public class NodoLlamadaFuncion extends Expresion {
 
         }
     }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        
+        if (argumentos != null) {
+            for (Expresion arg : argumentos) {
+                if (arg != null) {
+                    arg.generateCodeExpresion(sb, indent);
+                }
+            }
+        }
+
+        
+        for (int i = 0; i < indent; i++) sb.append("  ");
+        sb.append("call $").append(id).append("\n");
+    }
 }
