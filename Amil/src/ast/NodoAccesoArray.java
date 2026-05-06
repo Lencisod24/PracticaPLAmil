@@ -69,4 +69,10 @@ public class NodoAccesoArray extends Designador {
             this.setTipo(Tipos.tipoDelArray(tipoArray));
         }
     }
+
+    @Override
+    public void generateCodeDesignador(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeDesignador'");
+    }
 }

@@ -152,9 +152,10 @@ ini
     // ==========================================
     [10] entero : notas;
     [5][5] entero : matriz;
-
+    entero : juan;
     notas[0] = 10;
     notas[1] = 8;
+    juan = notas[0] + 3;
     matriz[0][0] = 1;
     matriz[1][2] = 5;
 

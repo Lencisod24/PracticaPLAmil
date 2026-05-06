@@ -39,4 +39,10 @@ public class NodoDesreferencia extends Designador {
             }
         }
     }
+
+    @Override
+    public void generateCodeDesignador(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeDesignador'");
+    }
 }

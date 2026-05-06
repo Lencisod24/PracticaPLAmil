@@ -6,4 +6,5 @@ public abstract class Instruccion extends ASTNode {
         super(fil, col, NodeKind.INSTRUCCION);
     }
 
+    public abstract void generateCodeInstruccion(StringBuilder sb, int indent);
 }

@@ -31,4 +31,10 @@ public class NodoSize extends Expresion {
             this.setTipo(Tipos.ENTERO);
         }
     }
+
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
+    }
 }

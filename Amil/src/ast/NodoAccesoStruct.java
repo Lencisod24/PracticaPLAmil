@@ -69,4 +69,10 @@ public class NodoAccesoStruct extends Designador {
         // Asignamos al nodo el tipo del campo
         this.setTipo(tipoCampo);
     }
+
+    @Override
+    public void generateCodeDesignador(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeDesignador'");
+    }
 }

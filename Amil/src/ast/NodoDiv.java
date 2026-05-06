@@ -4,7 +4,7 @@ import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
 import semantico.Tipos;
 
-public class NodoDiv extends ExpresionBinaria {
+public class NodoDiv extends ExpresionBinaria {     
     public NodoDiv(int fil, int col, Expresion opIzq, Expresion opDer) {
         super(fil, col, opIzq, opDer);
         this.kind = KindE.DIV;

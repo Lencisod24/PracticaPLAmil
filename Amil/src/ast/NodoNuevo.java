@@ -42,4 +42,10 @@ public class NodoNuevo extends Expresion {
             }
         }
     }
+
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
+    }
 }
