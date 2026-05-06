@@ -47,4 +47,10 @@ public class NodoParametro extends Declaracion {
                     + identificador + "' ya existe.");
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
 }

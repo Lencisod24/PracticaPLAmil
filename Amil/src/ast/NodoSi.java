@@ -75,4 +75,28 @@ public class NodoSi extends Instruccion {
             bloqueElse.chequea(ts);
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+
+        String t = " ".repeat(indent); 
+
+        condicion.generateCodeExpresion(sb, indent);
+
+        // if
+        sb.append(t).append("if\n");
+
+        if (bloqueThen != null) {
+            bloqueThen.generateCodeInstruccion(sb, indent + 4);
+        }
+
+        // else + codeI(l1)
+        if (bloqueElse != null) {
+            sb.append(t).append("else\n");
+            bloqueElse.generateCodeInstruccion(sb, indent + 4);
+        }
+
+        sb.append(t).append("end\n");
+
+    }
 }

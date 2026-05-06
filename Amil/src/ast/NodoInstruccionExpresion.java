@@ -28,4 +28,9 @@ public class NodoInstruccionExpresion extends Instruccion {
             exp.chequea(ts);
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        exp.generateCodeExpresion(sb, indent);
+    }
 }

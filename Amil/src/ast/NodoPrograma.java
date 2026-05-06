@@ -57,6 +57,8 @@ public class NodoPrograma extends ASTNode {
         return sb.toString();
     }
 
+    
+
     @Override
     public void chequea(TablaSimbolos ts) {
 

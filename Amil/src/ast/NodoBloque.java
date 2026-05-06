@@ -54,4 +54,12 @@ public class NodoBloque extends Instruccion {
 
         ts.cierraBloque();
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        
+        for(Instruccion i:this.instrucciones){
+            i.generateCodeInstruccion(sb, indent);
+        }
+    }
 }

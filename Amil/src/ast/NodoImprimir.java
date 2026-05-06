@@ -38,4 +38,10 @@ public class NodoImprimir extends Instruccion {
                            "]: Intento de imprimir una expresión nula.");
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
 }

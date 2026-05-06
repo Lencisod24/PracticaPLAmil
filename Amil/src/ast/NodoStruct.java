@@ -70,4 +70,10 @@ public class NodoStruct extends Declaracion {
                     "]: El struct '" + identificador + "' ya ha sido definido anteriormente.");
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
 }

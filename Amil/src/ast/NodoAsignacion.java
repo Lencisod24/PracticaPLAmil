@@ -71,7 +71,18 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+
+        String t = " ".repeat(indent);
+
+        //  Generar el código para obtener la dirección del destino
+        
+        if (variableDestino != null) {
+            variableDestino.generateCodeDesignador(sb, indent);
+        }
+        if (expresion != null) {
+            expresion.generateCodeExpresion(sb, indent);
+        }
+
+        sb.append(t).append("i32.store\n");
     }
 }

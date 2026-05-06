@@ -113,4 +113,10 @@ public class NodoDecVariable extends Declaracion {
                     + "' ya declarado en este ámbito.");
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
 }

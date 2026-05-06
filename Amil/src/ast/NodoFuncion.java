@@ -48,9 +48,7 @@ public class NodoFuncion extends Declaracion {
         return parametros;
     }
 
-    // TODO: AQUÍ HAY QUE MIRAR QUE ESTEMOS EN EL ÁMBITO GENERAL QUE SE CREA CUANDO
-    // SE CREA EL PROGRAMA (NO SE QUE INDEX DE LA LISTA DE TABLASIMBOLOS ES)
-    // Y AHÍ VER QUE NO SE HA DECLARADO ANTES
+
     @Override
     public void chequea(TablaSimbolos ts) {
         // Comprobamos que el valor de retorno sea válido
@@ -89,5 +87,11 @@ public class NodoFuncion extends Declaracion {
         }
 
         ts.cierraBloque();
+    }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 }

@@ -27,4 +27,10 @@ public class NodoLeer extends Instruccion {
                             "]: La variable '" + identificador + "' no ha sido declarada.");
         }
     }
+
+    @Override
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
 }
