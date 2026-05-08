@@ -61,19 +61,20 @@ public class NodoSuma extends ExpresionBinaria {
         if (opIzq().getTipo().equals(Tipos.ENTERO)) {
             sb.append(tab).append("i32.add\n");
         } else if (opIzq().getTipo().equals(Tipos.REAL)) {
-            sb.append(tab).append("f64.add\n");
+            sb.append(tab).append("f32.add\n");
         }
     }
 
     @Override
     public int calcularMem() {
         // Las expresiones no ocupan memoria persistente en el marco de ejecución
-        return 0;
+        return opIzq().calcularMem() + opDer().calcularMem();
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // Se queda igual al no asignarle memoria
-        return dirPadre;
+        int dirLocal = opIzq().asignarDelta(dirPadre);
+        dirLocal = opDer().asignarDelta(dirLocal);
+        return dirLocal;
     }
 }
