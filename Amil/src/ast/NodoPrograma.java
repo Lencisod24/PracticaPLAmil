@@ -81,9 +81,55 @@ public class NodoPrograma extends ASTNode {
         }
     }
 
-    public void generateCodeInstruccion(String sb, int indent) {
+    public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        // Definición de datos y tipos
+        sb.append("(data (i32.const 64) \"\\22\\00\\00\\00\") ;; 34\n");
+        sb.append("(data (i32.const 68) \"#\\00\\00\\00\")   ;; 35\n");
+        sb.append("(export \"init\" (func $init))\n");
+        sb.append("(type $_sig_void (func ))\n");
+        sb.append("(type $_sig_i32 (func (param i32)))\n");
+        sb.append("(type $_sig_ri32 (func (result i32)))\n");
+        sb.append("(type $_sig_i32i32ri32ri32 (func (param i32 i32)(result i32 i32)))\n");
 
-    }
+        // Configuración de tabla y memoria
+        sb.append("(start $init)\n");
+        sb.append("(elem $funcmap (i32.const 0) $init)\n");
+        sb.append("(import \"runtime\" \"print\" (func $print (type $_sig_i32)))\n");
+        sb.append("(import \"runtime\" \"read\" (func $read (type $_sig_ri32)))\n");
+        sb.append("(table $funcmap 1 1 funcref)\n");
+        sb.append("(global $smd i32 (i32.const 64)) ;; points to start of memory data\n");
+        sb.append("(memory 2000)\n");
+
+        // Función reserveStack
+        sb.append("(func $reserveStack (param $size i32) (result i32)\n");
+        sb.append("  global.get $MP\n");
+        sb.append("  global.get $SP\n");
+        sb.append("  global.set $MP\n");
+        sb.append("  global.get $SP\n");
+        sb.append("  local.get $size\n");
+        sb.append("  i32.add\n");
+        sb.append("  global.set $SP\n");
+        sb.append("  global.get $SP\n");
+        sb.append("  global.get $NP\n");
+        sb.append("  i32.gt_u\n");
+        sb.append("  if\n");
+        sb.append("    i32.const 3\n");
+        sb.append("    call $exception\n");
+        sb.append("  end\n");
+        sb.append(")\n");
+
+        // Función freeStack
+        sb.append("(func $freeStack (type $_sig_void)\n");
+        sb.append("  global.get $MP\n");
+        sb.append("  global.set $SP\n");
+        sb.append("  global.get $MP\n");
+        sb.append("  i32.load\n");
+        sb.append("  global.set $MP\n");
+        sb.append(")\n");
+        for(Declaracion d: declaracionesGlobales) d.generateCodeInstruccion(sb,indent);
+        for(Declaracion d: funcionesYStructs) d.generateCodeInstruccion(sb,indent);
+        bloquePrincipal.generateCodeInstruccion(sb,indent);
+    };
 
     @Override
     public int calcularMem() {
@@ -101,24 +147,15 @@ public class NodoPrograma extends ASTNode {
     @Override
     public int asignarDelta(int dirPadre) {
         int dirLocal = 0;
-        dirLocal = bloquePrincipal.asignarDelta(dirLocal);
+        
         for (Declaracion d : this.declaracionesGlobales)
             dirLocal = d.asignarDelta(dirLocal);
         for (Declaracion d : this.funcionesYStructs)
             dirLocal = d.asignarDelta(dirLocal);
+        dirLocal = bloquePrincipal.asignarDelta(dirLocal);
         return dirLocal;
     }
 
-    @Override
-    public void asignarTamMemTipos() {
-        bloquePrincipal.asignarTamMemTipos();
-        for (Declaracion d : this.declaracionesGlobales)
-            d.asignarTamMemTipos();
-        ;
-        for (Declaracion d : this.funcionesYStructs)
-            d.asignarTamMemTipos();
-        ;
-
-    }
+    
 
 }

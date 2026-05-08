@@ -18,6 +18,8 @@ public class Main {
 			TablaSimbolos ts = new TablaSimbolos();
 			ast.chequea(ts);
 			ast.calcularMem();
+			StringBuilder sb=null;
+			ast.generateCodeInstruccion(sb, 0);
 		} catch (Exception e) {
 			System.out.println("Excepción durante la compilación:");
 			e.printStackTrace();
