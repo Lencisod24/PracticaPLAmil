@@ -65,6 +65,8 @@ public class Tipos {
             }
         }
 
+        // TODO: structs
+
         // 4. Cadenas (Depende de tu implementación, a veces son punteros a char)
         if (tipo.equals(CADENA)) {
             return 4; // Si se trata como un puntero/referencia

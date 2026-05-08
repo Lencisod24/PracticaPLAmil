@@ -85,6 +85,7 @@ public class NodoAsignacion extends Instruccion {
     }
 
     
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

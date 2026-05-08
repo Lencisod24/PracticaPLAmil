@@ -64,7 +64,7 @@ public class NodoSuma extends ExpresionBinaria {
             sb.append(tab).append("f32.add\n");
         }
     }
-
+    
     
     @Override
     public int asignarDelta(int dirPadre) {

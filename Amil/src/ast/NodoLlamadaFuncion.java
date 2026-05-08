@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import semantico.TablaSimbolos;
 import semantico.Tipos;
@@ -8,6 +9,7 @@ import semantico.Tipos;
 public class NodoLlamadaFuncion extends Expresion {
     private String id;
     private ArrayList<Expresion> argumentos;
+    private ASTNode declaracion;
 
     public NodoLlamadaFuncion(int fil, int col, String id, ArrayList<Expresion> argumentos) {
         super(fil, col);
@@ -48,6 +50,7 @@ public class NodoLlamadaFuncion extends Expresion {
             return;
         } else {// valida
             NodoFuncion funcion = (NodoFuncion) def;
+            this.declaracion=funcion;
 
             int numArgs = (argumentos == null) ? 0 : argumentos.size();
             int numParams = (funcion.getParametros() == null) ? 0 : funcion.getParametros().size();
@@ -106,7 +109,11 @@ public class NodoLlamadaFuncion extends Expresion {
     }
 
     
-
+    public void calcularMem(AtomicInteger curr, AtomicInteger aux){
+       // declaracion.calcularMem(curr,aux);
+       //TODO: mr cago en pl;
+        
+    }
     @Override
     public int asignarDelta(int dirPadre) {
         // TODO Auto-generated method stub

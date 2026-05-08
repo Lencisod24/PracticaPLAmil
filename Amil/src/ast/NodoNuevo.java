@@ -49,11 +49,7 @@ public class NodoNuevo extends Expresion {
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+   
 
     @Override
     public int asignarDelta(int dirPadre) {

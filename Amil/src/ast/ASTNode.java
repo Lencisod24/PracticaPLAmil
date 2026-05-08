@@ -12,13 +12,14 @@ public abstract class ASTNode {
     private int col;
     public int tam_mem;
     public int delta;
-
     private NodeKind tipoNodo;
 
     public ASTNode(int fil, int col, NodeKind tipoNodo) {
         this.fil = fil;
         this.col = col;
         this.tipoNodo = tipoNodo;
+        this.tam_mem = 0;
+        this.delta = 0;
     }
 
     public int getFila() {
@@ -46,7 +47,10 @@ public abstract class ASTNode {
     public void calcularMem(AtomicInteger curr, AtomicInteger aux){
         
     }
-
+    
+    public int getTamMem(){
+        return this.tam_mem;
+    }
     public abstract int asignarDelta(int dirPadre);
 
     public abstract void chequea(TablaSimbolos ts);

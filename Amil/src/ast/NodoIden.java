@@ -46,7 +46,7 @@ public class NodoIden extends Designador {
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
         String tab = "  ".repeat(indent);
         // Obtenemos el delta de la declaración a la que está vinculada la variable
-        int delta = this.getVinculo().getDelta();
+        int delta = this.getVinculo().asignarDelta(0);
         // Empujamos la dirección base del marco actual ($MP)
         sb.append(tab).append("global.get $MP\n");
         // i32.const δ(*id) → empuja el offset

@@ -1,5 +1,9 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import semantico.Tipos;
+
 public abstract class ExpresionBinaria extends Expresion {
 
     private Expresion opIzq;
@@ -17,5 +21,11 @@ public abstract class ExpresionBinaria extends Expresion {
 
     public Expresion opDer() {
         return opDer;
+    }
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        this.delta = curr.intValue();
+        //curr.addAndGet(opIzq.calcularMem(curr, max)); //curr += Tipos.getTamano(tipo)
+        if(curr.get() > max.get()) max.set(curr.get());
     }
 }

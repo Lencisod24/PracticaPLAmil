@@ -120,16 +120,17 @@ public class NodoDecVariable extends Declaracion {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
+    
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        this.delta = curr.intValue();
         curr.addAndGet(Tipos.getTamano(tipo)); //curr += Tipos.getTamano(tipo)
-        if(curr.get() > max.get()) max = curr;
+        if(curr.get() > max.get()) max.set(curr.get());
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        delta = dirPadre;
-        return dirPadre + this.calcularMem();
+        return this.delta;
     }
 }
