@@ -62,13 +62,7 @@ public class NodoMayorIgual extends ExpresionBinaria {
         }
     }
 
-    @Override
-    public int calcularMem() {
-
-        // Las expresiones no reservan espacio en el stack frame
-        return 0;
-
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

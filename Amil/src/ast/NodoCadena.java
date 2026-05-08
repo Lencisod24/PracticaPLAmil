@@ -38,11 +38,7 @@ public class NodoCadena extends Expresion {
         sb.append(tab).append("i32.const 0 ;; TODO: dirección de la cadena en memoria\n");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+   
 
     @Override
     public int asignarDelta(int dirPadre) {

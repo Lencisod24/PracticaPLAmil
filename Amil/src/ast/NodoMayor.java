@@ -62,10 +62,7 @@ public class NodoMayor extends ExpresionBinaria {
         }
     }
 
-    @Override
-    public int calcularMem() {
-        return 0; // esto no reserva memoria en si;
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

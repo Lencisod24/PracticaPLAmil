@@ -2,6 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import semantico.TablaSimbolos;
 
@@ -63,13 +64,16 @@ public class NodoBloque extends Instruccion {
         }
     }
 
+    //calcula el tamaño que luego se va a reservar
     @Override
-    public int calcularMem() {
-        int t = 0;
-        for (Instruccion i : instrucciones)
-            t += i.calcularMem();
-        return t;
+    public void calcularMem(AtomicInteger curr,  AtomicInteger max) {
+            AtomicInteger curr_aux = curr;
+            for(Instruccion inst : instrucciones){
+                inst.calcularMem(curr, max);
+            }
+            curr = curr_aux;
     }
+
 
     @Override
     public int asignarDelta(int dirPadre) {
@@ -80,8 +84,5 @@ public class NodoBloque extends Instruccion {
         return dirPadre;
     }
 
-    @Override
-    public void asignarTamMemTipos() {
-        
-    }
+    
 }

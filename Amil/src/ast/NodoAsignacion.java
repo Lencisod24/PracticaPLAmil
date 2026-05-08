@@ -84,10 +84,7 @@ public class NodoAsignacion extends Instruccion {
         sb.append(t).append("i32.store\n");
     }
 
-    @Override
-    public int calcularMem() {
-        return 0; // asignación no usa memoria;
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

@@ -77,11 +77,7 @@ public class NodoStruct extends Declaracion {
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

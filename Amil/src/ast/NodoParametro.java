@@ -1,7 +1,10 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoParametro extends Declaracion {
 
@@ -47,6 +50,14 @@ public class NodoParametro extends Declaracion {
                     + identificador + "' ya existe.");
         }
     }
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max){
+        if(!porReferencia){
+            curr.addAndGet(Tipos.getTamano(this.tipo));
+            max = curr;
+        }
+
+    }
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
@@ -54,11 +65,7 @@ public class NodoParametro extends Declaracion {
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

@@ -57,11 +57,7 @@ public class NodoResta extends ExpresionBinaria {
         }
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

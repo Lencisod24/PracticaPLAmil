@@ -65,12 +65,7 @@ public class NodoSuma extends ExpresionBinaria {
         }
     }
 
-    @Override
-    public int calcularMem() {
-        // Las expresiones no ocupan memoria persistente en el marco de ejecución
-        return opIzq().calcularMem() + opDer().calcularMem();
-    }
-
+    
     @Override
     public int asignarDelta(int dirPadre) {
         int dirLocal = opIzq().asignarDelta(dirPadre);

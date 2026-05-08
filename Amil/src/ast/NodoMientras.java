@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import semantico.TablaSimbolos;
 import semantico.Tipos;
 
@@ -81,9 +83,8 @@ public class NodoMientras extends Instruccion {
     }
 
     @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        this.bloque.calcularMem(curr, max);
     }
 
     @Override

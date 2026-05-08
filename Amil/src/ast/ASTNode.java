@@ -1,6 +1,9 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import semantico.TablaSimbolos;
+
 
 public abstract class ASTNode {
     // ponemos fila y columna para luego encontrar los errores y el tipo de Nodo
@@ -40,7 +43,9 @@ public abstract class ASTNode {
         return 0;
     }
 
-    public abstract int calcularMem();
+    public void calcularMem(AtomicInteger curr, AtomicInteger aux){
+        
+    }
 
     public abstract int asignarDelta(int dirPadre);
 

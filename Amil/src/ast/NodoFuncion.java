@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
@@ -87,18 +88,23 @@ public class NodoFuncion extends Declaracion {
 
         ts.cierraBloque();
     }
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max){
+        curr.set(0);
+        max.set(0);
+        for(NodoParametro np : this.parametros){
+            np.calcularMem(curr, max);
+        }
+        this.bloque.calcularMem(curr, max);
 
+    }
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

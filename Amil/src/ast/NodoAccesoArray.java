@@ -98,11 +98,7 @@ public class NodoAccesoArray extends Designador {
          */ // Modificar porque ya no usamos la lista
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

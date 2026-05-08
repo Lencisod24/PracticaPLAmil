@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
@@ -121,8 +122,9 @@ public class NodoDecVariable extends Declaracion {
     }
 
     @Override
-    public int calcularMem() {
-        return Tipos.getTamano(tipo);
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        curr.addAndGet(Tipos.getTamano(tipo)); //curr += Tipos.getTamano(tipo)
+        if(curr.get() > max.get()) max = curr;
     }
 
     @Override

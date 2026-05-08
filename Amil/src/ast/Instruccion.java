@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class Instruccion extends ASTNode {
 
     public Instruccion(int fil, int col) {
@@ -7,4 +9,7 @@ public abstract class Instruccion extends ASTNode {
     }
 
     public abstract void generateCodeInstruccion(StringBuilder sb, int indent);
+
+    public void calcularMem(AtomicInteger curr, AtomicInteger max){
+    }
 }

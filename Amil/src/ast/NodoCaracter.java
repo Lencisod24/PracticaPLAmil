@@ -36,11 +36,7 @@ public class NodoCaracter extends Expresion {
         sb.append(tab).append("i32.const ").append((int) c).append("\n");
     }
 
-    @Override
-    public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

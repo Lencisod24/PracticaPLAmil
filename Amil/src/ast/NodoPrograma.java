@@ -131,18 +131,7 @@ public class NodoPrograma extends ASTNode {
         bloquePrincipal.generateCodeInstruccion(sb,indent);
     };
 
-    @Override
-    public int calcularMem() {
-        int t = 0;
-        t += this.bloquePrincipal.calcularMem();
-        for (Declaracion d : this.declaracionesGlobales)
-            t += d.calcularMem();
-        for (Declaracion d : this.funcionesYStructs)
-            t += d.calcularMem();
-
-        this.tam_mem = t;
-        return t;
-    }
+    
 
     @Override
     public int asignarDelta(int dirPadre) {

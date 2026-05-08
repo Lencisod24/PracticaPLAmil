@@ -65,10 +65,6 @@ public class NodoIden extends Designador {
         generateCodeDesignador(sb, indent, false);
     }
 
-    @Override
-    public int calcularMem() {
-        return 0;
-    }
 
     @Override
     public int asignarDelta(int dirPadre) {
