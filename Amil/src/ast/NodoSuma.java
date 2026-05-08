@@ -76,9 +76,4 @@ public class NodoSuma extends ExpresionBinaria {
         // Se queda igual al no asignarle memoria
         return dirPadre;
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        // No tiene tamaño en memoria asignable
-    }
 }

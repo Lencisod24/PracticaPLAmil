@@ -76,10 +76,4 @@ public class NodoMayorIgual extends ExpresionBinaria {
         opDer().asignarDelta(dirPadre);
         return dirPadre;
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        opIzq().asignarTamMemTipos();
-        opDer().asignarTamMemTipos();
-    }
 }

@@ -45,6 +45,4 @@ public abstract class ASTNode {
     public abstract int asignarDelta(int dirPadre);
 
     public abstract void chequea(TablaSimbolos ts);
-
-    public abstract void asignarTamMemTipos();
 }

@@ -44,10 +44,4 @@ public class NodoInstruccionExpresion extends Instruccion {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
-    }
 }

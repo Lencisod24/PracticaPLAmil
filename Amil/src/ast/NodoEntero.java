@@ -48,10 +48,4 @@ public class NodoEntero extends Expresion {
         dirPadre += this.tam_mem;
         return dirLocal;
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        this.tam_mem = 4;
-    }
-
 }

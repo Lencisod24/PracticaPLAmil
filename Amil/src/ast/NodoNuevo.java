@@ -60,10 +60,4 @@ public class NodoNuevo extends Expresion {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
-    }
 }

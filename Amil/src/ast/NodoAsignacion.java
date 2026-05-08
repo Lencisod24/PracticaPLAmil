@@ -97,9 +97,4 @@ public class NodoAsignacion extends Instruccion {
         this.expresion.asignarDelta(dirPadre);
         return dirPadre;
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-        // No tiene tamaño en memoria
-    }
 }

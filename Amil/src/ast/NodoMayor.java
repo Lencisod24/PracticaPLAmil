@@ -49,6 +49,7 @@ public class NodoMayor extends ExpresionBinaria {
             this.setTipo(Tipos.BOOLEANO);
         }
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
@@ -63,7 +64,7 @@ public class NodoMayor extends ExpresionBinaria {
 
     @Override
     public int calcularMem() {
-        return 0; //esto no reserva memoria en si;
+        return 0; // esto no reserva memoria en si;
     }
 
     @Override
@@ -71,11 +72,5 @@ public class NodoMayor extends ExpresionBinaria {
         opIzq().asignarDelta(dirPadre);
         opDer().asignarDelta(dirPadre);
         return dirPadre; // Devolvemos la misma dirección porque no hemos consumido nada
-    }
-
-    @Override
-    public void asignarTamMemTipos() {
-        opIzq().asignarTamMemTipos();
-        opDer().asignarTamMemTipos();
     }
 }

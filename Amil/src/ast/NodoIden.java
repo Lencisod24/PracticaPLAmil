@@ -74,10 +74,4 @@ public class NodoIden extends Designador {
     public int asignarDelta(int dirPadre) {
         return this.calcularMem() + dirPadre;
     }
-
-    @Override
-    public void asignarTamMemTipos() {
-
-        this.tam_mem = this.getVinculo().tam_mem;
-    }
 }
