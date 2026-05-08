@@ -67,11 +67,11 @@ public class NodoIden extends Designador {
 
     @Override
     public int calcularMem() {
-        return this.tam_mem;
+        return 0;
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        return this.calcularMem() + dirPadre;
+        return dirPadre;
     }
 }

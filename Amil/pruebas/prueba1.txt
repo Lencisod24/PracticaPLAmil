@@ -5,4 +5,8 @@ ini
     ini
         x = 3;
     fin
+    [4] entero : a;
+    a[0] = 4;
+    [2] entero : b;
+    b = a;
 fin

@@ -29,7 +29,6 @@ public class NodoEntero extends Expresion {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-
         sb.append("  ".repeat(indent))
                 .append("i32.const ")
                 .append(valor)
@@ -39,13 +38,11 @@ public class NodoEntero extends Expresion {
 
     @Override
     public int calcularMem() {
-        return this.tam_mem;
+        return 0;
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        int dirLocal = dirPadre;
-        dirPadre += this.tam_mem;
-        return dirLocal;
+        return dirPadre;
     }
 }

@@ -57,6 +57,12 @@ public class NodoAsignacion extends Instruccion {
             }
         }
 
+        if (Tipos.esArray(tipoDestino) || ts.esStructDefinido(tipoDestino)) {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: No se pueden asignar tipos compuestos de forma directa, se debe asignar sus elementos individualmente.");
+            return;
+        }
+
         // Comprobamos si la variable destino es constante con su declaración
         if (variableDestino instanceof NodoIden) {
             Declaracion dec = ((NodoIden) variableDestino).getVinculo();
@@ -71,18 +77,10 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-
         String t = " ".repeat(indent);
-
         // Generar el código para obtener la dirección del destino
-
-        if (variableDestino != null) {
-            variableDestino.generateCodeDesignador(sb, indent, true);
-        }
-        if (expresion != null) {
-            expresion.generateCodeExpresion(sb, indent);
-        }
-
+        variableDestino.generateCodeDesignador(sb, indent, true);
+        expresion.generateCodeExpresion(sb, indent);
         sb.append(t).append("i32.store\n");
     }
 
@@ -93,8 +91,8 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        this.variableDestino.asignarDelta(dirPadre);
-        this.expresion.asignarDelta(dirPadre);
-        return dirPadre;
+        int dirLocal = this.variableDestino.asignarDelta(dirPadre);
+        dirLocal = this.expresion.asignarDelta(dirLocal);
+        return dirLocal;
     }
 }
