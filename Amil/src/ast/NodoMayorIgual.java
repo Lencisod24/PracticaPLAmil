@@ -49,6 +49,7 @@ public class NodoMayorIgual extends ExpresionBinaria {
             this.setTipo(Tipos.BOOLEANO);
         }
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
@@ -59,5 +60,26 @@ public class NodoMayorIgual extends ExpresionBinaria {
         } else if (opIzq().getTipo().equals(Tipos.REAL)) {
             sb.append(tab).append("f64.ge\n");
         }
+    }
+
+    @Override
+    public int calcularMem() {
+
+        // Las expresiones no reservan espacio en el stack frame
+        return 0;
+
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        opIzq().asignarDelta(dirPadre);
+        opDer().asignarDelta(dirPadre);
+        return dirPadre;
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        opIzq().asignarTamMemTipos();
+        opDer().asignarTamMemTipos();
     }
 }

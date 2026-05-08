@@ -74,15 +74,32 @@ public class NodoAsignacion extends Instruccion {
 
         String t = " ".repeat(indent);
 
-        //  Generar el código para obtener la dirección del destino
-        
+        // Generar el código para obtener la dirección del destino
+
         if (variableDestino != null) {
-            variableDestino.generateCodeDesignador(sb, indent);
+            variableDestino.generateCodeDesignador(sb, indent, true);
         }
         if (expresion != null) {
             expresion.generateCodeExpresion(sb, indent);
         }
 
         sb.append(t).append("i32.store\n");
+    }
+
+    @Override
+    public int calcularMem() {
+        return 0;//asignación no usa memoria;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        this.variableDestino.asignarDelta(dirPadre);
+        this.expresion.asignarDelta(dirPadre);
+        return dirPadre;
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        
     }
 }

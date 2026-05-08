@@ -57,9 +57,31 @@ public class NodoBloque extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        
-        for(Instruccion i:this.instrucciones){
+
+        for (Instruccion i : this.instrucciones) {
             i.generateCodeInstruccion(sb, indent);
         }
+    }
+
+    @Override
+    public int calcularMem() {
+        int t = 0;
+        for (Instruccion i : instrucciones)
+            t += i.calcularMem();
+        return t;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        delta = dirPadre;
+        int dirLocal = dirPadre;
+        for (Instruccion i : instrucciones)
+            dirLocal = i.asignarDelta(dirLocal);
+        return dirPadre;
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        
     }
 }

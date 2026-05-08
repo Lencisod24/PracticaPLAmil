@@ -43,18 +43,35 @@ public class NodoIden extends Designador {
     }
 
     @Override
-    public void generateCodeDesignador(StringBuilder sb, int indent) {
-    int delta = 0; // <-- AQUÍ irá el offset cuando lo tengas
-    
-    // Dirección base del marco de memoria (X)
-    // TODO: sustituir por la dirección base real si no es 0
-    int X = 0;
-    
-    // i32.const δ(*id) → empuja el offset
-    sb.append(indent).append("i32.const ").append(delta).append("\n");
-    // i32.const X → empuja la dirección base del marco
-    sb.append(indent).append("i32.const ").append(X).append("\n");
-    // i32.add → dirección final = base + offset
-    sb.append(indent).append("i32.add").append("\n");
+    public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
+        this.getVinculo().getTipo().size();
+        int delta = 0; // <-- AQUÍ irá el offset cuando lo tengas
+
+        // Dirección base del marco de memoria (X)
+        // TODO: sustituir por la dirección base real si no es 0
+        int X = 0;
+
+        // i32.const δ(*id) → empuja el offset
+        sb.append(indent).append("i32.const ").append(delta).append("\n");
+        // i32.const X → empuja la dirección base del marco
+        sb.append(indent).append("i32.const ").append(X).append("\n");
+        // i32.add → dirección final = base + offset
+        sb.append(indent).append("i32.add").append("\n");
+    }
+
+    @Override
+    public int calcularMem() {
+        return this.tam_mem;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        return this.calcularMem() + dirPadre;
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+
+        this.tam_mem = this.getVinculo().tam_mem;
     }
 }

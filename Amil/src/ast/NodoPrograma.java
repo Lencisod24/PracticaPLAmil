@@ -57,8 +57,6 @@ public class NodoPrograma extends ASTNode {
         return sb.toString();
     }
 
-    
-
     @Override
     public void chequea(TablaSimbolos ts) {
 
@@ -81,6 +79,40 @@ public class NodoPrograma extends ASTNode {
         if (bloquePrincipal != null) {
             bloquePrincipal.chequea(ts);
         }
+    }
+
+    @Override
+    public int calcularMem() {
+        int t = 0;
+        t += this.bloquePrincipal.calcularMem();
+        for (Declaracion d : this.declaracionesGlobales)
+            t += d.calcularMem();
+        for (Declaracion d : this.funcionesYStructs)
+            t += d.calcularMem();
+        
+        this.tam_mem = t;
+        return t;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        int dirLocal=0;
+        dirLocal=bloquePrincipal.asignarDelta(dirLocal);
+        for (Declaracion d : this.declaracionesGlobales)
+            dirLocal = d.asignarDelta(dirLocal);
+        for (Declaracion d : this.funcionesYStructs)
+            dirLocal = d.asignarDelta(dirLocal);
+        return dirLocal;  
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        bloquePrincipal.asignarTamanosMemTipos();;
+        for (Declaracion d : this.declaracionesGlobales)
+            d.asignarTamMemTipos();;
+        for (Declaracion d : this.funcionesYStructs)
+             d.asignarTamMemTipos();;
+        
     }
 
 }

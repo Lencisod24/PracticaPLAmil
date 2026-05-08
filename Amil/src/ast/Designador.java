@@ -15,12 +15,16 @@ public abstract class Designador extends Expresion {
     public Declaracion getVinculo() {
         return this.vinculo;
     }
+
+
     public void generateCodeExpresion(StringBuilder sb, int indent){
-        generateCodeDesignador(sb, indent);
+        
+        
+        generateCodeDesignador(sb, indent,false);
         // cuando sb ya tiene la direccion esto coge lo que hay en esa direccion 
         sb.append("  ".repeat(indent)).append("i32.load\n"); 
 
 
     }
-    public abstract void generateCodeDesignador(StringBuilder sb, int indent);
+    public abstract void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda);
 }

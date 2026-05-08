@@ -60,4 +60,22 @@ public class NodoMayor extends ExpresionBinaria {
             sb.append(tab).append("f64.g\n");
         }
     }
+
+    @Override
+    public int calcularMem() {
+        return 0; //esto no reserva memoria en si;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        opIzq().asignarDelta(dirPadre);
+        opDer().asignarDelta(dirPadre);
+        return dirPadre; // Devolvemos la misma dirección porque no hemos consumido nada
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        opIzq().asignarTamMemTipos();
+        opDer().asignarTamMemTipos();
+    }
 }

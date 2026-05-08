@@ -37,4 +37,21 @@ public class NodoEntero extends Expresion {
 
     }
 
+    @Override
+    public int calcularMem() {
+        return this.tam_mem;
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        int dirLocal= dirPadre;
+        dirPadre+=this.tam_mem;
+        return dirLocal;
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        this.tam_mem =4;
+    }
+
 }
