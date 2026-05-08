@@ -4,7 +4,7 @@ import semantico.ComprobadorTipos;
 import semantico.TablaSimbolos;
 import semantico.Tipos;
 
-public class NodoDiv extends ExpresionBinaria {     
+public class NodoDiv extends ExpresionBinaria {
     public NodoDiv(int fil, int col, Expresion opIzq, Expresion opDer) {
         super(fil, col, opIzq, opDer);
         this.kind = KindE.DIV;
@@ -40,10 +40,11 @@ public class NodoDiv extends ExpresionBinaria {
             this.setTipo(Tipos.ERROR);
             return;
         }
-        
+
         // Asignamos el tipo resultante
         this.setTipo(ComprobadorTipos.inferirTipoAritmetico(tipoIzq, tipoDer));
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
@@ -54,5 +55,23 @@ public class NodoDiv extends ExpresionBinaria {
         } else if (opIzq().getTipo().equals(Tipos.REAL)) {
             sb.append(tab).append("f64.div\n");
         }
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

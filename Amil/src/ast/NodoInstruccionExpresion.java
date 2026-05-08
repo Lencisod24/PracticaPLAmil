@@ -3,14 +3,13 @@ package ast;
 import semantico.TablaSimbolos;
 
 public class NodoInstruccionExpresion extends Instruccion {
-    
+
     private Expresion exp;
 
     public NodoInstruccionExpresion(int fil, int col, Expresion exp) {
-        super(fil, col); 
+        super(fil, col);
         this.exp = exp;
-        
-        
+
     }
 
     public Expresion expresion() {
@@ -32,5 +31,23 @@ public class NodoInstruccionExpresion extends Instruccion {
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         exp.generateCodeExpresion(sb, indent);
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

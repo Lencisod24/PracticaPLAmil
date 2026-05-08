@@ -25,4 +25,22 @@ public class NodoNull extends Expresion {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
     }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
+    }
 }

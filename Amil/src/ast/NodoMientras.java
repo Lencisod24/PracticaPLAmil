@@ -49,7 +49,8 @@ public class NodoMientras extends Instruccion {
             bloque.chequea(ts);
         }
     }
-    //TODO: revisar aqui el indent
+
+    // TODO: revisar aqui el indent
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // 1. Abrimos el block y el loop
@@ -77,5 +78,23 @@ public class NodoMientras extends Instruccion {
         sb.append("    end\n"); // Cierra el loop
         sb.append("    end\n"); // Cierra el block
 
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

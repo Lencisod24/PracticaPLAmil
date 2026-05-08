@@ -48,7 +48,6 @@ public class NodoFuncion extends Declaracion {
         return parametros;
     }
 
-
     @Override
     public void chequea(TablaSimbolos ts) {
         // Comprobamos que el valor de retorno sea válido
@@ -93,5 +92,23 @@ public class NodoFuncion extends Declaracion {
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

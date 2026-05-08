@@ -21,11 +21,14 @@ public class NodoCadena extends Expresion {
     public String toString(String tab) {
         return tab + "Cadena: " + valor + "\n";
     }
+
     @Override
     public void chequea(TablaSimbolos ts) {
         this.setTipo(Tipos.CADENA);
-    } 
-    //TODO: aquí hay que revisar esto también, por lo visto hay que hacer algo de memoria
+    }
+
+    // TODO: aquí hay que revisar esto también, por lo visto hay que hacer algo de
+    // memoria
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         // Las cadenas se almacenan en memoria y se deja su dirección en la pila
@@ -33,5 +36,23 @@ public class NodoCadena extends Expresion {
         String tab = "  ".repeat(indent);
         sb.append(tab).append(";; cadena: ").append(valor).append("\n");
         sb.append(tab).append("i32.const 0 ;; TODO: dirección de la cadena en memoria\n");
-    }  
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
+    }
 }

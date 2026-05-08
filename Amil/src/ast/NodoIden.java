@@ -44,7 +44,7 @@ public class NodoIden extends Designador {
 
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
-        this.getVinculo().getTipo().size();
+        this.getVinculo().getTipo();
         int delta = 0; // <-- AQUÍ irá el offset cuando lo tengas
 
         // Dirección base del marco de memoria (X)

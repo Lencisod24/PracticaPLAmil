@@ -45,8 +45,27 @@ public class NodoMasUnario extends ExpresionUnaria {
             this.setTipo(tipo);
         }
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         operando().generateCodeExpresion(sb, indent);
     }
-} 
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
+    }
+}

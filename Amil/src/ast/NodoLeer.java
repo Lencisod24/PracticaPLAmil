@@ -23,8 +23,8 @@ public class NodoLeer extends Instruccion {
     @Override
     public void chequea(TablaSimbolos ts) {
         if (ts.buscaId(identificador) == null) {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                            "]: La variable '" + identificador + "' no ha sido declarada.");
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: La variable '" + identificador + "' no ha sido declarada.");
         }
     }
 
@@ -32,5 +32,23 @@ public class NodoLeer extends Instruccion {
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

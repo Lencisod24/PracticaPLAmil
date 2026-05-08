@@ -52,6 +52,7 @@ public class NodoSuma extends ExpresionBinaria {
         // Asignamos el tipo resultante
         this.setTipo(ComprobadorTipos.inferirTipoAritmetico(tipoIzq, tipoDer));
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
@@ -62,5 +63,23 @@ public class NodoSuma extends ExpresionBinaria {
         } else if (opIzq().getTipo().equals(Tipos.REAL)) {
             sb.append(tab).append("f64.add\n");
         }
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

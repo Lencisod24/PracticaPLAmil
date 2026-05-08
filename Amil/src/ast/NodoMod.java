@@ -48,11 +48,30 @@ public class NodoMod extends ExpresionBinaria {
             this.setTipo(Tipos.ENTERO);
         }
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
         opIzq().generateCodeExpresion(sb, indent);
         opDer().generateCodeExpresion(sb, indent);
         sb.append(tab).append("i32.rem_s\n");
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

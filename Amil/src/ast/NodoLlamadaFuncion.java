@@ -88,9 +88,10 @@ public class NodoLlamadaFuncion extends Expresion {
 
         }
     }
+
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        
+
         if (argumentos != null) {
             for (Expresion arg : argumentos) {
                 if (arg != null) {
@@ -99,8 +100,26 @@ public class NodoLlamadaFuncion extends Expresion {
             }
         }
 
-        
-        for (int i = 0; i < indent; i++) sb.append("  ");
+        for (int i = 0; i < indent; i++)
+            sb.append("  ");
         sb.append("call $").append(id).append("\n");
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

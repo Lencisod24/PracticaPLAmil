@@ -4,11 +4,11 @@ import semantico.TablaSimbolos;
 import semantico.Tipos;
 
 public class NodoImprimir extends Instruccion {
-    
+
     private Expresion expresion;
 
     public NodoImprimir(int fil, int col, Expresion e) {
-        super(fil, col); 
+        super(fil, col);
         this.expresion = e;
     }
 
@@ -20,8 +20,8 @@ public class NodoImprimir extends Instruccion {
     public String toString(String tab) {
         // Imprime su nombre y luego manda a imprimir la expresión que tiene dentro
         // añadiéndole un poco más de tab
-        return tab + "Imprimir\n" + 
-               expresion.toString(tab + "  ");
+        return tab + "Imprimir\n" +
+                expresion.toString(tab + "  ");
     }
 
     @Override
@@ -29,13 +29,12 @@ public class NodoImprimir extends Instruccion {
         if (expresion != null) {
             expresion.chequea(ts);
             String tipoExp = expresion.getTipo();
-            if(tipoExp.equals(Tipos.ERROR)){
+            if (tipoExp.equals(Tipos.ERROR)) {
                 return;
             }
-        }
-        else {
-            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() + 
-                           "]: Intento de imprimir una expresión nula.");
+        } else {
+            System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: Intento de imprimir una expresión nula.");
         }
     }
 
@@ -43,5 +42,23 @@ public class NodoImprimir extends Instruccion {
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }

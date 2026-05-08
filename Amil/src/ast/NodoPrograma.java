@@ -89,30 +89,32 @@ public class NodoPrograma extends ASTNode {
             t += d.calcularMem();
         for (Declaracion d : this.funcionesYStructs)
             t += d.calcularMem();
-        
+
         this.tam_mem = t;
         return t;
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        int dirLocal=0;
-        dirLocal=bloquePrincipal.asignarDelta(dirLocal);
+        int dirLocal = 0;
+        dirLocal = bloquePrincipal.asignarDelta(dirLocal);
         for (Declaracion d : this.declaracionesGlobales)
             dirLocal = d.asignarDelta(dirLocal);
         for (Declaracion d : this.funcionesYStructs)
             dirLocal = d.asignarDelta(dirLocal);
-        return dirLocal;  
+        return dirLocal;
     }
 
     @Override
     public void asignarTamMemTipos() {
-        bloquePrincipal.asignarTamanosMemTipos();;
+        bloquePrincipal.asignarTamMemTipos();
         for (Declaracion d : this.declaracionesGlobales)
-            d.asignarTamMemTipos();;
+            d.asignarTamMemTipos();
+        ;
         for (Declaracion d : this.funcionesYStructs)
-             d.asignarTamMemTipos();;
-        
+            d.asignarTamMemTipos();
+        ;
+
     }
 
 }

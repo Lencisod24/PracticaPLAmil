@@ -17,6 +17,7 @@ public class Main {
 			System.out.println(ast.toString(""));
 			TablaSimbolos ts = new TablaSimbolos();
 			ast.chequea(ts);
+			ast.calcularMem();
 		} catch (Exception e) {
 			System.out.println("Excepción durante la compilación:");
 			e.printStackTrace();

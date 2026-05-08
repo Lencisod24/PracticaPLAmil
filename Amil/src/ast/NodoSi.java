@@ -79,7 +79,7 @@ public class NodoSi extends Instruccion {
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
 
-        String t = " ".repeat(indent); 
+        String t = " ".repeat(indent);
 
         condicion.generateCodeExpresion(sb, indent);
 
@@ -98,5 +98,23 @@ public class NodoSi extends Instruccion {
 
         sb.append(t).append("end\n");
 
+    }
+
+    @Override
+    public int calcularMem() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+    }
+
+    @Override
+    public void asignarTamMemTipos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
     }
 }
