@@ -67,19 +67,18 @@ public class NodoSuma extends ExpresionBinaria {
 
     @Override
     public int calcularMem() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcularMem'");
+        // Las expresiones no ocupan memoria persistente en el marco de ejecución
+        return 0;
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        // Se queda igual al no asignarle memoria
+        return dirPadre;
     }
 
     @Override
     public void asignarTamMemTipos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarTamMemTipos'");
+        // No tiene tamaño en memoria asignable
     }
 }

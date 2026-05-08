@@ -81,6 +81,10 @@ public class NodoPrograma extends ASTNode {
         }
     }
 
+    public void generateCodeInstruccion(String sb, int indent) {
+
+    }
+
     @Override
     public int calcularMem() {
         int t = 0;

@@ -127,24 +127,23 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        delta=dirPadre;
-        return dirPadre+ this.calcularMem();
-
-    
+        delta = dirPadre;
+        return dirPadre + this.calcularMem();
     }
-    //TODO: esto me lo ha hecho gemini yo creo que está mal;
+
+    // TODO: esto me lo ha hecho gemini yo creo que está mal;
     @Override
     public void asignarTamMemTipos() {
         // Si tienes expresiones en las dimensiones del array (ej: int[5+5] x)
         // primero diles a esas expresiones que calculen sus cosas
-    if (dimensionesArray != null) {
-        for (Expresion exp : dimensionesArray) {
-            exp.asignarTamMemTipos();
+        if (dimensionesArray != null) {
+            for (Expresion exp : dimensionesArray) {
+                exp.asignarTamMemTipos();
+            }
         }
-    }
-    // Si hay un valor inicial (ej: int x = 10), también debe calcular su tamaño
-    if (valorInicial != null) {
-        valorInicial.asignarTamMemTipos();
-    }
+        // Si hay un valor inicial (ej: int x = 10), también debe calcular su tamaño
+        if (valorInicial != null) {
+            valorInicial.asignarTamMemTipos();
+        }
     }
 }

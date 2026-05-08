@@ -25,8 +25,7 @@ public class NodoAccesoArray extends Designador {
 
     @Override
     public String toString(String tab) {
-        return tab + "ACCESO ARRAY ([])\n" +
-                array.toString(tab + "  ") + indice.toString(tab + "  ");
+        return tab + "ACCESO ARRAY ([])\n" + array.toString(tab + "  ") + indice.toString(tab + "  ");
     }
 
     public void chequea(TablaSimbolos ts) {

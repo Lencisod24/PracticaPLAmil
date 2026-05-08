@@ -29,7 +29,7 @@ public class Tipos {
     public static boolean esPuntero(String tipo) {
         return tipo.startsWith("puntero");
     }
-    //TODO: revisar comentarios
+
     public static int getTamano(String tipo) {
         if (tipo == null || tipo.equals(ERROR) || tipo.equals(VACIO)) {
             return 0;

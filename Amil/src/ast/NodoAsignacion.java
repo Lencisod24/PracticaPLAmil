@@ -88,7 +88,7 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public int calcularMem() {
-        return 0;//asignación no usa memoria;
+        return 0; // asignación no usa memoria;
     }
 
     @Override
@@ -100,6 +100,6 @@ public class NodoAsignacion extends Instruccion {
 
     @Override
     public void asignarTamMemTipos() {
-        
+        // No tiene tamaño en memoria
     }
 }

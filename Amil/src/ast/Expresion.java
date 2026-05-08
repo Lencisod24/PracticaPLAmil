@@ -7,7 +7,7 @@ public abstract class Expresion extends ASTNode {
 
     public Expresion(int fil, int col) {
         super(fil, col, NodeKind.EXPRESION);
-        this.tipo = null;    //se setea desde cada sitio en el chequea
+        this.tipo = null; // se setea desde cada sitio en el chequea
     }
 
     public String getTipo() {
@@ -21,7 +21,7 @@ public abstract class Expresion extends ASTNode {
     public KindE kind() {
         return kind;
     }
-    public abstract void generateCodeExpresion(StringBuilder sb,int indent);
 
+    public abstract void generateCodeExpresion(StringBuilder sb, int indent);
 
-    }
+}

@@ -44,14 +44,14 @@ public class NodoEntero extends Expresion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        int dirLocal= dirPadre;
-        dirPadre+=this.tam_mem;
+        int dirLocal = dirPadre;
+        dirPadre += this.tam_mem;
         return dirLocal;
     }
 
     @Override
     public void asignarTamMemTipos() {
-        this.tam_mem =4;
+        this.tam_mem = 4;
     }
 
 }

@@ -44,19 +44,25 @@ public class NodoIden extends Designador {
 
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
-        this.getVinculo().getTipo();
-        int delta = 0; // <-- AQUÍ irá el offset cuando lo tengas
-
-        // Dirección base del marco de memoria (X)
-        // TODO: sustituir por la dirección base real si no es 0
-        int X = 0;
-
+        String tab = "  ".repeat(indent);
+        // Obtenemos el delta de la declaración a la que está vinculada la variable
+        int delta = this.getVinculo().getDelta();
+        // Empujamos la dirección base del marco actual ($MP)
+        sb.append(tab).append("global.get $MP\n");
         // i32.const δ(*id) → empuja el offset
-        sb.append(indent).append("i32.const ").append(delta).append("\n");
-        // i32.const X → empuja la dirección base del marco
-        sb.append(indent).append("i32.const ").append(X).append("\n");
+        sb.append(tab).append("i32.const ").append(delta).append("\n");
         // i32.add → dirección final = base + offset
-        sb.append(indent).append("i32.add").append("\n");
+        sb.append(tab).append("i32.add").append("\n");
+        // Aparece a la derecha como expresión, así que necesitamos su valor
+        if (!izquierda)
+            sb.append(tab).append("i32.load\n");
+    }
+
+    // Para cuando el identificador se lee como valor (ej: 1 + x)
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        // Por defecto los designadores como expresión están a la derecha
+        generateCodeDesignador(sb, indent, false);
     }
 
     @Override
