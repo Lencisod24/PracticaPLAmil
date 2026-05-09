@@ -10,6 +10,7 @@
 (elem $funcmap (i32.const 0) $init)
 (import "runtime" "print" (func $print (type $_sig_i32)))
 (import "runtime" "read" (func $read (type $_sig_ri32)))
+(import "runtime" "exceptionHandler" (func $exception (type $_sig_i32)))
 (table $funcmap 1 1 funcref)
 (global $smd i32 (i32.const 64)) ;; points to start of memory data
 (memory 2000)
@@ -48,7 +49,7 @@
   i32.const 4
   i32.add
   i32.const 3
- i32.store
+  i32.store
   global.get $MP
   i32.const 8
   i32.add

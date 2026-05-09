@@ -118,25 +118,26 @@ public class NodoDecVariable extends Declaracion {
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         if (valorInicial != null) {
-        String t = "  ".repeat(indent);
-        sb.append(t).append("global.get $MP\n");
-        sb.append(t).append("i32.const ").append(this.delta).append("\n");
-        sb.append(t).append("i32.add\n");
-        valorInicial.generateCodeExpresion(sb, indent);
-        sb.append(t).append("i32.store\n");
+            String t = "  ".repeat(indent);
+            sb.append(t).append("global.get $MP\n");
+            sb.append(t).append("i32.const ").append(this.delta).append("\n");
+            sb.append(t).append("i32.add\n");
+            valorInicial.generateCodeExpresion(sb, indent);
+            sb.append(t).append("i32.store\n");
+        }
     }
-    }
-
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
         this.delta = curr.get();
-        curr.addAndGet(Tipos.getTamano(tipo)); //curr += Tipos.getTamano(tipo)
-        if(curr.get() > max.get()) max.set(curr.get());
+        curr.addAndGet(Tipos.getTamano(tipo)); // curr += Tipos.getTamano(tipo)
+        if (curr.get() > max.get())
+            max.set(curr.get());
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        return this.delta;
+        this.delta = dirPadre;
+        return dirPadre + Tipos.getTamano(tipo);
     }
 }

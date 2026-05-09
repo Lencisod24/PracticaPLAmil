@@ -21,6 +21,7 @@ public class Main {
 			TablaSimbolos ts = new TablaSimbolos();
 			ast.chequea(ts);
 			ast.calcularMem(new AtomicInteger(0), new AtomicInteger(0));
+			ast.asignarDelta(4); // El tamaño del dynamic link (DL)
 
 			// Generar código
 			StringBuilder sb = new StringBuilder();

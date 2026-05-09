@@ -100,13 +100,13 @@ public class NodoPrograma extends ASTNode {
         sb.append("(elem $funcmap (i32.const 0) $init)\n");
         sb.append("(import \"runtime\" \"print\" (func $print (type $_sig_i32)))\n");
         sb.append("(import \"runtime\" \"read\" (func $read (type $_sig_ri32)))\n");
+        sb.append("(import \"runtime\" \"exceptionHandler\" (func $exception (type $_sig_i32)))\n");
         sb.append("(table $funcmap 1 1 funcref)\n");
         sb.append("(global $smd i32 (i32.const 64)) ;; points to start of memory data\n");
         sb.append("(memory 2000)\n");
-        // ESTO NO SE LO QUE ES
-        sb.append("(global $SP (mut i32) (i32.const 0))\n");
-        sb.append("(global $MP (mut i32) (i32.const 0))\n");
-        sb.append("(global $NP (mut i32) (i32.const 131071996))\n");
+        sb.append("(global $SP (mut i32) (i32.const 0))\n"); // Stack Pointer, tope de la pila
+        sb.append("(global $MP (mut i32) (i32.const 0))\n"); // Mark Pointer, inicio del marco actual
+        sb.append("(global $NP (mut i32) (i32.const 131071996))\n"); // New Pointer, límite del heap
 
         // Función reserveStack
         sb.append("(func $reserveStack (param $size i32) (result i32)\n");
@@ -160,14 +160,13 @@ public class NodoPrograma extends ASTNode {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        int dirLocal = 0;
-
-        for (Declaracion d : this.declaracionesGlobales)
-            dirLocal = d.asignarDelta(dirLocal);
+        // El bloque principal empieza después del Dynamic Link
+        // DL es el puntero a quién te llamó
+        bloquePrincipal.asignarDelta(dirPadre);
+        // Las funciones calculan sus propios deltas internamente desde DL
         for (Declaracion d : this.funcionesYStructs)
-            dirLocal = d.asignarDelta(dirLocal);
-        dirLocal = bloquePrincipal.asignarDelta(dirLocal);
-        return dirLocal;
+            d.asignarDelta(dirPadre);
+        return 0;
     }
 
 }

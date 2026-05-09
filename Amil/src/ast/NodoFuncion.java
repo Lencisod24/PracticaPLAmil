@@ -88,27 +88,30 @@ public class NodoFuncion extends Declaracion {
 
         ts.cierraBloque();
     }
+
     @Override
-    public void calcularMem(AtomicInteger curr, AtomicInteger max){
-        //curr.set(0);
-        //max.set(0);
-        for(NodoParametro np : this.parametros){
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        // curr.set(0);
+        // max.set(0);
+        for (NodoParametro np : this.parametros) {
             np.calcularMem(curr, max);
         }
         this.bloque.calcularMem(curr, max);
 
     }
+
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 
-    
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int dir = dirPadre; // Vale 4 porque siempre le llamamos así desde el nodoPrograma
+        for (NodoParametro np : parametros)
+            dir = np.asignarDelta(dir);
+        bloque.asignarDelta(dir);
+        return dirPadre; // no ocupa nada en el marco del padre
     }
 }
