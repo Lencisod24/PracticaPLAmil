@@ -90,8 +90,8 @@ public class NodoFuncion extends Declaracion {
     }
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max){
-        curr.set(0);
-        max.set(0);
+        //curr.set(0);
+        //max.set(0);
         for(NodoParametro np : this.parametros){
             np.calcularMem(curr, max);
         }

@@ -110,9 +110,7 @@ public class NodoLlamadaFuncion extends Expresion {
 
     
     public void calcularMem(AtomicInteger curr, AtomicInteger aux){
-       // declaracion.calcularMem(curr,aux);
-       //TODO: mr cago en pl;
-        
+       declaracion.calcularMem(curr, aux);
     }
     @Override
     public int asignarDelta(int dirPadre) {

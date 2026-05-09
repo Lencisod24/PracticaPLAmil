@@ -67,11 +67,11 @@ public class NodoBloque extends Instruccion {
     //calcula el tamaño que luego se va a reservar
     @Override
     public void calcularMem(AtomicInteger curr,  AtomicInteger max) {
-            AtomicInteger curr_aux = curr;
+            int curr_aux = curr.get();
             for(Instruccion inst : instrucciones){
                 inst.calcularMem(curr, max);
             }
-            curr = curr_aux;
+            curr.set(curr_aux);
     }
 
 

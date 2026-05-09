@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import semantico.TablaSimbolos;
 
@@ -9,6 +10,7 @@ public class NodoPrograma extends ASTNode {
     private List<Declaracion> declaracionesGlobales;
     private List<Declaracion> funcionesYStructs;
     private NodoBloque bloquePrincipal;
+    private int memSize;
 
     public NodoPrograma(int fil, int col, List<Declaracion> declaracionesGlobales, List<Declaracion> funcionesYStructs,
             NodoBloque bloquePrincipal) {
@@ -16,6 +18,7 @@ public class NodoPrograma extends ASTNode {
         this.declaracionesGlobales = declaracionesGlobales;
         this.funcionesYStructs = funcionesYStructs;
         this.bloquePrincipal = bloquePrincipal;
+        this.memSize = 0;
     }
 
     public List<Declaracion> getDeclaracionesGlobales() {
@@ -82,6 +85,7 @@ public class NodoPrograma extends ASTNode {
     }
 
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
+        
         // Definición de datos y tipos
         sb.append("(data (i32.const 64) \"\\22\\00\\00\\00\") ;; 34\n");
         sb.append("(data (i32.const 68) \"#\\00\\00\\00\")   ;; 35\n");
@@ -99,6 +103,10 @@ public class NodoPrograma extends ASTNode {
         sb.append("(table $funcmap 1 1 funcref)\n");
         sb.append("(global $smd i32 (i32.const 64)) ;; points to start of memory data\n");
         sb.append("(memory 2000)\n");
+        // ESTO NO SE LO QUE ES
+        sb.append("(global $SP (mut i32) (i32.const 0))\n");
+        sb.append("(global $MP (mut i32) (i32.const 0))\n");
+        sb.append("(global $NP (mut i32) (i32.const 131071))\n");
 
         // Función reserveStack
         sb.append("(func $reserveStack (param $size i32) (result i32)\n");
@@ -128,10 +136,25 @@ public class NodoPrograma extends ASTNode {
         sb.append(")\n");
         for(Declaracion d: declaracionesGlobales) d.generateCodeInstruccion(sb,indent);
         for(Declaracion d: funcionesYStructs) d.generateCodeInstruccion(sb,indent);
-        bloquePrincipal.generateCodeInstruccion(sb,indent);
+        
+
+        sb.append("(func $init\n");
+        sb.append("  i32.const ").append(memSize).append("\n");
+        sb.append("  call $reserveStack\n");
+        sb.append("  global.get $MP\n");
+        sb.append("  i32.store\n");
+        bloquePrincipal.generateCodeInstruccion(sb, 1);
+        sb.append("  call $freeStack\n");
+        sb.append(")\n");
     };
 
-    
+    @Override 
+    public void calcularMem(AtomicInteger curr, AtomicInteger  max) {
+        AtomicInteger curr1 = new AtomicInteger(4);
+        AtomicInteger max1 = new AtomicInteger(4);
+        bloquePrincipal.calcularMem(curr1, max1);
+        memSize = max1.get();
+    }
 
     @Override
     public int asignarDelta(int dirPadre) {
