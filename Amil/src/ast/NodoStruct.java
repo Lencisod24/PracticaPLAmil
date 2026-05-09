@@ -77,8 +77,6 @@ public class NodoStruct extends Declaracion {
         throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
     }
 
-    
-
     @Override
     public int asignarDelta(int dirPadre) {
         // TODO Auto-generated method stub

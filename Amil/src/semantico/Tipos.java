@@ -35,18 +35,18 @@ public class Tipos {
             return 0;
         }
 
-        // 1. Tipos básicos (Asumiendo 4 bytes para casi todos en WASM/32-bit)
+        // Asumimos 4 bytes para todos los tipos básicos en WASM/32-bit
+        // Usaremos i32 y f32 en la generación de código
         if (tipo.equals(ENTERO) || tipo.equals(REAL) || tipo.equals(BOOLEANO) || tipo.equals(CARACTER)) {
             return 4;
         }
 
-        // 2. Punteros (En una arquitectura de 32 bits, una dirección siempre ocupa 4
-        // bytes)
+        // Los punteros en esta arquitectura son una dirección que siempre ocupa 4 bytes
         if (esPuntero(tipo)) {
             return 4;
         }
 
-        // 3. Arrays (Formato esperado: "[10] entero")
+        // TODO: cambiar esto pq no es así
         if (esArray(tipo)) {
             try {
                 // Extraemos el número entre corchetes

@@ -27,7 +27,6 @@ public class NodoCaracter extends Expresion {
         this.setTipo(Tipos.CARACTER);
     }
 
-    // TODO: revisar esto;
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);
@@ -36,11 +35,8 @@ public class NodoCaracter extends Expresion {
         sb.append(tab).append("i32.const ").append((int) c).append("\n");
     }
 
-    
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre; // los literales no ocupan espacio en el marco
     }
 }

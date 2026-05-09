@@ -36,9 +36,8 @@ public class NodoEntero extends Expresion {
 
     }
 
-
     @Override
     public int asignarDelta(int dirPadre) {
-        return dirPadre;
+        return dirPadre; // los literales no ocupan espacio en el marco
     }
 }

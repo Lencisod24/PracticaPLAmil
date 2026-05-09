@@ -38,11 +38,8 @@ public class NodoCadena extends Expresion {
         sb.append(tab).append("i32.const 0 ;; TODO: dirección de la cadena en memoria\n");
     }
 
-   
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre; // los literales no ocupan espacio en el marco
     }
 }

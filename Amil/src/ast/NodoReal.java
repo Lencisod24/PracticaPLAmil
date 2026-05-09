@@ -30,16 +30,13 @@ public class NodoReal extends Expresion {
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         sb.append("  ".repeat(indent))
-                .append("f64.const ")
+                .append("f32.const ")
                 .append(valor)
                 .append("\n");
     }
 
-    
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre; // los literales no ocupan espacio en el marco
     }
 }

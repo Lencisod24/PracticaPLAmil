@@ -35,11 +35,8 @@ public class NodoBooleano extends Expresion {
                 .append("\n");
     }
 
-    
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre; // los literales no ocupan espacio en el marco
     }
 }
