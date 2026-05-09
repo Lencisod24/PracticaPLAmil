@@ -4,14 +4,14 @@ import semantico.TablaSimbolos;
 
 public class NodoLeer extends Instruccion {
 
-    private String identificador; // La variable donde vamos a leer
+    private Designador identificador; // La variable donde vamos a leer
 
-    public NodoLeer(int fil, int col, String identificador) {
+    public NodoLeer(int fil, int col, Designador identificador) {
         super(fil, col);
         this.identificador = identificador;
     }
 
-    public String getIdentificador() {
+    public Designador getIdentificador() {
         return identificador;
     }
 
@@ -22,7 +22,8 @@ public class NodoLeer extends Instruccion {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        if (ts.buscaId(identificador) == null) {
+        identificador.chequea(ts);
+        if (ts.buscaId(identificador.getIden()) == null) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: La variable '" + identificador + "' no ha sido declarada.");
         }
@@ -30,15 +31,14 @@ public class NodoLeer extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+        identificador.generateCodeDesignador(sb, indent, true);
+        sb.append("call $read\n"); // valor leído en la pila
+        sb.append("i32.store\n"); // guarda en x
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int dirLocal = identificador.asignarDelta(dirPadre);
+        return dirLocal;
     }
 }

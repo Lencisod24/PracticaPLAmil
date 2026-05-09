@@ -57,7 +57,8 @@ public class NodoMul extends ExpresionBinaria {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int dirLocal = opIzq().asignarDelta(dirPadre);
+        dirLocal = opDer().asignarDelta(dirLocal);
+        return dirLocal;
     }
 }

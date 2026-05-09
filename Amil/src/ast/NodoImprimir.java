@@ -40,15 +40,15 @@ public class NodoImprimir extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+        expresion.generateCodeExpresion(sb, indent);
+        sb.append("call $print\n");
     }
 
     
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int dirLocal = expresion.asignarDelta(dirPadre);
+        return dirLocal;
     }
 }

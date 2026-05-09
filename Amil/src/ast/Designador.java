@@ -15,6 +15,9 @@ public abstract class Designador extends Expresion {
     public Declaracion getVinculo() {
         return this.vinculo;
     }
+    public String getIden(){
+        return this.vinculo.getIdentificador();
+    }
 
     public void generateCodeExpresion(StringBuilder sb, int indent) {
 

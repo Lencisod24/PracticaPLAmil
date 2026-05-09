@@ -1,9 +1,8 @@
-entero: base;
-entero: altura;
-real: area;
-
 princ
 ini
+    entero: base;
+    entero: altura;
+    entero: area;
     leer(base);
     leer(altura);
     area = (base * altura) / 2;

@@ -141,7 +141,7 @@ Param ::= VAL:v IDEN:id DOSPUNTOS Tipo:t {: RESULT = new NodoParametro(vleft, vr
 Instruccion ::= Dec_Variable:d                                          {: RESULT = d; :} // Declaraciones de variables
               | Designador:d ASIGNACION:op Expresion:e2 PUNTOYCOMA      {: RESULT = new NodoAsignacion(opleft, opright, d, e2); :} // Asignación genérica
               | IMPRIMIR:imp PAP Expresion:e PCIERRE PUNTOYCOMA         {: RESULT = new NodoImprimir(impleft, impright, (Expresion) e); :} // Salida
-              | LEER:l PAP IDEN:id PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, id.lexema); :} // Entrada
+              | LEER:l PAP Designador:d PCIERRE PUNTOYCOMA                   {: RESULT = new NodoLeer(lleft, lright, d); :} // Entrada
               | Expresion:e PUNTOYCOMA                                  {: RESULT = new NodoInstruccionExpresion(eleft,eright,e); :} // Evaluar sin asignar (ej: métodos)
               | SI:s Expresion:e ENTONCES Bloque:b                      {: RESULT = new NodoSi(sleft, sright, e, b); :} // Condicional
               | SI:s Expresion:e ENTONCES Bloque:b1 SINO Bloque:b2      {: RESULT = new NodoSi(sleft, sright, e, b1, b2); :} // Condicional

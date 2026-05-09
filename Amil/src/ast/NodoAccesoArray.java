@@ -79,7 +79,7 @@ public class NodoAccesoArray extends Designador {
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
         // String t = " ".repeat(indent);
-
+        //TODO:este código es pillado del campus
         // array.generateCodeDesignador(sb, indent);
         /*
          * if (indices != null && !indices.isEmpty()) {

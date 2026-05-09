@@ -41,59 +41,37 @@
   global.set $MP
 )
 (func $init
-  i32.const 8
+  i32.const 16
   call $reserveStack
   global.get $MP
   i32.store
   global.get $MP
   i32.const 4
   i32.add
-  i32.const 0
-  i32.store
-  block
-  loop
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.load
-    i32.const 5
-    i32.lt_s
-    i32.eqz
-    br_if 1
-    global.get $MP
-    i32.const 4
-    i32.add
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.load
-    i32.const 1
-    i32.add
-    i32.store
-    br 0
-  end
-  end
+call $read
+i32.store
+  global.get $MP
+  i32.const 8
+  i32.add
+call $read
+i32.store
+  global.get $MP
+  i32.const 12
+  i32.add
   global.get $MP
   i32.const 4
   i32.add
   i32.load
-  i32.const 5
-  i32.eq
-  if
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.const 10
-    i32.store
-  else
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.const 99
-    i32.store
-  end
   global.get $MP
-  i32.const 4
+  i32.const 8
+  i32.add
+  i32.load
+  i32.mul
+  i32.const 2
+  i32.div_s
+  i32.store
+  global.get $MP
+  i32.const 12
   i32.add
   i32.load
 call $print

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test WASM</title>
+</head>
+<body>
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        const log = (msg) => document.getElementById('output').innerText += msg + '\n';
+
+        const imports = {
+            runtime: {
+                print: (value) => log("print: " + value),
+                read: () => { return parseInt(prompt("Introduce un número:")) || 0; },
+                exceptionHandler: (code) => log("EXCEPCION codigo: " + code)
+            }
+        };
+
+        fetch('prueba2.wasm')
+            .then(r => r.arrayBuffer())
+            .then(bytes => WebAssembly.instantiate(bytes, imports))
+            .then(obj => {
+                log("WASM cargado y ejecutado correctamente");
+                // El start $init se ejecuta automáticamente al cargar
+            })
+            .catch(err => log("ERROR: " + err));
+    </script>
+</body>
+</html>
