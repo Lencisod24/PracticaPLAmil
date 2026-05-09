@@ -81,7 +81,8 @@ public class NodoAsignacion extends Instruccion {
         // Generar el código para obtener la dirección del destino
         variableDestino.generateCodeDesignador(sb, indent, true);
         expresion.generateCodeExpresion(sb, indent);
-        sb.append(t).append("i32.store\n");
+        String store = variableDestino.getTipo().equals(Tipos.REAL) ? "f32.store" : "i32.store";
+        sb.append(t).append(store).append("\n");
     }
 
     @Override

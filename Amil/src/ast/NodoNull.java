@@ -22,15 +22,11 @@ public class NodoNull extends Expresion {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
+        sb.append("  ".repeat(indent)).append("i32.const 0\n");
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre;
     }
 }

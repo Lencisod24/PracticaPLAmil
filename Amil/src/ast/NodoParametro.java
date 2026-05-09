@@ -50,26 +50,31 @@ public class NodoParametro extends Declaracion {
                     + identificador + "' ya existe.");
         }
     }
-    @Override
-    public void calcularMem(AtomicInteger curr, AtomicInteger max){
-        if(!porReferencia){
-            curr.addAndGet(Tipos.getTamano(this.tipo));
-            max = curr;
-        }
 
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        this.delta = curr.get();
+        if (!porReferencia) {
+            curr.addAndGet(Tipos.getTamano(this.tipo)); // ocupa el tamaño de su tipo
+        } else {
+            curr.addAndGet(4); // siempre 4 bytes, es solo una dirección
+        }
+        if (curr.get() > max.get())
+            max.set(curr.get());
     }
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeInstruccion'");
+        // No genera código, su valor se define en la llamada a la función
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        this.delta = dirPadre;
+        if (!porReferencia) {
+            return dirPadre + Tipos.getTamano(tipo);
+        } else {
+            return dirPadre + 4; // solo una dirección
+        }
     }
 }

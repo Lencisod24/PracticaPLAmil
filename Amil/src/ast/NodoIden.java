@@ -46,15 +46,17 @@ public class NodoIden extends Designador {
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
         String tab = "  ".repeat(indent);
         // Obtenemos el delta de la declaración a la que está vinculada la variable
-        int delta = ((NodoDecVariable) this.getVinculo()).getDelta();        // Empujamos la dirección base del marco actual ($MP)
+        int delta = ((NodoDecVariable) this.getVinculo()).getDelta(); // Empujamos la dirección base del marco actual
+                                                                      // ($MP)
         sb.append(tab).append("global.get $MP\n");
         // i32.const δ(*id) → empuja el offset
         sb.append(tab).append("i32.const ").append(delta).append("\n");
         // i32.add → dirección final = base + offset
         sb.append(tab).append("i32.add").append("\n");
         // Aparece a la derecha como expresión, así que necesitamos su valor
+        String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
         if (!izquierda)
-            sb.append(tab).append("i32.load\n");
+            sb.append(tab).append(load).append("\n");
     }
 
     // Para cuando el identificador se lee como valor (ej: 1 + x)
@@ -63,7 +65,6 @@ public class NodoIden extends Designador {
         // Por defecto los designadores como expresión están a la derecha
         generateCodeDesignador(sb, indent, false);
     }
-
 
     @Override
     public int asignarDelta(int dirPadre) {

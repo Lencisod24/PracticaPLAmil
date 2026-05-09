@@ -123,7 +123,8 @@ public class NodoDecVariable extends Declaracion {
             sb.append(t).append("i32.const ").append(this.delta).append("\n");
             sb.append(t).append("i32.add\n");
             valorInicial.generateCodeExpresion(sb, indent);
-            sb.append(t).append("i32.store\n");
+            String store = tipo.equals(Tipos.REAL) ? "f32.store" : "i32.store";
+            sb.append(t).append(store).append("\n");
         }
     }
 

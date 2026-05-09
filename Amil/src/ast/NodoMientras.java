@@ -52,34 +52,20 @@ public class NodoMientras extends Instruccion {
         }
     }
 
-    // TODO: revisar aqui el indent
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        // 1. Abrimos el block y el loop
-        sb.append("    block\n");
-        sb.append("    loop\n");
-
-        // 2. code_E(e): Generamos el código que evalúa la condición
-        if (condicion != null) {
-            condicion.generateCodeExpresion(sb, indent);
-        }
-
-        // Comprobamos si la condición es falsa (0)
-        sb.append("    i32.eqz\n");
-
-        // Si es falsa (0), saltamos al final del 'block' (nivel de profundidad 1)
-        sb.append("    br_if 1\n");
-
-        if (bloque != null) {
-            bloque.generateCodeInstruccion(sb, indent);
-        }
-
-        // Volvemos incondicionalmente al inicio del 'loop' (nivel de profundidad 0)
-        sb.append("    br 0\n");
-
-        sb.append("    end\n"); // Cierra el loop
-        sb.append("    end\n"); // Cierra el block
-
+        String t = "  ".repeat(indent);
+        sb.append(t).append("block\n"); // abre block
+        sb.append(t).append("loop\n"); // abre loop
+        if (condicion != null)
+            condicion.generateCodeExpresion(sb, indent + 1);
+        sb.append(t).append("  i32.eqz\n"); // Comprobamos si la condición es cierta
+        sb.append(t).append("  br_if 1\n"); // Entra si es cierta
+        if (bloque != null)
+            bloque.generateCodeInstruccion(sb, indent + 1);
+        sb.append(t).append("  br 0\n");
+        sb.append(t).append("end\n"); // cierra loop
+        sb.append(t).append("end\n"); // cierra block
     }
 
     @Override
@@ -89,7 +75,7 @@ public class NodoMientras extends Instruccion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        bloque.asignarDelta(dirPadre);
+        return dirPadre; // el while no ocupa espacio en el marco del padre
     }
 }

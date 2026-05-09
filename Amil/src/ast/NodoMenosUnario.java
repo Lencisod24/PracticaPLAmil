@@ -56,14 +56,12 @@ public class NodoMenosUnario extends ExpresionUnaria {
             sb.append(tab).append("i32.sub\n");
         } else if (this.getTipo().equals(Tipos.REAL)) {
             operando().generateCodeExpresion(sb, indent);
-            sb.append(tab).append("f64.neg\n");
+            sb.append(tab).append("f32.neg\n");
         }
     }
 
-
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return dirPadre;
     }
 }

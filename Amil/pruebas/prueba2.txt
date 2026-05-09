@@ -1,15 +1,17 @@
-func vacio () : hola
-ini
-    cadena : hola = "hola";
-    imprimir(hola);
-fin
-
 princ
 ini
-    hola();
-    puntero entero : p;
-    p = nuevo(size(entero));
-    *p = size(real);
-    entero : x = *p;
-    p = null;
+    entero : x;
+    x = 0;
+    mientras x < 5 hacer
+    ini
+        x = x + 1;
+    fin
+    si x == 5 entonces
+    ini
+        x = 10;
+    fin
+    sino
+    ini
+        x = 99;
+    fin
 fin

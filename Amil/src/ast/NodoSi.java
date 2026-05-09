@@ -80,36 +80,39 @@ public class NodoSi extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-
-        String t = " ".repeat(indent);
-
+        String t = "  ".repeat(indent);
         condicion.generateCodeExpresion(sb, indent);
-
         // if
         sb.append(t).append("if\n");
 
         if (bloqueThen != null) {
-            bloqueThen.generateCodeInstruccion(sb, indent + 4);
+            bloqueThen.generateCodeInstruccion(sb, indent + 1);
         }
 
         // else + codeI(l1)
         if (bloqueElse != null) {
             sb.append(t).append("else\n");
-            bloqueElse.generateCodeInstruccion(sb, indent + 4);
+            bloqueElse.generateCodeInstruccion(sb, indent + 1);
         }
-
         sb.append(t).append("end\n");
-
     }
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
-        this.bloqueThen.calcularMem(curr, max);
+        int currMem = curr.get();
+        bloqueThen.calcularMem(curr, max);
+        curr.set(currMem);
+        if (bloqueElse != null) {
+            bloqueElse.calcularMem(curr, max);
+            curr.set(currMem);
+        }
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        bloqueThen.asignarDelta(dirPadre);
+        if (bloqueElse != null)
+            bloqueElse.asignarDelta(dirPadre);
+        return dirPadre; // if no ocupa espacio en el marco del padre
     }
 }

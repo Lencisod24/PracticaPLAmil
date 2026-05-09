@@ -1,12 +1,23 @@
 princ
 ini
-    entero : x;
-    si cierto entonces
-    ini
-        x = 3;
-    fin
-    [4] entero : a;
-    a[0] = 4;
-    [2] entero : b;
-    b = a;
+    entero : a;
+    entero : b;
+    booleano : c = cierto;
+    real : d = 2.0;
+    
+    a = 5;
+    b = 3;
+    
+    entero : suma = (a + b)%2;
+    entero : resta = a - b;
+    entero : producto = a * b;
+    
+    booleano : mayor = a > b;
+    booleano : menor = a < + b;
+    booleano : igual = a == - b;
+    
+    booleano : yLogico = (!cierto && falso);
+    booleano : oLogico = (cierto || falso);
+    puntero entero : caca = null;
+    entero : complejo = (a + b) * (a - b);
 fin
