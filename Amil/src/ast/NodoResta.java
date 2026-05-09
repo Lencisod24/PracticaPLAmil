@@ -46,18 +46,14 @@ public class NodoResta extends ExpresionBinaria {
     }
 
     @Override
-    public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        opIzq().generateCodeExpresion(sb, indent);
-        opDer().generateCodeExpresion(sb, indent);
-        if (opIzq().getTipo().equals(Tipos.ENTERO)) {
-            sb.append(tab).append("i32.sub\n");
-        } else if (opIzq().getTipo().equals(Tipos.REAL)) {
-            sb.append(tab).append("f64.sub\n");
-        }
+    protected String opcodeEntero() {
+        return "i32.sub";
     }
 
-    
+    @Override
+    protected String opcodeReal() {
+        return "f32.sub";
+    }
 
     @Override
     public int asignarDelta(int dirPadre) {

@@ -51,18 +51,14 @@ public class NodoIgual extends ExpresionBinaria {
     }
 
     @Override
-    public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        opIzq().generateCodeExpresion(sb, indent);
-        opDer().generateCodeExpresion(sb, indent);
-        if (opIzq().getTipo().equals(Tipos.REAL)) {
-            sb.append(tab).append("f64.eq\n");
-        } else {
-            sb.append(tab).append("i32.eq\n");
-        }
+    protected String opcodeEntero() {
+        return "i32.eq";
     }
 
-    
+    @Override
+    protected String opcodeReal() {
+        return "f32.eq";
+    }
 
     @Override
     public int asignarDelta(int dirPadre) {

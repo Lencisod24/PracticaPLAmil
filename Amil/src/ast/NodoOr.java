@@ -64,14 +64,9 @@ public class NodoOr extends ExpresionBinaria {
     }
 
     @Override
-    public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        opIzq().generateCodeExpresion(sb, indent);
-        opDer().generateCodeExpresion(sb, indent);
-        sb.append(tab).append("i32.or\n");
+    protected String opcodeBooleano() {
+        return "i32.or";
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {

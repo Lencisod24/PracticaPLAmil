@@ -54,18 +54,15 @@ public class NodoSuma extends ExpresionBinaria {
     }
 
     @Override
-    public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        opIzq().generateCodeExpresion(sb, indent);
-        opDer().generateCodeExpresion(sb, indent);
-        if (opIzq().getTipo().equals(Tipos.ENTERO)) {
-            sb.append(tab).append("i32.add\n");
-        } else if (opIzq().getTipo().equals(Tipos.REAL)) {
-            sb.append(tab).append("f32.add\n");
-        }
+    protected String opcodeEntero() {
+        return "i32.add";
     }
-    
-    
+
+    @Override
+    protected String opcodeReal() {
+        return "f32.add";
+    }
+
     @Override
     public int asignarDelta(int dirPadre) {
         int dirLocal = opIzq().asignarDelta(dirPadre);

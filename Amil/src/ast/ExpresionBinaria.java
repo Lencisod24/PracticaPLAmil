@@ -22,10 +22,45 @@ public abstract class ExpresionBinaria extends Expresion {
     public Expresion opDer() {
         return opDer;
     }
+
+    // Funciones implementadas en las clases concretas
+    // Devolverán el código correspondiente a la operación
+    protected String opcodeEntero() {
+        return null;
+    }
+
+    protected String opcodeReal() {
+        return null;
+    }
+
+    protected String opcodeBooleano() {
+        return null;
+    }
+
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        String t = "  ".repeat(indent);
+        opIzq().generateCodeExpresion(sb, indent);
+        opDer().generateCodeExpresion(sb, indent);
+
+        String opcode = null;
+        if (opIzq().getTipo().equals(Tipos.ENTERO)) {
+            opcode = opcodeEntero();
+        } else if (opIzq().getTipo().equals(Tipos.REAL)) {
+            opcode = opcodeReal();
+        } else if (opIzq().getTipo().equals(Tipos.BOOLEANO)) {
+            opcode = opcodeBooleano();
+        }
+        if (opcode != null) {
+            sb.append(t).append(opcode).append("\n");
+        }
+    }
+
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
         this.delta = curr.intValue();
-        //curr.addAndGet(opIzq.calcularMem(curr, max)); //curr += Tipos.getTamano(tipo)
-        if(curr.get() > max.get()) max.set(curr.get());
+        // curr.addAndGet(opIzq.calcularMem(curr, max)); //curr += Tipos.getTamano(tipo)
+        if (curr.get() > max.get())
+            max.set(curr.get());
     }
 }

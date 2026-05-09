@@ -52,17 +52,14 @@ public class NodoDistinto extends ExpresionBinaria {
     }
 
     @Override
-    public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        opIzq().generateCodeExpresion(sb, indent);
-        opDer().generateCodeExpresion(sb, indent);
-        if (opIzq().getTipo().equals(Tipos.REAL)) {
-            sb.append(tab).append("f64.ne\n");
-        } else {
-            sb.append(tab).append("i32.ne\n");
-        }
+    protected String opcodeEntero() {
+        return "i32.ne";
     }
 
+    @Override
+    protected String opcodeReal() {
+        return "f32.ne";
+    }
 
     @Override
     public int asignarDelta(int dirPadre) {
