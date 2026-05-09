@@ -85,7 +85,7 @@ public class NodoPrograma extends ASTNode {
     }
 
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        
+        sb.append("(module\n");
         // Definición de datos y tipos
         sb.append("(data (i32.const 64) \"\\22\\00\\00\\00\") ;; 34\n");
         sb.append("(data (i32.const 68) \"#\\00\\00\\00\")   ;; 35\n");
@@ -106,7 +106,7 @@ public class NodoPrograma extends ASTNode {
         // ESTO NO SE LO QUE ES
         sb.append("(global $SP (mut i32) (i32.const 0))\n");
         sb.append("(global $MP (mut i32) (i32.const 0))\n");
-        sb.append("(global $NP (mut i32) (i32.const 131071))\n");
+        sb.append("(global $NP (mut i32) (i32.const 131071996))\n");
 
         // Función reserveStack
         sb.append("(func $reserveStack (param $size i32) (result i32)\n");
@@ -134,9 +134,10 @@ public class NodoPrograma extends ASTNode {
         sb.append("  i32.load\n");
         sb.append("  global.set $MP\n");
         sb.append(")\n");
-        for(Declaracion d: declaracionesGlobales) d.generateCodeInstruccion(sb,indent);
-        for(Declaracion d: funcionesYStructs) d.generateCodeInstruccion(sb,indent);
-        
+        for (Declaracion d : declaracionesGlobales)
+            d.generateCodeInstruccion(sb, indent);
+        for (Declaracion d : funcionesYStructs)
+            d.generateCodeInstruccion(sb, indent);
 
         sb.append("(func $init\n");
         sb.append("  i32.const ").append(memSize).append("\n");
@@ -146,10 +147,11 @@ public class NodoPrograma extends ASTNode {
         bloquePrincipal.generateCodeInstruccion(sb, 1);
         sb.append("  call $freeStack\n");
         sb.append(")\n");
+        sb.append(")\n");
     };
 
-    @Override 
-    public void calcularMem(AtomicInteger curr, AtomicInteger  max) {
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
         AtomicInteger curr1 = new AtomicInteger(4);
         AtomicInteger max1 = new AtomicInteger(4);
         bloquePrincipal.calcularMem(curr1, max1);
@@ -159,7 +161,7 @@ public class NodoPrograma extends ASTNode {
     @Override
     public int asignarDelta(int dirPadre) {
         int dirLocal = 0;
-        
+
         for (Declaracion d : this.declaracionesGlobales)
             dirLocal = d.asignarDelta(dirLocal);
         for (Declaracion d : this.funcionesYStructs)
@@ -167,7 +169,5 @@ public class NodoPrograma extends ASTNode {
         dirLocal = bloquePrincipal.asignarDelta(dirLocal);
         return dirLocal;
     }
-
-    
 
 }

@@ -17,13 +17,21 @@ public class Main {
 			AnalizadorSintactico asint = new AnalizadorSintactico(alex);
 			NodoPrograma ast = (NodoPrograma) asint.parse().value;
 			System.out.println(ast.toString(""));
+
 			TablaSimbolos ts = new TablaSimbolos();
 			ast.chequea(ts);
 			ast.calcularMem(new AtomicInteger(0), new AtomicInteger(0));
-			StringBuilder sb= new StringBuilder();
+
+			// Generar código
+			StringBuilder sb = new StringBuilder();
 			ast.generateCodeInstruccion(sb, 0);
-			System.out.println("Codigo generado");
-			System.out.println(sb);
+
+			// Escribir al fichero .wat
+			String rutaSalida = args[1];
+			java.nio.file.Path path = java.nio.file.Path.of(rutaSalida);
+			java.nio.file.Files.createDirectories(path.getParent()); // crea la carpeta si no existe
+			java.nio.file.Files.writeString(path, sb.toString());
+			System.out.println("Código generado en: " + rutaSalida);
 		} catch (Exception e) {
 			System.out.println("Excepción durante la compilación:");
 			e.printStackTrace();
