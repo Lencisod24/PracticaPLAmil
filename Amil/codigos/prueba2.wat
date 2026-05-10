@@ -40,63 +40,161 @@
   i32.load
   global.set $MP
 )
+global.get $MP
+i32.const 0
+i32.add
+i32.const 4
+i32.store
 (func $init
-  i32.const 8
+  i32.const 60
   call $reserveStack
   global.get $MP
   i32.store
   global.get $MP
+  i32.const 12
+  i32.add
+  i32.const 1
+  i32.store
+  global.get $MP
+  i32.const 16
+  i32.add
+  f32.const 2.0
+  f32.store
+  global.get $MP
   i32.const 4
+  i32.add
+  i32.const 5
+  i32.store
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.const 3
+  i32.store
+  global.get $MP
+  i32.const 20
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.add
+  i32.const 2
+  i32.rem_s
+  i32.store
+  global.get $MP
+  i32.const 24
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.sub
+  i32.store
+  global.get $MP
+  i32.const 28
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.mul
+  i32.store
+  global.get $MP
+  i32.const 32
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.gt_s
+  i32.store
+  global.get $MP
+  i32.const 36
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.lt_s
+  i32.store
+  global.get $MP
+  i32.const 40
+  i32.add
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+  i32.const 0
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.sub
+  i32.eq
+  i32.store
+  global.get $MP
+  i32.const 44
+  i32.add
+  i32.const 1
+  i32.eqz
+  i32.const 0
+  i32.and
+  i32.store
+  global.get $MP
+  i32.const 48
+  i32.add
+  i32.const 1
+  i32.const 0
+  i32.or
+  i32.store
+  global.get $MP
+  i32.const 52
   i32.add
   i32.const 0
   i32.store
-  block
-  loop
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.load
-    i32.const 5
-    i32.lt_s
-    i32.eqz
-    br_if 1
-    global.get $MP
-    i32.const 4
-    i32.add
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.load
-    i32.const 1
-    i32.add
-    i32.store
-    br 0
-  end
-  end
+  global.get $MP
+  i32.const 56
+  i32.add
   global.get $MP
   i32.const 4
   i32.add
   i32.load
-  i32.const 5
-  i32.eq
-  if
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.const 10
-    i32.store
-  else
-    global.get $MP
-    i32.const 4
-    i32.add
-    i32.const 99
-    i32.store
-  end
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.add
   global.get $MP
   i32.const 4
   i32.add
   i32.load
-call $print
+  global.get $MP
+  i32.const 8
+  i32.add
+  i32.load
+  i32.sub
+  i32.mul
+  i32.store
   call $freeStack
 )
 )

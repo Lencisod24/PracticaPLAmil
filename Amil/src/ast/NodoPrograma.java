@@ -97,15 +97,17 @@ public class NodoPrograma extends ASTNode {
 
         // Configuración de tabla y memoria
         sb.append("(start $init)\n");
-        sb.append("(elem $funcmap (i32.const 0) $init)\n");
+        sb.append("(elem $funcmap (i32.const 0) $princ)");
         sb.append("(import \"runtime\" \"print\" (func $print (type $_sig_i32)))\n");
         sb.append("(import \"runtime\" \"read\" (func $read (type $_sig_ri32)))\n");
         sb.append("(import \"runtime\" \"exceptionHandler\" (func $exception (type $_sig_i32)))\n");
         sb.append("(table $funcmap 1 1 funcref)\n");
         sb.append("(global $smd i32 (i32.const 64)) ;; points to start of memory data\n");
         sb.append("(memory 2000)\n");
-        sb.append("(global $SP (mut i32) (i32.const 0))\n"); // Stack Pointer, tope de la pila
-        sb.append("(global $MP (mut i32) (i32.const 0))\n"); // Mark Pointer, inicio del marco actual
+
+        int globSize = globales_memSize();
+        sb.append("(global $SP (mut i32) (i32.const ").append(globSize).append("))\n"); // Stack Pointer, tope de la pila
+        sb.append("(global $MP (mut i32) (i32.const ").append(globSize).append("))\n");// Mark Pointer, inicio del marco actual 
         sb.append("(global $NP (mut i32) (i32.const 131071996))\n"); // New Pointer, límite del heap
 
         // Función reserveStack
@@ -134,12 +136,18 @@ public class NodoPrograma extends ASTNode {
         sb.append("  i32.load\n");
         sb.append("  global.set $MP\n");
         sb.append(")\n");
-        for (Declaracion d : declaracionesGlobales)
-            d.generateCodeInstruccion(sb, indent);
-        for (Declaracion d : funcionesYStructs)
-            d.generateCodeInstruccion(sb, indent);
 
+        // $init inicializa globales y llama a princ
         sb.append("(func $init\n");
+        sb.append(";;VARIABLES GLOBALES\n");
+        for (Declaracion d : declaracionesGlobales)
+            d.generateCodeInstruccion(sb, 1); // aquí sí están dentro de una función
+        sb.append(";;FIN VARIABLES GLOBALES\n");
+        sb.append("  call $princ\n");
+        sb.append(")\n");
+
+        // $princ es el main
+        sb.append("(func $princ\n");
         sb.append("  i32.const ").append(memSize).append("\n");
         sb.append("  call $reserveStack\n");
         sb.append("  global.get $MP\n");
@@ -148,6 +156,7 @@ public class NodoPrograma extends ASTNode {
         sb.append("  call $freeStack\n");
         sb.append(")\n");
         sb.append(")\n");
+
     };
 
     @Override
@@ -156,6 +165,19 @@ public class NodoPrograma extends ASTNode {
         AtomicInteger max1 = new AtomicInteger(4);
         bloquePrincipal.calcularMem(curr1, max1);
         memSize = max1.get();
+    }
+
+    private int globales_memSize() {
+        
+        AtomicInteger curr= new AtomicInteger(0);
+        AtomicInteger max =new AtomicInteger(0);
+        
+        for (Declaracion d : this.declaracionesGlobales) {
+            d.calcularMem(curr, max);
+            
+        }
+        
+        return max.intValue();
     }
 
     @Override

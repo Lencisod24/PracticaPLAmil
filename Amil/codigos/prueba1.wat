@@ -7,15 +7,14 @@
 (type $_sig_ri32 (func (result i32)))
 (type $_sig_i32i32ri32ri32 (func (param i32 i32)(result i32 i32)))
 (start $init)
-(elem $funcmap (i32.const 0) $init)
-(import "runtime" "print" (func $print (type $_sig_i32)))
+(elem $funcmap (i32.const 0) $princ)(import "runtime" "print" (func $print (type $_sig_i32)))
 (import "runtime" "read" (func $read (type $_sig_ri32)))
 (import "runtime" "exceptionHandler" (func $exception (type $_sig_i32)))
 (table $funcmap 1 1 funcref)
 (global $smd i32 (i32.const 64)) ;; points to start of memory data
 (memory 2000)
-(global $SP (mut i32) (i32.const 0))
-(global $MP (mut i32) (i32.const 0))
+(global $SP (mut i32) (i32.const 8))
+(global $MP (mut i32) (i32.const 8))
 (global $NP (mut i32) (i32.const 131071996))
 (func $reserveStack (param $size i32) (result i32)
   global.get $MP
@@ -41,6 +40,17 @@
   global.set $MP
 )
 (func $init
+;;VARIABLES GLOBALES
+  i32.const 0
+  i32.const 4
+  i32.store
+  i32.const 4
+  i32.const 7
+  i32.store
+;;FIN VARIABLES GLOBALES
+  call $princ
+)
+(func $princ
   i32.const 60
   call $reserveStack
   global.get $MP
@@ -58,13 +68,19 @@
   global.get $MP
   i32.const 4
   i32.add
-  i32.const 5
+  i32.const 0
+  i32.load
   i32.store
   global.get $MP
   i32.const 8
   i32.add
   i32.const 3
   i32.store
+  global.get $MP
+  i32.const 4
+  i32.add
+  i32.load
+call $print
   global.get $MP
   i32.const 20
   i32.add

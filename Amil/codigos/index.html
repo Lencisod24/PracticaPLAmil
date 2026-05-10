@@ -18,7 +18,7 @@
             }
         };
 
-        fetch('prueba2.wasm')
+        fetch('prueba1.wasm')
             .then(r => r.arrayBuffer())
             .then(bytes => WebAssembly.instantiate(bytes, imports))
             .then(obj => {

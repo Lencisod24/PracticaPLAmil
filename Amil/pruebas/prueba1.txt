@@ -1,3 +1,6 @@
+entero : hola = 4;
+entero : adios =7;
+
 princ
 ini
     entero : a;
@@ -5,9 +8,9 @@ ini
     booleano : c = cierto;
     real : d = 2.0;
     
-    a = 5;
+    a = hola;
     b = 3;
-    
+    imprimir(a);
     entero : suma = (a + b)%2;
     entero : resta = a - b;
     entero : producto = a * b;

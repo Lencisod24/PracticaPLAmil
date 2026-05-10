@@ -6,6 +6,7 @@ import semantico.Tipos;
 public class NodoIden extends Designador {
 
     private String nombre;
+    private boolean global;
 
     public NodoIden(int fil, int col, String nombre) {
         super(fil, col);
@@ -26,6 +27,7 @@ public class NodoIden extends Designador {
     @Override
     public void chequea(TablaSimbolos ts) {
         ASTNode nodo = ts.buscaId(nombre);
+        global= ts.esGlobal(nombre);
 
         if (nodo == null) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
@@ -45,18 +47,20 @@ public class NodoIden extends Designador {
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
         String tab = "  ".repeat(indent);
+        
         // Obtenemos el delta de la declaración a la que está vinculada la variable
         int delta = ((NodoDecVariable) this.getVinculo()).getDelta(); // Empujamos la dirección base del marco actual
-                                                                      // ($MP)
-        sb.append(tab).append("global.get $MP\n");
+        if(!global){                                                              // ($MP)
+        sb.append(tab).append("global.get $MP\n");}
         // i32.const δ(*id) → empuja el offset
         sb.append(tab).append("i32.const ").append(delta).append("\n");
         // i32.add → dirección final = base + offset
-        sb.append(tab).append("i32.add").append("\n");
+        if(!global)sb.append(tab).append("i32.add").append("\n");
         // Aparece a la derecha como expresión, así que necesitamos su valor
         String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
         if (!izquierda)
             sb.append(tab).append(load).append("\n");
+        
     }
 
     // Para cuando el identificador se lee como valor (ej: 1 + x)

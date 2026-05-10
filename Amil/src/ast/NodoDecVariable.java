@@ -14,6 +14,7 @@ public class NodoDecVariable extends Declaracion {
     private boolean esConstante;
     private List<Expresion> dimensionesArray; // Será null si no es un array
     private Expresion valorInicial; // Será null si no lo hay
+    private boolean global;
 
     public NodoDecVariable(int fil, int col, String tipo, String identificador, boolean esConstante,
             List<Expresion> dimensionesArray, Expresion valorInicial) {
@@ -113,15 +114,18 @@ public class NodoDecVariable extends Declaracion {
             System.err.println("Error Semántico: '[" + getFila() + ":" + getColumna() + "]: " + identificador
                     + "' ya declarado en este ámbito.");
         }
+        global= ts.esGlobal(identificador);
     }
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         if (valorInicial != null) {
             String t = "  ".repeat(indent);
-            sb.append(t).append("global.get $MP\n");
+            if(!global){
+                sb.append(t).append("global.get $MP\n");
+            }    
             sb.append(t).append("i32.const ").append(this.delta).append("\n");
-            sb.append(t).append("i32.add\n");
+            if(!global)sb.append(t).append("i32.add\n");
             valorInicial.generateCodeExpresion(sb, indent);
             String store = tipo.equals(Tipos.REAL) ? "f32.store" : "i32.store";
             sb.append(t).append(store).append("\n");
