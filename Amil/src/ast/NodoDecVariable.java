@@ -41,7 +41,9 @@ public class NodoDecVariable extends Declaracion {
             StringBuilder sb = new StringBuilder();
             int dims = dimensionesArray.size();
             for (int i = 0; i < dims; i++) {
-                sb.append("[]");
+                sb.append("[");
+                sb.append(((NodoEntero) dimensionesArray.get(i)).getValor());
+                sb.append("]");
             }
             sb.append(this.tipo);
             return sb.toString();
@@ -134,8 +136,16 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        /*this.delta = curr.get();
+        int tamano = Tipos.getTamano(getTipo());
+        if (dimensionesArray != null && !dimensionesArray.isEmpty()) {
+            for (Expresion dim : dimensionesArray) {
+                tamano *= Integer.parseInt(((NodoEntero) dim).getValor());
+            }
+        }
+        curr.addAndGet(Tipos.getTamano(tipo)); // curr += Tipos.getTamano(tipo)*/
         this.delta = curr.get();
-        curr.addAndGet(Tipos.getTamano(tipo)); // curr += Tipos.getTamano(tipo)
+        curr.addAndGet(Tipos.getTamano(getTipo()));
         if (curr.get() > max.get())
             max.set(curr.get());
     }

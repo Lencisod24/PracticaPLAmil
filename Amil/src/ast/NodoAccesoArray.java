@@ -71,9 +71,10 @@ public class NodoAccesoArray extends Designador {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String t = " ".repeat(indent);
+       /*  String t = " ".repeat(indent);
         // generateCodeDesignador(sb, indent);
-        sb.append(t).append("i32.load\n");
+        sb.append(t).append("i32.load\n");*/
+        generateCodeDesignador(sb, indent, false);
     }
 
     @Override
@@ -96,13 +97,29 @@ public class NodoAccesoArray extends Designador {
          * }
          * }
          */ // Modificar porque ya no usamos la lista
+        String t = "  ".repeat(indent);
+    
+        array.generateCodeDesignador(sb, indent, true);
+        
+        indice.generateCodeExpresion(sb, indent);
+        
+        int elementSize = Tipos.getTamano(this.getTipo());
+        sb.append(t).append("i32.const ").append(elementSize).append("\n");
+        
+        sb.append(t).append("i32.mul\n");
+        
+        sb.append(t).append("i32.add\n");
+        
+        if (!izquierda) {
+            String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
+            sb.append(t).append(load).append("\n");
+        }   
     }
 
     
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return 0;
     }
 }

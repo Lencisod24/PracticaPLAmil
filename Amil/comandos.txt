@@ -11,7 +11,7 @@ EJEUCTAR:
 java -cp "bin;lib/*" constructorast.Main pruebas/facil.txt codigos/facil.wat
 
 COMPROBAR (HAY QUE INSTALARSE UNA EXTENSION DE VS CODE QUE SE LLAMA "LIVE SERVER" PARA ABRIR EL HTML )
-.\codigos\wat2wasm.exe codigos\prueba2.wat
+.\codigos\wat2wasm.exe codigos\facil.wat
 
 abrir el index.html y cambiar en la linea 21 como se llame el wasm que has generado. En este caso prueba2.wasm
 hacer click sobre el index.html y dar a la primera opción "open with live server" y os abre una pestaña en google con el puerto y ahí se hace

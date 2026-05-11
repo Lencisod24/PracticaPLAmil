@@ -1,0 +1,17 @@
+    princ
+    ini
+        [10] entero : a;
+        [3][4] entero : b;
+        entero : i;
+        entero : j;
+        entero : suma;
+
+        i = 0;
+        mientras i < 10 hacer
+        ini
+            a[i] = i * 2;
+            imprimir(i);
+            i = i + 1;
+        fin
+
+    fin

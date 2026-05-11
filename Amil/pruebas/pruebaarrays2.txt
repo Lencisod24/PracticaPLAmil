@@ -1,0 +1,60 @@
+princ
+ini
+    [10] entero : a;
+    [3][4] entero : b;
+    entero : i;
+    entero : j;
+    entero : suma;
+
+    i = 0;
+    mientras i < 10 hacer
+    ini
+        a[i] = i * 2;
+        imprimir(i);
+        i = i + 1;
+    fin
+
+    i = 0;
+    mientras i < 3 hacer
+    ini
+        j = 0;
+        mientras j < 4 hacer
+        ini
+            b[i][j] = (i + 1) * (j + 1);
+            j = j + 1;
+        fin
+        i = i + 1;
+    fin
+
+    a[5] = a[2] + a[3];
+    imprimir(a[2]);
+    imprimir(a[3]);
+    imprimir(a[5]);
+
+    b[1][2] = b[0][3] * b[2][1];
+    imprimir(b[1][2]);
+
+    i = 2;
+    j = 1;
+    a[i] = a[i+1] * 2;
+    imprimir(a[2]);
+
+    suma = 0;
+    i = 0;
+    mientras i < 10 hacer
+    ini
+        imprimir(a[i]);
+        suma = suma + a[i];
+        i = i + 1;
+    fin
+    imprimir(suma);
+
+    imprimir(b[1][1]);
+    imprimir(b[2][3]);
+
+    a[2*3] = 999;
+    imprimir(a[6]);
+
+    b[0][0] = b[0][0] + 5;
+    imprimir(b[0][0]);
+fin
