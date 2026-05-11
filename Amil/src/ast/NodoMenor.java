@@ -62,7 +62,8 @@ public class NodoMenor extends ExpresionBinaria {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        opIzq().asignarDelta(dirPadre);
+        opDer().asignarDelta(dirPadre);
+        return dirPadre; // Devolvemos la misma dirección porque no hemos consumido nada
     }
 }

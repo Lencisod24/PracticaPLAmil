@@ -31,8 +31,6 @@ public class NodoCadena extends Expresion {
     // memoria
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        // Las cadenas se almacenan en memoria y se deja su dirección en la pila
-        // Esto se completará cuando implementes la sección de datos del módulo wasm
         String tab = "  ".repeat(indent);
         sb.append(tab).append(";; cadena: ").append(valor).append("\n");
         sb.append(tab).append("i32.const 0 ;; TODO: dirección de la cadena en memoria\n");

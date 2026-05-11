@@ -46,7 +46,6 @@ public class NodoMenosUnario extends ExpresionUnaria {
         }
     }
 
-    // TODO: revisar porque no lo entiendo esto de claude;
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
         String tab = "  ".repeat(indent);

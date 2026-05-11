@@ -1,7 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
-import semantico.Tipos; // Asumiendo que aquí tienes Tipos.BOOLEANO y Tipos.ERROR
+import semantico.Tipos;
 
 public class NodoAnd extends ExpresionBinaria {
 

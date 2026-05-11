@@ -82,14 +82,12 @@ public class NodoSi extends Instruccion {
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         String t = "  ".repeat(indent);
         condicion.generateCodeExpresion(sb, indent);
-        // if
         sb.append(t).append("if\n");
 
         if (bloqueThen != null) {
             bloqueThen.generateCodeInstruccion(sb, indent + 1);
         }
 
-        // else + codeI(l1)
         if (bloqueElse != null) {
             sb.append(t).append("else\n");
             bloqueElse.generateCodeInstruccion(sb, indent + 1);

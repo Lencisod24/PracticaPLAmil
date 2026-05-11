@@ -71,52 +71,29 @@ public class NodoAccesoArray extends Designador {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-       /*  String t = " ".repeat(indent);
-        // generateCodeDesignador(sb, indent);
-        sb.append(t).append("i32.load\n");*/
         generateCodeDesignador(sb, indent, false);
     }
 
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
-        // String t = " ".repeat(indent);
-        //TODO:este código es pillado del campus
-        // array.generateCodeDesignador(sb, indent);
-        /*
-         * if (indices != null && !indices.isEmpty()) {
-         * indices.get(0).generateCodeExpresion(sb, indent);
-         * 
-         * for (int i = 1; i < indices.size(); i++) {// TODO: AQUI TENGO QUE PREGUNTAR A
-         * GONZALO O ALGUIEN A QUÉ SE
-         * // REFIERE CON DIM EN LAS DIAPOS
-         * // sb.append(t).append("i32.const ").append(getDimension(i)).append("\n");
-         * sb.append(t).append("i32.mul\n");
-         * 
-         * indices.get(i).generateCodeExpresion(sb, indent);
-         * sb.append(t).append("i32.add\n");
-         * }
-         * }
-         */ // Modificar porque ya no usamos la lista
         String t = "  ".repeat(indent);
-    
+
         array.generateCodeDesignador(sb, indent, true);
-        
+
         indice.generateCodeExpresion(sb, indent);
-        
+
         int elementSize = Tipos.getTamano(this.getTipo());
         sb.append(t).append("i32.const ").append(elementSize).append("\n");
-        
+
         sb.append(t).append("i32.mul\n");
-        
+
         sb.append(t).append("i32.add\n");
-        
+
         if (!izquierda) {
             String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
             sb.append(t).append(load).append("\n");
-        }   
+        }
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {

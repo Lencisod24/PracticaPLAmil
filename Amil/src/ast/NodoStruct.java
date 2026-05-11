@@ -51,7 +51,6 @@ public class NodoStruct extends Declaracion {
                 if (campo != null) {
                     // Validamos el campo
                     campo.chequea(ts);
-
                     // Buscamos el campo y su tipo en la tabla de símbolos, y los añadimos al mapa
                     // de campos
                     String nombreCampo = campo.getIdentificador();

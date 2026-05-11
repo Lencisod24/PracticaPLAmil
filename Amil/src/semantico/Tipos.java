@@ -46,7 +46,6 @@ public class Tipos {
             return 4;
         }
 
-        // TODO: cambiar esto pq no es así
         if (esArray(tipo)) {
             try {
                 // Extraemos el número entre corchetes
@@ -67,11 +66,10 @@ public class Tipos {
 
         // TODO: structs
 
-        // 4. Cadenas (Depende de tu implementación, a veces son punteros a char)
+        // Cadenas, habría que revisar cómo las implementamos
         if (tipo.equals(CADENA)) {
-            return 4; // Si se trata como un puntero/referencia
+            return 4;
         }
-
         return 0;
     }
 }

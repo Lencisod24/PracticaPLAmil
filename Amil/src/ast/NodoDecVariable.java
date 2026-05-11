@@ -116,18 +116,19 @@ public class NodoDecVariable extends Declaracion {
             System.err.println("Error Semántico: '[" + getFila() + ":" + getColumna() + "]: " + identificador
                     + "' ya declarado en este ámbito.");
         }
-        global= ts.esGlobal(identificador);
+        global = ts.esGlobal(identificador);
     }
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
         if (valorInicial != null) {
             String t = "  ".repeat(indent);
-            if(!global){
+            if (!global) {
                 sb.append(t).append("global.get $MP\n");
-            }    
+            }
             sb.append(t).append("i32.const ").append(this.delta).append("\n");
-            if(!global)sb.append(t).append("i32.add\n");
+            if (!global)
+                sb.append(t).append("i32.add\n");
             valorInicial.generateCodeExpresion(sb, indent);
             String store = tipo.equals(Tipos.REAL) ? "f32.store" : "i32.store";
             sb.append(t).append(store).append("\n");
@@ -136,14 +137,6 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
-        /*this.delta = curr.get();
-        int tamano = Tipos.getTamano(getTipo());
-        if (dimensionesArray != null && !dimensionesArray.isEmpty()) {
-            for (Expresion dim : dimensionesArray) {
-                tamano *= Integer.parseInt(((NodoEntero) dim).getValor());
-            }
-        }
-        curr.addAndGet(Tipos.getTamano(tipo)); // curr += Tipos.getTamano(tipo)*/
         this.delta = curr.get();
         curr.addAndGet(Tipos.getTamano(getTipo()));
         if (curr.get() > max.get())

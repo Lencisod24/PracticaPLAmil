@@ -63,4 +63,11 @@ public abstract class ExpresionBinaria extends Expresion {
         if (curr.get() > max.get())
             max.set(curr.get());
     }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        opIzq().asignarDelta(dirPadre);
+        opDer().asignarDelta(dirPadre);
+        return dirPadre; // Devolvemos la misma dirección porque no hemos consumido nada
+    }
 }

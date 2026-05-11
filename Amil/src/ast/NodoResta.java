@@ -17,7 +17,7 @@ public class NodoResta extends ExpresionBinaria {
 
     @Override
     public void chequea(TablaSimbolos ts) {
-        // 1. Evaluación ascendente
+        // Evaluación ascendente
         if (opIzq() != null)
             opIzq().chequea(ts);
         if (opDer() != null)

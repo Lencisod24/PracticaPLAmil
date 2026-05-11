@@ -50,7 +50,7 @@ public class NodoLlamadaFuncion extends Expresion {
             return;
         } else {// valida
             NodoFuncion funcion = (NodoFuncion) def;
-            this.declaracion=funcion;
+            this.declaracion = funcion;
 
             int numArgs = (argumentos == null) ? 0 : argumentos.size();
             int numParams = (funcion.getParametros() == null) ? 0 : funcion.getParametros().size();
@@ -80,7 +80,7 @@ public class NodoLlamadaFuncion extends Expresion {
                     }
                 }
 
-                // 3. Asignamos el tipo a la LlamadaFuncion
+                // Asignamos el tipo a la LlamadaFuncion
                 if (err) {
                     this.setTipo(Tipos.ERROR);
                 } else {
@@ -108,10 +108,10 @@ public class NodoLlamadaFuncion extends Expresion {
         sb.append("call $").append(id).append("\n");
     }
 
-    
-    public void calcularMem(AtomicInteger curr, AtomicInteger aux){
-       declaracion.calcularMem(curr, aux);
+    public void calcularMem(AtomicInteger curr, AtomicInteger aux) {
+        declaracion.calcularMem(curr, aux);
     }
+
     @Override
     public int asignarDelta(int dirPadre) {
         // TODO Auto-generated method stub

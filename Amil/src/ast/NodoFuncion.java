@@ -74,11 +74,6 @@ public class NodoFuncion extends Declaracion {
             }
         }
 
-        // al hacer bloque otro abreBloque() tendremos que plantear si parametros y
-        // variables
-        // locales de funcion deben estar al mismo nivel
-        // ahora mismo se produce un ocultamiento de los parametros por parte de las
-        // variables locales ARREGLADO, YA NO HAY OCULTAMIENTO
         if (bloque != null) {
             for (Instruccion inst : bloque.getInstrucciones()) {
                 if (inst != null)
