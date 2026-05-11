@@ -21,6 +21,5 @@ ini
     
     booleano : yLogico = (!cierto && falso);
     booleano : oLogico = (cierto || falso);
-    puntero entero : caca = null;
     entero : complejo = (a + b) * (a - b);
 fin

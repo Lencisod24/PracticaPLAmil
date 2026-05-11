@@ -1,6 +1,0 @@
-princ
-ini
-    entero : juan;
-    juan = 3;
-    entero : pedro = 1 + juan;
-fin

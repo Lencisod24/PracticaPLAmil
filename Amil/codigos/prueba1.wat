@@ -51,7 +51,7 @@
   call $princ
 )
 (func $princ
-  i32.const 60
+  i32.const 56
   call $reserveStack
   global.get $MP
   i32.store
@@ -180,11 +180,6 @@ call $print
   i32.store
   global.get $MP
   i32.const 52
-  i32.add
-  i32.const 0
-  i32.store
-  global.get $MP
-  i32.const 56
   i32.add
   global.get $MP
   i32.const 4

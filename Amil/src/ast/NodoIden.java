@@ -52,7 +52,7 @@ public class NodoIden extends Designador {
         int delta = ((NodoDecVariable) this.getVinculo()).getDelta(); // Empujamos la dirección base del marco actual
         if(!global){                                                              // ($MP)
         sb.append(tab).append("global.get $MP\n");}
-        // i32.const δ(*id) → empuja el offset
+        
         sb.append(tab).append("i32.const ").append(delta).append("\n");
         // i32.add → dirección final = base + offset
         if(!global)sb.append(tab).append("i32.add").append("\n");
