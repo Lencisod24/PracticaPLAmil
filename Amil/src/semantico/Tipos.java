@@ -1,5 +1,8 @@
 package semantico;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Tipos {
     public static final String ENTERO = "entero";
     public static final String REAL = "real";
@@ -11,7 +14,10 @@ public class Tipos {
     public static final String NULL = "null";
     public static final String PUNTERO_NUEVO = "puntero_nuevo";
 
+    //registro de los structs
+    private static Map<String, Integer> structSizes = new HashMap<>();
     private Tipos() {
+         
     }
 
     public static String tipoDelPuntero(String puntero) {
@@ -26,8 +32,16 @@ public class Tipos {
         return tipo.startsWith("[");
     }
 
+    public static boolean esStruct(String tipo){
+        return tipo.startsWith("struct");
+    }
+
     public static boolean esPuntero(String tipo) {
         return tipo.startsWith("puntero");
+    }
+
+    public static void registrarTamanoStruct(String nombre, int tamano) {
+        structSizes.put(nombre, tamano);
     }
 
     public static int getTamano(String tipo) {
@@ -64,8 +78,9 @@ public class Tipos {
             }
         }
 
-        // TODO: structs
 
+        // TODO: structs
+        if (structSizes.containsKey(tipo)) return structSizes.get(tipo);
         // Cadenas, habría que revisar cómo las implementamos
         if (tipo.equals(CADENA)) {
             return 4;

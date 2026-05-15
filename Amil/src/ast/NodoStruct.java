@@ -1,9 +1,11 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoStruct extends Declaracion {
 
@@ -26,6 +28,23 @@ public class NodoStruct extends Declaracion {
         return this.identificador;
     }
 
+    public int getTamanoTotal() {
+        int total = 0;
+        for (Declaracion campo : campos)
+            total += Tipos.getTamano(campo.getTipo());
+        return total;
+    }
+
+    public int getOffsetCampo(String nombre) {
+        int offset = 0;
+        for (Declaracion campo : campos) {
+            if (campo.getIdentificador().equals(nombre)) return offset;
+            offset += Tipos.getTamano(campo.getTipo());
+        }
+        return -1;
+    }
+
+
     @Override
     public String toString(String tab) {
         StringBuilder sb = new StringBuilder();
@@ -45,7 +64,7 @@ public class NodoStruct extends Declaracion {
         ts.abreBloque();
 
         // Preparamos el mapa que guardará los campos en la Tabla de Símbolos
-        Map<String, String> mapaCampos = new HashMap<>();
+        Map<String, String> mapaCampos = new LinkedHashMap<>();
         if (campos != null) {
             for (Declaracion campo : campos) {
                 if (campo != null) {
@@ -63,12 +82,15 @@ public class NodoStruct extends Declaracion {
         // Cerramos el bloque
         ts.cierraBloque();
 
+        Tipos.registrarTamanoStruct(identificador, getTamanoTotal());
+
         // Guardamos la definición del struct en la tabla de símbolos
         if (!ts.registrarStruct(identificador, mapaCampos)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: El struct '" + identificador + "' ya ha sido definido anteriormente.");
         }
     }
+
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
@@ -78,7 +100,8 @@ public class NodoStruct extends Declaracion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int juan = 1000;
+        return juan;
     }
+
 }

@@ -3,6 +3,7 @@ package semantico;
 import ast.ASTNode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,11 @@ public class TablaSimbolos {
 
     public boolean esStructDefinido(String nombreTipo) {
         return structsDefinidos.containsKey(nombreTipo);
+    }
+
+    //FUNCIONES PARA LOS STRUCTS
+    public Map<String, String> getCamposDeStruct(String nombreStruct) {
+        return structsDefinidos.getOrDefault(nombreStruct, new LinkedHashMap<>());
     }
 
     public String getTipoCampoDeStruct(String nombreStruct, String nombreCampo) {

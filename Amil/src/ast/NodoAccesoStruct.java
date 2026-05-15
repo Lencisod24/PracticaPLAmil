@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Map;
+
 import semantico.TablaSimbolos;
 import semantico.Tipos;
 
@@ -7,11 +9,13 @@ public class NodoAccesoStruct extends Designador {
 
     private Designador variableStruct;
     private String campo;
+    private int offsetCampo;
 
     public NodoAccesoStruct(int fil, int col, Designador variableStruct, String campo) {
         super(fil, col);
         this.variableStruct = variableStruct;
         this.campo = campo;
+
         this.kind = KindE.ACCESO_STRUCT;
     }
 
@@ -66,21 +70,36 @@ public class NodoAccesoStruct extends Designador {
             return;
         }
 
-        // Asignamos al nodo el tipo del campo
+        int offset = 0;
+        for (Map.Entry<String, String> entry : ts.getCamposDeStruct(tipoVar).entrySet()) {
+            if (entry.getKey().equals(campo)) break;
+            offset += Tipos.getTamano(entry.getValue());
+        }
+        this.offsetCampo = offset;
+        // Asignamos     al nodo el tipo del campo
         this.setTipo(tipoCampo);
+    }
+    @Override
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        generateCodeDesignador(sb, indent, false);
     }
 
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeDesignador'");
+        String t = "  ".repeat(indent);
+        variableStruct.generateCodeDesignador(sb, indent, true);
+        sb.append(t).append("i32.const ").append(offsetCampo).append("\n");
+        sb.append(t).append("i32.add\n");
+        if (!izquierda) {
+            String load = getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
+            sb.append(t).append(load).append("\n");
+        }
     }
 
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        int juan = 1000;
+        return juan;
     }
 }

@@ -1,0 +1,14 @@
+struct Punto {
+    entero : x;
+    entero : y;
+}
+
+princ
+ini
+    Punto : p;
+    p.x = 3;
+    p.y = 5;
+    imprimir(p.x);
+    imprimir(p.y);
+    imprimir(p.x + p.y);
+fin
