@@ -82,7 +82,7 @@ public class TablaSimbolos {
         return structsDefinidos.containsKey(nombreTipo);
     }
 
-    //FUNCIONES PARA LOS STRUCTS
+    // FUNCIONES PARA LOS STRUCTS
     public Map<String, String> getCamposDeStruct(String nombreStruct) {
         return structsDefinidos.getOrDefault(nombreStruct, new LinkedHashMap<>());
     }
@@ -93,5 +93,41 @@ public class TablaSimbolos {
             return camposDelStruct.get(nombreCampo);
         }
         return null;
+    }
+
+    public int getTamanoStruct(String nombreStruct) {
+        if (!esStructDefinido(nombreStruct)) {
+            return 0; // Da igual porque solo le llamamos si lo es
+        }
+        int tamanoTotal = 0;
+        Map<String, String> campos = structsDefinidos.get(nombreStruct);
+        for (String tipoCampo : campos.values()) {
+            tamanoTotal += getTamanoRec(tipoCampo);
+        }
+        return tamanoTotal;
+    }
+
+    private int getTamanoRec(String tipoCampo) {
+        // Tipos primitivos y Punteros
+        if (tipoCampo.equals("entero") || tipoCampo.equals("real") ||
+                tipoCampo.equals("booleano") || tipoCampo.startsWith("puntero")) {
+            return 4;
+        }
+
+        // Arrays
+        if (tipoCampo.startsWith("[")) {
+            int fin = tipoCampo.indexOf(']');
+            int longitud = Integer.parseInt(tipoCampo.substring(1, fin));
+            String tipoBase = tipoCampo.substring(fin + 1).trim();
+            return longitud * getTamanoRec(tipoBase);
+        }
+
+        // Structs
+        if (esStructDefinido(tipoCampo)) {
+            return getTamanoStruct(tipoCampo);
+        }
+
+        // Si llega aquí habrá habido fallo en el tipado
+        return 0;
     }
 }

@@ -1,6 +1,5 @@
 package ast;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +37,12 @@ public class NodoStruct extends Declaracion {
     public int getOffsetCampo(String nombre) {
         int offset = 0;
         for (Declaracion campo : campos) {
-            if (campo.getIdentificador().equals(nombre)) return offset;
+            if (campo.getIdentificador().equals(nombre))
+                return offset;
             offset += Tipos.getTamano(campo.getTipo());
         }
         return -1;
     }
-
 
     @Override
     public String toString(String tab) {
@@ -90,7 +89,6 @@ public class NodoStruct extends Declaracion {
                     "]: El struct '" + identificador + "' ya ha sido definido anteriormente.");
         }
     }
-
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
