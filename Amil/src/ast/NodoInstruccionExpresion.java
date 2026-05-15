@@ -1,6 +1,7 @@
 package ast;
 
 import semantico.TablaSimbolos;
+import semantico.Tipos;
 
 public class NodoInstruccionExpresion extends Instruccion {
 
@@ -9,7 +10,6 @@ public class NodoInstruccionExpresion extends Instruccion {
     public NodoInstruccionExpresion(int fil, int col, Expresion exp) {
         super(fil, col);
         this.exp = exp;
-
     }
 
     public Expresion expresion() {
@@ -18,7 +18,7 @@ public class NodoInstruccionExpresion extends Instruccion {
 
     @Override
     public String toString(String tab) {
-        return tab + "EVALUAR_EXPRESION\n" + exp.toString(tab + "  ");
+        return tab + "EVALUAR_EXPRESION\n" + (exp != null ? exp.toString(tab + "  ") : "");
     }
 
     @Override
@@ -30,14 +30,24 @@ public class NodoInstruccionExpresion extends Instruccion {
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        exp.generateCodeExpresion(sb, indent);
+        if (exp != null) {
+            // Generamos el código de la expresión
+            exp.generateCodeExpresion(sb, indent);
+            String tab = "\t".repeat(indent);
+            if (exp.getTipo() != null && !exp.getTipo().equals(Tipos.VACIO)) {
+                // Si la instrucción devuelve algo a la pila, lo quitamos para que no se quede
+                // flotando innecesariamente
+                sb.append(tab).append("drop\n");
+            }
+        }
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        // Delegamos en la expresión por si necesitara propagar el delta.
+        if (exp != null) {
+            return exp.asignarDelta(dirPadre);
+        }
+        return dirPadre;
     }
 }
