@@ -29,6 +29,14 @@ public class NodoParametro extends Declaracion {
         return this.tipo;
     }
 
+    public int getDelta() {
+        return this.delta;
+    }
+
+    public boolean isPorReferencia() {
+        return this.porReferencia;
+    }
+
     @Override
     public String toString(String tab) {
         String ref = porReferencia ? "ref" : "val";

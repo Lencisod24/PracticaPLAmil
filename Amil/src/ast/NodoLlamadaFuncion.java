@@ -9,7 +9,6 @@ import semantico.Tipos;
 public class NodoLlamadaFuncion extends Expresion {
     private String id;
     private ArrayList<Expresion> argumentos;
-    private ASTNode declaracion;
 
     public NodoLlamadaFuncion(int fil, int col, String id, ArrayList<Expresion> argumentos) {
         super(fil, col);
@@ -50,8 +49,6 @@ public class NodoLlamadaFuncion extends Expresion {
             return;
         } else {// valida
             NodoFuncion funcion = (NodoFuncion) def;
-            this.declaracion = funcion;
-
             int numArgs = (argumentos == null) ? 0 : argumentos.size();
             int numParams = (funcion.getParametros() == null) ? 0 : funcion.getParametros().size();
 
@@ -94,7 +91,7 @@ public class NodoLlamadaFuncion extends Expresion {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-
+        // Evaluamos todos los argumentos y los empujamos a la pila
         if (argumentos != null) {
             for (Expresion arg : argumentos) {
                 if (arg != null) {
@@ -103,18 +100,31 @@ public class NodoLlamadaFuncion extends Expresion {
             }
         }
 
-        for (int i = 0; i < indent; i++)
-            sb.append("  ");
-        sb.append("call $").append(id).append("\n");
+        // Ejecutamos la llamada, que consumirá los argumentos de la pila
+        String tab = "\t".repeat(indent);
+        sb.append(tab).append("call $").append(id).append("\n");
     }
 
-    public void calcularMem(AtomicInteger curr, AtomicInteger aux) {
-        declaracion.calcularMem(curr, aux);
+    @Override
+    public void calcularMem(AtomicInteger curr, AtomicInteger max) {
+        // Propagamos por si los argumentos necesitan memoria
+        if (argumentos != null) {
+            for (Expresion arg : argumentos) {
+                if (arg != null)
+                    arg.calcularMem(curr, max);
+            }
+        }
     }
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        // Delegamos el delta a sus argumentos
+        if (argumentos != null) {
+            for (Expresion arg : argumentos) {
+                if (arg != null)
+                    arg.asignarDelta(dirPadre);
+            }
+        }
+        return dirPadre;
     }
 }
