@@ -1,0 +1,7 @@
+princ
+ini
+    puntero entero : p;
+    p = nuevo(size(entero));
+    *p = 42;
+    imprimir(*p);
+fin

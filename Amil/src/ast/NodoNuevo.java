@@ -45,15 +45,31 @@ public class NodoNuevo extends Expresion {
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeExpresion'");
+        String tab = "  ".repeat(indent);
+
+        // Calcula NP - tamaño
+        sb.append(tab).append("global.get $NP\n");
+        expresionTamano.generateCodeExpresion(sb, indent);
+        sb.append(tab).append("i32.sub\n");
+        sb.append(tab).append("global.set $NP\n");
+
+        // Comprobar colisión SP > NP
+        sb.append(tab).append("global.get $SP\n");
+        sb.append(tab).append("global.get $NP\n");
+        sb.append(tab).append("i32.gt_u\n");
+        sb.append(tab).append("if\n");
+        sb.append(tab).append("  i32.const 3\n");
+        sb.append(tab).append("  call $exception\n");
+        sb.append(tab).append("end\n");
+
+        // Deja la dirección reservada en la pila
+        sb.append(tab).append("global.get $NP\n");
     }
 
-   
+    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return this.expresionTamano.asignarDelta(dirPadre);
     }
 }

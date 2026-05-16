@@ -9,6 +9,7 @@ import semantico.Tipos;
 public class NodoLlamadaFuncion extends Expresion {
     private String id;
     private ArrayList<Expresion> argumentos;
+    private NodoFuncion funcion;
 
     public NodoLlamadaFuncion(int fil, int col, String id, ArrayList<Expresion> argumentos) {
         super(fil, col);
@@ -47,6 +48,7 @@ public class NodoLlamadaFuncion extends Expresion {
         }
 
         NodoFuncion funcion = (NodoFuncion) def;
+        this.funcion=funcion;
         int numArgs = argumentos == null ? 0 : argumentos.size();
         int numParams = funcion.getParametros() == null ? 0 : funcion.getParametros().size();
 
@@ -72,22 +74,50 @@ public class NodoLlamadaFuncion extends Expresion {
                 err = true;
             }
         }
+        // validación por referencia: el argumento debe ser una variable
+        for (int i = 0; i < numArgs; i++) {
+            NodoParametro param = funcion.getParametros().get(i);
+            Expresion arg = argumentos.get(i);
+
+            if (param.isPorReferencia() && !(arg instanceof NodoIden)) {
+                System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
+                    "]: El argumento " + (i+1) + " de '" + id +
+                    "' debe ser una variable (parámetro por referencia).");
+                err = true;
+            }
+        }
 
         this.setTipo(err ? Tipos.ERROR : funcion.getTipo());
     }
 
     @Override
     public void generateCodeExpresion(StringBuilder sb, int indent) {
-        String tab = "  ".repeat(indent);
-        if (argumentos != null) {
-            for (Expresion arg : argumentos) {
-                if (arg != null) {
-                    arg.generateCodeExpresion(sb, indent);
+         String tab = "  ".repeat(indent);
+
+    // Necesitas acceder a la definición — guarda la referencia en chequea()
+    if (argumentos != null && funcion != null) {
+        for (int i = 0; i < argumentos.size(); i++) {
+            Expresion arg = argumentos.get(i);
+            NodoParametro param = funcion.getParametros().get(i);
+
+            if (param.isPorReferencia()) {
+                // Pasar la DIRECCIÓN del argumento (debe ser una variable)
+                if (arg instanceof NodoIden) {
+                    NodoIden nv = (NodoIden) arg;
+                    nv.generateCodeDesignador(sb, indent, true);//genera el código de la dirección de la variable;
+                } else {
+                    // Error: solo se puede pasar por referencia una variable
+                    sb.append(tab).append(";; ERROR: argumento por referencia no es variable\n");
                 }
+            } else {
+                // Pasar el VALOR normalmente
+                arg.generateCodeExpresion(sb, indent);
             }
         }
-        sb.append(tab).append("call $").append(id).append("\n");
     }
+
+    sb.append(tab).append("call $").append(id).append("\n");
+}
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {

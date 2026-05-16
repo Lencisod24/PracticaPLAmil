@@ -41,16 +41,23 @@ public class NodoDesreferencia extends Designador {
     }
 
     @Override
-    public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateCodeDesignador'");
+    public void generateCodeExpresion(StringBuilder sb, int indent) {
+        generateCodeDesignador(sb, indent, false);
     }
-
-    
 
     @Override
     public int asignarDelta(int dirPadre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'asignarDelta'");
+        return operando.asignarDelta(dirPadre);
+    }
+
+    @Override
+    public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
+        operando.generateCodeDesignador(sb, indent, false);
+
+        // Si está a la derecha, necesitamos el valor apuntado
+        if (!izquierda) {
+            String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
+            sb.append("  ".repeat(indent)).append(load).append("\n");
+        }
     }
 }

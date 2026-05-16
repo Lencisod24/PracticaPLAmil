@@ -1,0 +1,13 @@
+func vacio (ref x: entero, val y: entero) : sumar
+ini
+    x = x + y;
+fin
+
+princ
+ini
+    entero : a = 3;
+    entero : b = 7;
+    sumar(a, b);
+    imprimir(a);  // debería imprimir 10
+    imprimir(b);  // debería imprimir 7 (no cambia)
+fin

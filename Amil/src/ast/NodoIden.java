@@ -67,6 +67,12 @@ public class NodoIden extends Designador {
         if (!global)
             sb.append(tab).append("i32.add").append("\n");
 
+        
+        if (vinculo instanceof NodoParametro && ((NodoParametro) vinculo).isPorReferencia()) {
+            // En MP+delta está la dirección del caller, hacemos un load para obtenerla
+            sb.append(tab).append("i32.load\n");
+            // Ahora en la pila tenemos la dirección real de la variable del caller
+        }
         if (!izquierda) {
             // Aparece a la derecha como expresión, así que necesitamos su valor
             String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";

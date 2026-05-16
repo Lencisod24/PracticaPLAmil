@@ -16,5 +16,6 @@ princ
 ini
     entero : y = cero();
     entero : x = doble(4);
-    escribir(x);     
+    escribir(x); 
+    escribir(y);    
 fin

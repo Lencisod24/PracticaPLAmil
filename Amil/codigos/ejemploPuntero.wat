@@ -44,99 +44,39 @@
 ;;FIN VARIABLES GLOBALES
   call $princ
 )
-(func $doble (param i32) (result i32)
-  ;; Prologo
-  i32.const 12
-  call $reserveStack
-  global.get $MP
-  i32.store
-  ;; Volcar parametros a memoria
-  global.get $MP
-  i32.const 8
-  i32.add
-  local.get 0
-  i32.store
-  ;; Cuerpo
-  global.get $MP
-  i32.const 4
-  i32.add
-  global.get $MP
-  i32.const 8
-  i32.add
-  i32.load
-  i32.const 2
-  i32.mul
-  i32.store
-  ;; Cargar valor de retorno
-  global.get $MP
-  i32.const 4
-  i32.add
-  i32.load
-  ;; Epilogo
-  call $freeStack
-)
-(func $cero (result i32)
-  ;; Prologo
+(func $princ
   i32.const 8
   call $reserveStack
   global.get $MP
   i32.store
-  ;; Cuerpo
-  ;; Cargar valor de retorno
+  global.get $MP
+  i32.const 4
+  i32.add
+  global.get $NP
+	i32.const 4
+  i32.sub
+  global.set $NP
+  global.get $SP
+  global.get $NP
+  i32.gt_u
+  if
+    i32.const 3
+    call $exception
+  end
+  global.get $NP
+  i32.store
   global.get $MP
   i32.const 4
   i32.add
   i32.load
-  ;; Epilogo
-  call $freeStack
-)
-(func $escribir (param i32)
-  ;; Prologo
-  i32.const 8
-  call $reserveStack
-  global.get $MP
+  i32.const 42
   i32.store
-  ;; Volcar parametros a memoria
   global.get $MP
   i32.const 4
   i32.add
-  local.get 0
-  i32.store
-  ;; Cuerpo
-  global.get $MP
-  i32.const 4
-  i32.add
+  i32.load
   i32.load
 call $print
-  ;; Epilogo
-  call $freeStack
-)
-(func $princ
-  i32.const 12
-  call $reserveStack
-  global.get $MP
-  i32.store
-  global.get $MP
-  i32.const 4
-  i32.add
-  call $cero
-  i32.store
-  global.get $MP
-  i32.const 8
-  i32.add
-  i32.const 4
-  call $doble
-  i32.store
-  global.get $MP
-  i32.const 8
-  i32.add
-  i32.load
-  call $escribir
-  global.get $MP
-  i32.const 4
-  i32.add
-  i32.load
-  call $escribir
   call $freeStack
 )
 )

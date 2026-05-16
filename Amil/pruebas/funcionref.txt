@@ -1,0 +1,11 @@
+func vacio (ref x: entero) : incrementar
+ini
+    x = x + 1;
+fin
+
+princ
+ini
+    entero : a = 5;
+    incrementar(a);
+    imprimir(a);    
+fin

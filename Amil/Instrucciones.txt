@@ -1,0 +1,6 @@
+Hemos llegado a hacer la generación de código de ejemplos básicos como los que tenemos en la carpeta "codigos". Nos ha faltado
+por implementar del todo la generación de los arrays, struct, punteros y llamadas a funciones. Hemos hecho la función calcularMemoria que
+usaremos para reservar la pila al llamar funciones. A pesar de eso el tipado, binding y generación del arbol AST funciona con cualquier ejemplo
+válido del lenguaje.
+
+En el fichero comandos.txt tenemos puestos los comandos para ejecutar las cosas y generar los ficheros correspondientes. 

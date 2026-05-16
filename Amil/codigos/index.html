@@ -18,7 +18,7 @@
             }
         };
 
-        fetch('ej_structs.wasm')
+        fetch('ejemploPuntero.wasm')
             .then(r => r.arrayBuffer())
             .then(bytes => WebAssembly.instantiate(bytes, imports))
             .then(obj => {
