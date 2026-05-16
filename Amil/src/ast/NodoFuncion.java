@@ -13,6 +13,9 @@ public class NodoFuncion extends Declaracion {
     private String identificador;
     private List<NodoParametro> parametros;
     private NodoBloque bloque;
+    private int memMax;
+    private int deltaRetorno;
+    private NodoDecVariable varRetorno;
 
     public NodoFuncion(int fil, int col, String tipoRetorno, String identificador, List<NodoParametro> parametros,
             NodoBloque bloque) {
@@ -21,6 +24,8 @@ public class NodoFuncion extends Declaracion {
         this.identificador = identificador;
         this.parametros = parametros;
         this.bloque = bloque;
+        this.memMax = 0;
+        this.deltaRetorno = 4; // justo después del DL por defecto
     }
 
     @Override
@@ -33,52 +38,58 @@ public class NodoFuncion extends Declaracion {
         return this.tipoRetorno;
     }
 
+    public List<NodoParametro> getParametros() {
+        return parametros;
+    }
+
+    public int getDeltaRetorno() {
+        return deltaRetorno;
+    }
+
     @Override
     public String toString(String tab) {
         StringBuilder sb = new StringBuilder();
         sb.append(tab).append("FUNCION ").append(tipoRetorno).append(" ").append(identificador).append("() {\n");
-        for (NodoParametro p : parametros) {
+        for (NodoParametro p : parametros)
             sb.append(p.toString(tab + "  "));
-        }
         sb.append(bloque.toString(tab + "  "));
         sb.append(tab).append("}\n");
         return sb.toString();
     }
 
-    public List<NodoParametro> getParametros() {
-        return parametros;
-    }
-
     @Override
     public void chequea(TablaSimbolos ts) {
-        // Comprobamos que el valor de retorno sea válido
         if (!ComprobadorTipos.esTipoValido(tipoRetorno, ts) && !tipoRetorno.equals(Tipos.VACIO)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: El tipo de retorno '" + tipoRetorno + "' de la función '" + identificador
                     + "' no está definido.");
         }
 
-        boolean insertado = ts.insertaId(identificador, this);
-        if (!insertado) {
+        if (!ts.insertaId(identificador, this)) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
                     "]: La función '" + identificador + "' ya ha sido declarada en este ámbito.");
         }
 
         ts.abreBloque();
 
+        // Insertamos la variable de retorno implícita con el mismo nombre que la
+        // función
+        if (!tipoRetorno.equals(Tipos.VACIO)) {
+            varRetorno = new NodoDecVariable(
+                    getFila(), getColumna(), tipoRetorno, identificador, false, null, null);
+            ts.insertaId(identificador, varRetorno);
+        }
+
         if (parametros != null) {
-            for (NodoParametro param : parametros) {
-                if (param != null) {
+            for (NodoParametro param : parametros)
+                if (param != null)
                     param.chequea(ts);
-                }
-            }
         }
 
         if (bloque != null) {
-            for (Instruccion inst : bloque.getInstrucciones()) {
+            for (Instruccion inst : bloque.getInstrucciones())
                 if (inst != null)
                     inst.chequea(ts);
-            }
         }
 
         ts.cierraBloque();
@@ -86,63 +97,81 @@ public class NodoFuncion extends Declaracion {
 
     @Override
     public void calcularMem(AtomicInteger curr, AtomicInteger max) {
-        // curr.set(0);
-        // max.set(0);
-        for (NodoParametro np : this.parametros) {
-            np.calcularMem(curr, max);
-        }
-        this.bloque.calcularMem(curr, max);
+        AtomicInteger c = new AtomicInteger(4); // 4 bytes para el DL
+        AtomicInteger m = new AtomicInteger(4);
 
+        // Variable de retorno implícita
+        if (!tipoRetorno.equals(Tipos.VACIO)) {
+            c.addAndGet(Tipos.getTamano(tipoRetorno));
+            if (c.get() > m.get())
+                m.set(c.get());
+        }
+
+        if (parametros != null)
+            for (NodoParametro np : parametros)
+                np.calcularMem(c, m);
+
+        if (bloque != null)
+            bloque.calcularMem(c, m);
+
+        this.memMax = m.get();
+    }
+
+    @Override
+    public int asignarDelta(int dirPadre) {
+        int dir = dirPadre;
+
+        if (!tipoRetorno.equals(Tipos.VACIO)) {
+            this.deltaRetorno = dir;
+            varRetorno.asignarDelta(dir);
+            dir += Tipos.getTamano(tipoRetorno);
+        }
+
+        if (parametros != null)
+            for (NodoParametro np : parametros) {
+                dir = np.asignarDelta(dir);
+            }
+
+        if (bloque != null)
+            bloque.asignarDelta(dir);
+
+        return dirPadre;
     }
 
     @Override
     public void generateCodeInstruccion(StringBuilder sb, int indent) {
-        String tab = "\t".repeat(indent);
-        String tab2 = tab + "\t";
+        String tab = "  ".repeat(indent);
+        String tab2 = "  ".repeat(indent + 1);
 
-        // 1. Calcular el tamaño total de la memoria que necesitará esta función
-        AtomicInteger curr = new AtomicInteger(4); // Offset 0-3 está reservado para guardar el viejo $MP
-        AtomicInteger max = new AtomicInteger(4);
-
-        if (parametros != null) {
-            for (NodoParametro np : parametros)
-                np.calcularMem(curr, max);
-        }
-        if (bloque != null) {
-            bloque.calcularMem(curr, max);
-        }
-        int tamFrame = max.get();
-
-        // 2. Generar la firma de la función Wasm
         sb.append(tab).append("(func $").append(identificador);
 
-        // Añadir parámetros a la firma (WebAssembly los recibe en su pila interna)
+        // Parámetros WAT, uno por parámetro de nuestro lenguaje
         if (parametros != null) {
             for (NodoParametro p : parametros) {
-                if (p.getTipo().equals("real") && !p.isPorReferencia()) {
+                if (p.getTipo().equals(Tipos.REAL) && !p.isPorReferencia()) {
                     sb.append(" (param f32)");
                 } else {
-                    sb.append(" (param i32)"); // Punteros, structs, enteros y booleanos usan i32
+                    sb.append(" (param i32)");
                 }
             }
         }
 
-        // Añadir tipo de retorno
-        if (tipoRetorno.equals("real")) {
+        // Tipo de retorno WAT
+        if (tipoRetorno.equals(Tipos.REAL)) {
             sb.append(" (result f32)");
-        } else if (!tipoRetorno.equals(Tipos.VACIO)) { // Asumo que usas tu constante VACIO
+        } else if (!tipoRetorno.equals(Tipos.VACIO)) {
             sb.append(" (result i32)");
         }
         sb.append("\n");
 
-        // 3. Prólogo: Reservar memoria y crear el enlace dinámico ($MP anterior)
+        // Prólogo de la función
         sb.append(tab2).append(";; Prologo\n");
-        sb.append(tab2).append("i32.const ").append(tamFrame).append("\n");
+        sb.append(tab2).append("i32.const ").append(memMax).append("\n");
         sb.append(tab2).append("call $reserveStack\n");
         sb.append(tab2).append("global.get $MP\n");
-        sb.append(tab2).append("i32.store  ;; Guardar viejo $MP\n");
+        sb.append(tab2).append("i32.store\n");
 
-        // 4. Trasladar los parámetros Wasm a nuestra memoria lineal
+        // Volcamos los parámetros
         if (parametros != null && !parametros.isEmpty()) {
             sb.append(tab2).append(";; Volcar parametros a memoria\n");
             int localIdx = 0;
@@ -151,40 +180,36 @@ public class NodoFuncion extends Declaracion {
                 sb.append(tab2).append("i32.const ").append(p.getDelta()).append("\n");
                 sb.append(tab2).append("i32.add\n");
                 sb.append(tab2).append("local.get ").append(localIdx).append("\n");
-
-                if (p.getTipo().equals("real") && !p.isPorReferencia()) {
+                if (p.getTipo().equals(Tipos.REAL) && !p.isPorReferencia()) {
                     sb.append(tab2).append("f32.store\n");
                 } else {
                     sb.append(tab2).append("i32.store\n");
-                    // Nota: Si pasas un Struct por valor, esto solo guarda la dirección base.
-                    // Funciona perfectamente como referencia temporal dentro de la función.
                 }
                 localIdx++;
             }
         }
 
-        // 5. Cuerpo de la función
-        if (bloque != null) {
-            sb.append(tab2).append(";; Cuerpo de la funcion\n");
+        // Cuerpo de la función
+        sb.append(tab2).append(";; Cuerpo\n");
+        if (bloque != null)
             bloque.generateCodeInstruccion(sb, indent + 1);
+
+        // Creamos la variable de retorno
+        if (!tipoRetorno.equals(Tipos.VACIO)) {
+            sb.append(tab2).append(";; Cargar valor de retorno\n");
+            sb.append(tab2).append("global.get $MP\n");
+            sb.append(tab2).append("i32.const ").append(deltaRetorno).append("\n");
+            sb.append(tab2).append("i32.add\n");
+            String load = tipoRetorno.equals(Tipos.REAL) ? "f32.load" : "i32.load";
+            sb.append(tab2).append(load).append("\n");
         }
 
-        // 6. Epílogo: Restaurar la pila del llamador
+        // Epílogo de la función
         sb.append(tab2).append(";; Epilogo\n");
         sb.append(tab2).append("call $freeStack\n");
-        sb.append(tab).append(")\n");
-    }
 
-    @Override
-    public int asignarDelta(int dirPadre) {
-        int dir = dirPadre; // Vale 4
-        if (parametros != null) {
-            for (NodoParametro np : parametros)
-                dir = np.asignarDelta(dir);
-        }
-        if (bloque != null) {
-            bloque.asignarDelta(dir);
-        }
-        return dirPadre;
+        // Si tiene retorno, el valor se queda en la cima de la pila después de
+        // freeStack
+        sb.append(tab).append(")\n");
     }
 }

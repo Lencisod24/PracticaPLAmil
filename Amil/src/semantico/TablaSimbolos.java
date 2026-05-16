@@ -59,15 +59,14 @@ public class TablaSimbolos {
     }
 
     public boolean esGlobal(String id) {
-        int nivel = 0;
+        // Buscamos de dentro hacia fuera, devolvemos el primer nivel donde aparece
         for (int i = pila.size() - 1; i >= 0; i--) {
             Map<String, ASTNode> tablaBloque = pila.get(i);
             if (tablaBloque.containsKey(id)) {
-                nivel = i;
+                return i == 0; // es global solo si la declaración más cercana está en nivel 0
             }
         }
-        return nivel == 0 ? true : false;// si está en el nivel ámbito más general en el que se declaran las funciones y
-                                         // las globales esq es global;
+        return false;
     }
 
     public boolean registrarStruct(String nombreStruct, Map<String, String> campos) {

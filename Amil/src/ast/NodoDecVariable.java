@@ -145,7 +145,7 @@ public class NodoDecVariable extends Declaracion {
 
     @Override
     public int asignarDelta(int dirPadre) {
-        //this.delta = dirPadre;
+        this.delta = dirPadre;
         return dirPadre + Tipos.getTamano(tipo);
     }
 }

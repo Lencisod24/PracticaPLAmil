@@ -1,0 +1,20 @@
+func entero (val x : entero) : doble
+ini
+    doble = x * 2;
+fin
+
+func entero () : cero
+ini
+fin
+
+func vacio (val x: entero) : escribir
+ini
+    imprimir(x);
+fin
+
+princ
+ini
+    entero : y = cero();
+    entero : x = doble(4);
+    escribir(x);     
+fin

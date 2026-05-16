@@ -14,10 +14,11 @@ public class Tipos {
     public static final String NULL = "null";
     public static final String PUNTERO_NUEVO = "puntero_nuevo";
 
-    //registro de los structs
+    // registro de los structs
     private static Map<String, Integer> structSizes = new HashMap<>();
+
     private Tipos() {
-         
+
     }
 
     public static String tipoDelPuntero(String puntero) {
@@ -32,7 +33,7 @@ public class Tipos {
         return tipo.startsWith("[");
     }
 
-    public static boolean esStruct(String tipo){
+    public static boolean esStruct(String tipo) {
         return tipo.startsWith("struct");
     }
 
@@ -78,9 +79,9 @@ public class Tipos {
             }
         }
 
-
         // TODO: structs
-        if (structSizes.containsKey(tipo)) return structSizes.get(tipo);
+        if (structSizes.containsKey(tipo))
+            return structSizes.get(tipo);
         // Cadenas, habría que revisar cómo las implementamos
         if (tipo.equals(CADENA)) {
             return 4;

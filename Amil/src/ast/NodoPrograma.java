@@ -106,8 +106,10 @@ public class NodoPrograma extends ASTNode {
         sb.append("(memory 2000)\n");
 
         int globSize = globales_memSize();
-        sb.append("(global $SP (mut i32) (i32.const ").append(globSize).append("))\n"); // Stack Pointer, tope de la pila
-        sb.append("(global $MP (mut i32) (i32.const ").append(globSize).append("))\n");// Mark Pointer, inicio del marco actual 
+        sb.append("(global $SP (mut i32) (i32.const ").append(globSize).append("))\n"); // Stack Pointer, tope de la
+                                                                                        // pila
+        sb.append("(global $MP (mut i32) (i32.const ").append(globSize).append("))\n");// Mark Pointer, inicio del marco
+                                                                                       // actual
         sb.append("(global $NP (mut i32) (i32.const 131071996))\n"); // New Pointer, límite del heap
 
         // Función reserveStack
@@ -146,6 +148,9 @@ public class NodoPrograma extends ASTNode {
         sb.append("  call $princ\n");
         sb.append(")\n");
 
+        for (Declaracion d : funcionesYStructs)
+            d.generateCodeInstruccion(sb, 0);
+
         // $princ es el main
         sb.append("(func $princ\n");
         sb.append("  i32.const ").append(memSize).append("\n");
@@ -165,18 +170,20 @@ public class NodoPrograma extends ASTNode {
         AtomicInteger max1 = new AtomicInteger(4);
         bloquePrincipal.calcularMem(curr1, max1);
         memSize = max1.get();
+        for (Declaracion d : funcionesYStructs) {
+            d.calcularMem(new AtomicInteger(4), new AtomicInteger(4));
+        }
     }
 
     private int globales_memSize() {
-        
-        AtomicInteger curr= new AtomicInteger(0);
-        AtomicInteger max =new AtomicInteger(0);
-        
+
+        AtomicInteger curr = new AtomicInteger(0);
+        AtomicInteger max = new AtomicInteger(0);
+
         for (Declaracion d : this.declaracionesGlobales) {
             d.calcularMem(curr, max);
-            
         }
-        
+
         return max.intValue();
     }
 

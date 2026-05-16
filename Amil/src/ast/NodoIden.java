@@ -11,7 +11,6 @@ public class NodoIden extends Designador {
     public NodoIden(int fil, int col, String nombre) {
         super(fil, col);
         this.nombre = nombre;
-
         this.kind = KindE.IDEN;
     }
 
@@ -27,7 +26,7 @@ public class NodoIden extends Designador {
     @Override
     public void chequea(TablaSimbolos ts) {
         ASTNode nodo = ts.buscaId(nombre);
-        global= ts.esGlobal(nombre);
+        global = ts.esGlobal(nombre);
 
         if (nodo == null) {
             System.err.println("Error Semántico [" + getFila() + ":" + getColumna() +
@@ -47,20 +46,32 @@ public class NodoIden extends Designador {
     @Override
     public void generateCodeDesignador(StringBuilder sb, int indent, boolean izquierda) {
         String tab = "  ".repeat(indent);
-        
+        Declaracion vinculo = this.getVinculo();
+        int delta = 0;
+
         // Obtenemos el delta de la declaración a la que está vinculada la variable
-        int delta = ((NodoDecVariable) this.getVinculo()).getDelta(); // Empujamos la dirección base del marco actual
-        if(!global){                                                              // ($MP)
-        sb.append(tab).append("global.get $MP\n");}
-        
+        // Empujamos la dirección base del marco actual
+        if (vinculo instanceof NodoDecVariable) {
+            delta = ((NodoDecVariable) vinculo).getDelta();
+        } else if (vinculo instanceof NodoParametro) {
+            delta = ((NodoParametro) vinculo).getDelta();
+        }
+
+        if (!global) { // ($MP)
+            sb.append(tab).append("global.get $MP\n");
+        }
+
         sb.append(tab).append("i32.const ").append(delta).append("\n");
+
         // i32.add → dirección final = base + offset
-        if(!global)sb.append(tab).append("i32.add").append("\n");
-        // Aparece a la derecha como expresión, así que necesitamos su valor
-        String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
-        if (!izquierda)
+        if (!global)
+            sb.append(tab).append("i32.add").append("\n");
+
+        if (!izquierda) {
+            // Aparece a la derecha como expresión, así que necesitamos su valor
+            String load = this.getTipo().equals(Tipos.REAL) ? "f32.load" : "i32.load";
             sb.append(tab).append(load).append("\n");
-        
+        }
     }
 
     // Para cuando el identificador se lee como valor (ej: 1 + x)
